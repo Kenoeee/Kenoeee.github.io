@@ -370,6 +370,48 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">IDAT=(<span class="string">&quot;789C53F674710C89CF348D4F8CAF32CC4C8A2F3049CE4EB44C5506005F0E07CB&quot;</span>).decode(<span class="string">&quot;hex&quot;</span>)</span><br><span class="line">result=binascii.hexlify(zlib.decompress(IDAT))</span><br><span class="line"><span class="built_in">print</span> result</span><br><span class="line"><span class="built_in">print</span> (result.decode(<span class="string">&#x27;hex&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">len</span>(result.decode(<span class="string">&#x27;hex&#x27;</span>)))</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210316093500.png" alt="avater"></p>
+<h2 id="M4yb3-we-sh0uld-9o-d33per"><a href="#M4yb3-we-sh0uld-9o-d33per" class="headerlink" title="#M4yb3_we_sh0uld_9o_d33per#"></a>#M4yb3_we_sh0uld_9o_d33per#</h2><p>把高度改得再大一点</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317123241.png" alt="avater"></p>
+<p>发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317123348.png" alt="avater"></p>
+<h2 id="A-key-fr0m-Ph0t0sh0p"><a href="#A-key-fr0m-Ph0t0sh0p" class="headerlink" title="#A_key_fr0m_Ph0t0sh0p#"></a>#A_key_fr0m_Ph0t0sh0p#</h2><p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317123603.png" alt="avater"></p>
+<p>用exiftool查看发现一段十六进制</p>
+<p>转换得到flag</p>
+<h2 id="zsteg-do35-no7-a1w4ys-w0rk"><a href="#zsteg-do35-no7-a1w4ys-w0rk" class="headerlink" title="#zsteg_do35_no7_a1w4ys_w0rk#"></a>#zsteg_do35_no7_a1w4ys_w0rk#</h2><p>看了<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42880719/article/details/114825260?spm=1001.2014.3001.5501">mumuzi</a>的wp才知道用Stegsolve切换通道在左上角可以看到隐写的痕迹,比如在Alpha plane7就可以看到明显的痕迹</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317151038.png" alt="avater"></p>
+<p>同时在Red plane7、Blue plane7、Green plane7也可以看到一样的痕迹，又因为痕迹是竖着的，所以如图这么选可以看到flag</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317125056.png" alt="avater"></p>
+<p>在原图里也可以看到明显的彩色的痕迹</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317151423.png" alt="avater"></p>
+<h2 id="5omet1mes-LSB-g0es-co1o-mn-f1r5t"><a href="#5omet1mes-LSB-g0es-co1o-mn-f1r5t" class="headerlink" title="#5omet1mes_LSB_g0es_co1o mn_f1r5t#"></a>#5omet1mes_LSB_g0es_co1o mn_f1r5t#</h2><p>继续这样子观察隐写痕迹，</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317151820.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317151846.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317151925.png" alt="avater"></p>
+<p><img src="C:\Users\Kenoe\AppData\Roaming\Typora\typora-user-images\image-20210317151955087.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317152107.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317152127.png" alt="avater"></p>
+<p>可以发现Red plane0、1和Green plane0、1都十分相似，果然发现了flag</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317124804.png" alt="avater"></p>
+<p>前提是高度和crc都修复了</p>
+<h2 id="Wh4t-1s-6it-0rder-4nd-y0u-c4n-LSB-b1nd4ta-to0"><a href="#Wh4t-1s-6it-0rder-4nd-y0u-c4n-LSB-b1nd4ta-to0" class="headerlink" title="#Wh4t_1s_6it_0rder_4nd_y0u_c4n_LSB_b1nd4ta_to0#"></a>#Wh4t_1s_6it_0rder_4nd_y0u_c4n_LSB_b1nd4ta_to0#</h2><p>然后在rgb三个通道的1和2都发现了一样长的黑线</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E7%97%95%E8%BF%B9.png" alt="avater"></p>
+<p>发现了压缩包</p>
+<p><img src="C:\Users\Kenoe\AppData\Roaming\Typora\typora-user-images\image-20210317152902583.png" alt="avater"></p>
+<p>save bin后解压失败，在010里面把多余的部分去掉就可以解压了</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317153515.png" alt="avater"></p>
+<h2 id="eXtr4-IDAT-of-an0th3r-Pn9"><a href="#eXtr4-IDAT-of-an0th3r-Pn9" class="headerlink" title="#eXtr4_IDAT_of_an0th3r_Pn9#"></a>#eXtr4_IDAT_of_an0th3r_Pn9#</h2><p>前面用pngdebugger跑的时候发现IDAT块特别多，虽然foremost出来一张图片，但是很小，所以把前面报错的IDAT块在Tweakpng删掉然后导出</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317164032.png" alt="avater"></p>
+<p>发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/flag1.png" alt="avater"></p>
+<p>好家伙</p>
+<h2 id="H1de-h3xd47a-1n-chunk-CRC"><a href="#H1de-h3xd47a-1n-chunk-CRC" class="headerlink" title="#H1de_h3xd47a_1n_chunk_CRC#"></a>#H1de_h3xd47a_1n_chunk_CRC#</h2><p>一般情况下，IDAT块都是满65524就进入下一个的，如图</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317165939.png" alt="avater"></p>
+<p>但是前面报错的部分有几个连续的都是65536，比较可疑</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317170118.png" alt="avater"></p>
+<p>有8个这样子的块,pngdebugger里面发现crc前两位都是00，这样子可以提取出8*6=48个数字</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317170557.png" alt="avater"></p>
+<p>转换得</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317171016.png" alt="avater"></p>
 
         </div>
         <!-- .entry-content -->
@@ -450,7 +492,7 @@
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -462,10 +504,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: '文章',
-            // PAGES: '页面',
-            CATEGORIES: '分类',
-            TAGS: '标签',
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
