@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title>hgame2021 misc复现 | Hexo</title>
+  <meta name="description" content="42cloud 是一个有意思的空间" />
+  <meta name="keywords" content="42team,42cloud,Linux,Python,Java,C++,漫画,Sakura" />
+  
+    <link rel="shortcut icon" href="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/favicon-16x16-next.png">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/googlefont.css" media="all">
+<!--  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">-->
+  <link rel="stylesheet" id="saukra_css-css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/font.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/insight.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "Kenoeee";
+  mashiro_option.author_name = "";
+  mashiro_option.site_url = "https://42cloud.cn";
+  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
+  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%A3%81%E7%BA%B81.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a target="_blank" rel="noopener" href="https://42cloud.cn">
+          <img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/header.png">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>真実はいつもひとつ！flag也只有一个！</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/Kenoeee" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/img/social/github.png">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  
+  <div id="video-container" style="display: none;">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu" >
+    </div>
+  </div>
+  
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+ 
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">Kenoeee</span>
+            <span class="shironeko"></span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/theme-sakura/">
+                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                          主题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/sharejs.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img">
+        <img src="https://cdn.jsdelivr.net/gh/xbclub/imageCDN//upload/20200306164050.gif" data-src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210317112429.jpg" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+      </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      hgame2021 misc复现</h1>
+      <p class="entry-census">
+        <span>
+          <a href="">
+            <img src="">
+          </a>
+        </span>
+        <span>
+          <a href=""></a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-3-17
+        
+      
+        ·<span id="readcount"></span>次阅读
+      
+      </p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"> <!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="week1"><a href="#week1" class="headerlink" title="week1"></a>week1</h2><h3 id="Base全家福"><a href="#Base全家福" class="headerlink" title="Base全家福"></a>Base全家福</h3><p>看题目名字就知道是base套娃，这里再总结一下base系列的特点</p>
+<blockquote>
+<p>Base64：A-Z 、a-z、+、/ (由于特性末尾可能会有一个或者两个=) </p>
+<p>Base58：相比Base64，不使用数字0，字母大写OI和小写l以及符号+/</p>
+<p>Base32:A-Z、2-7、可以出现两个以上的=</p>
+<p>Base16：0-9、A-F（和十六进制不是一样吗）</p>
+</blockquote>
+<p>根据以上可得到flag</p>
+<p>hgame{We1c0me_t0_HG4M3_2021}</p>
+<span id="more"></span>
+
+<h3 id="不起眼压缩包的养成的方法"><a href="#不起眼压缩包的养成的方法" class="headerlink" title="不起眼压缩包的养成的方法"></a>不起眼压缩包的养成的方法</h3><p>图片注释里面有</p>
+<blockquote>
+<p>Secret hidden IN picture</p>
+</blockquote>
+<p>binwalk和foremost一把梭分离出一个压缩包，压缩包注释有</p>
+<blockquote>
+<p>Password is picture ID(up to 8 digits)</p>
+</blockquote>
+<p>这里我直接软件爆破得到压缩包密码<strong>70415155</strong></p>
+<p>根据官方wp似乎要去<strong>Pixiv</strong>搜图片可以得到ID</p>
+<p>解压得到压缩包<strong>plain.zip</strong>和<strong>NO PASSWORD.txt</strong></p>
+<p>打开plain.zip发现里面也有一个<strong>NO PASSWORD.txt</strong></p>
+<p>看到plain可以知道是明文攻击，txt里面还有一个提示</p>
+<blockquote>
+<p>By the way,i only use storage.</p>
+</blockquote>
+<p>可以知道要把压缩模式为storage，中文版也就是存储模式，默认压缩模式是标准，</p>
+<p>这里是个坑</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/1.png" alt="avatar"></p>
+<p>选择存储模式然后在<strong>Advanced Archive Password Recovery</strong>选择明文攻击就好了，然后</p>
+<p>得到密码</p>
+<blockquote>
+<p> C8uvP$DP</p>
+</blockquote>
+<p>得到一个flag.zip这里根据之前NO PASSWORD.txt提示</p>
+<blockquote>
+<p>Because its too strong or null.XD</p>
+</blockquote>
+<p>知道是伪加密（直接放进去<strong>Ziperello</strong>也可以知道）</p>
+<p>修改一下加密位得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/2.png" alt="avatar"></p>
+<p>这个是Unicode在网页上面的形式，直接改txt后缀为html打开就得到flag</p>
+<blockquote>
+<p>hgame{2IP_is_Usefu1_and_Me9umi_i5_W0r1d}</p>
+</blockquote>
+<h3 id="Galaxy"><a href="#Galaxy" class="headerlink" title="Galaxy"></a>Galaxy</h3><p>这个是流量题，用<strong>wireshark</strong>查看导出对象可以得到<strong>galaxy.png</strong></p>
+<p><strong>stegslove</strong> <strong>binwalk</strong> <strong>zsteg</strong>一把梭都没发现什么，后来直接改一下高度得到flag</p>
+<blockquote>
+<p>hgame{Wh4t_A_W0nderfu1_Wa11paper}</p>
+</blockquote>
+<p>后来看了wp知道在windows的图片查看器打开是没有问题的，但是用其他会报错，这里是crc修改过了</p>
+<p>贴一下官方的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> bytes_to_long</span><br><span class="line">img = <span class="built_in">open</span>(<span class="string">&quot;galaxy.png&quot;</span>, <span class="string">&quot;rb&quot;</span>).read()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0xFFFF</span>):</span><br><span class="line">stream = img[<span class="number">12</span>:<span class="number">20</span>] + struct.pack(<span class="string">&#x27;&gt;i&#x27;</span>, i) + img[<span class="number">24</span>:<span class="number">29</span>]</span><br><span class="line">crc = binascii.crc32(stream)</span><br><span class="line"><span class="keyword">if</span> crc == bytes_to_long(img[<span class="number">29</span>:<span class="number">33</span>]):</span><br><span class="line">print(<span class="built_in">hex</span>(i))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Word-RE-MASTER"><a href="#Word-RE-MASTER" class="headerlink" title="Word RE:MASTER"></a>Word RE:MASTER</h3><p>这道题我搞了好久来着（不愧是150分的题，坑多）</p>
+<p>得到一个有密码的maimai.docx和没密码的first.docx,先看first.docx，</p>
+<p>看到</p>
+<blockquote>
+<p>Fuck!我的脑子好疼！</p>
+</blockquote>
+<p>就知道是brainfuck编码，把后缀改成zip，解压</p>
+<p>发现有一个password.xml，里面有</p>
+<blockquote>
+<p>+++++ +++[- &gt;++++ ++++&lt; ]&gt;+++ +.&lt;++ +[-&gt;+ ++&lt;]&gt; ++.&lt;+ ++[-&gt; +++&lt;] &gt;+.&lt;+ ++[-&gt; - –&lt;] &gt;-.++ ++++. &lt;+++[ -&gt;— &lt;]&gt;-. +++.+ .++++ ++++. &lt;+++[ -&gt;— &lt;]&gt;– —-. +.— –..+ .++++ +++++ .&lt;+++ [-&gt;– -&lt;]&gt;- —– .&lt;</p>
+</blockquote>
+<p>解码得到</p>
+<blockquote>
+<p>DOYOUKNOWHIDDEN?</p>
+</blockquote>
+<p>这个是maimai的密码，然后打开看到一张表情包</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305201157.png" alt="avater"></p>
+<p>所以可知有SNOW隐写,把隐藏文字打开就可以看到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305201634.png" alt="avater"></p>
+<p>这里有个怪怪的地方，我用的是wps，这两个地方打开看到的隐藏文字是不一样的，我尝试几次才搞出来的</p>
+<p>不知道用word怎么样</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305201456.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305201453.png" alt="avater"></p>
+<p>然后保存到txt里面再</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305201924.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>hgame{Cha11en9e_Whit3_P4ND0R4_P4R4D0XXX}</p>
+</blockquote>
+<p>这里再给一下网页端的<a target="_blank" rel="noopener" href="http://fog.misty.com/perry/ccs/snow/snow/snow.html">snow隐写</a></p>
+<p>week1体验还是比较良好的</p>
+<h2 id="week2"><a href="#week2" class="headerlink" title="week2"></a>week2</h2><h3 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h3><p>套娃题，直接搬官方wp</p>
+<p>每⼀层⼯具的名字都在压缩包⽂件名给出了，⼯具使⽤的密码都在同⼀层套娃的图⽚备注⾥，直接找⼯ 具解就完事 JPHS 有图形界⾯</p>
+<blockquote>
+<p>java Extract Matryoshka.jpg -p ‘!LyJJ9bi&amp;M7E72*JyD’</p>
+<p> steghide.exe extract -p ‘A7SL9nHRJXLh@$EbE8’ -sf .\01.jpg outguess -k “z0GFieYAee%gdf0%lF” -r 02.jpg secret.txt</p>
+</blockquote>
+<p>得到密码</p>
+<blockquote>
+<p>rFQmRoT5lze@4X4^@0</p>
+</blockquote>
+<p>得到的四张图片拼一下图得到flag</p>
+<blockquote>
+<p>hgame{Taowa_is_N0T_g00d_but_T001s_is_Useful}</p>
+</blockquote>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><p>流量题，打开<strong>wireshark</strong>发现经常出现一个可疑的网址</p>
+<p><strong>flag.hgame2021.cf</strong></p>
+<p>浏览器访问发现一直弹</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210305205523.png" alt="avater"></p>
+<p>挨个挨个追踪流看到了</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210306132648.png" alt="avater"></p>
+<p>有提示是<strong>SPF</strong>，这里贴一下百度百科的解释</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210306132823.png" alt="avater"></p>
+<p>直接用命令查找</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210306154439.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>hgame{D0main_N4me_5ystem}</p>
+</blockquote>
+<ul>
+<li>用这个<a target="_blank" rel="noopener" href="https://www.kitterman.com/spf/validate.html">网站</a>查看也可以</li>
+</ul>
+<h3 id="Telegraph：1601-6639-3459-3134-0892"><a href="#Telegraph：1601-6639-3459-3134-0892" class="headerlink" title="Telegraph：1601 6639 3459 3134 0892"></a>Telegraph：1601 6639 3459 3134 0892</h3><p>这道题还挺好听，题目这串数字猜测是中文电码</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306160734.png" alt="avater"></p>
+<p>百度一波</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306160905.png" alt="avater"></p>
+<p>猜测要留下某个特定的频段，用<strong>Audaticy</strong>打开切到频谱看到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306161431.png" alt="avater"></p>
+<p>发现了850Hz，切到波形放大到一分钟十秒左右发现有莫斯电码</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306161737.png" alt="avater"></p>
+<p>直接手动得到flag</p>
+<blockquote>
+<p>hgame{4G00DS0NGBUTN0T4G00DMAN039310KI}</p>
+</blockquote>
+<p>后来看了wp，在AU里面可以看到带宽约为200Hz</p>
+<p>然后对其进行中心频率为850Hz，带宽为200Hz的带通滤波，然后导出再</p>
+<p>用在线工具得到flag</p>
+<h3 id="Hallucigenia"><a href="#Hallucigenia" class="headerlink" title="Hallucigenia"></a>Hallucigenia</h3><p>题目是一张很大得到图片，用<strong>stegslove</strong>打开发现有</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306162720.png" alt="avater"></p>
+<p>扫出来</p>
+<blockquote>
+<p>gmBCrkRORUkAAAAA+jrgsWajaq0BeC3IQhCEIQhCKZw1MxTzSlNKnmJpivW9IHVPrTjvkkuI3sP 7bWAEdIHWCbDsGsRkZ9IUJC9AhfZFbpqrmZBtI+ZvptWC/KCPrL0gFeRPOcI2WyqjndfUWlNj+d gWpe1qSTEcdurXzMRAc5EihsEflmIN8RzuguWq61JWRQpSI51/KHHT/6/ztPZJ33SSKbieTa1C5k oONbLcf9aYmsVh7RW6p3SpASnUSb3JuSvpUBKxscbyBjiOpOTq8jcdRsx5/IndXw3VgJV6iO1+6j l4gjVpWouViO6ih9ZmybSPkhaqyNUxVXpV5cYU+Xx5sQTfKystDLipmqaMhxIcgvplLqF/LWZzIS 5PvwbqOvrSlNHVEYchCEIQISICSZJijwu50rRQHDyUpaF0y///p6FEDCCDFsuW7YFoVEFEST0BAA CLgLOrAAAAAggUAAAAtAAAAFJESEkNAAAAChoKDUdOUIk=</p>
+</blockquote>
+<p>刚开始没发现什么，用了<a target="_blank" rel="noopener" href="https://the-x.cn/base64">在线网站</a>(这个网站真的好用，会自动识别）才发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210306162918.png" alt="avater"></p>
+<p>在末尾看到反过来的png，根据题目的提示可以知道，要把十六进制数据反过来就可以了，直接上官方wp的脚本，写得很妙</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64decode</span><br><span class="line"><span class="built_in">open</span>(<span class="string">&#x27;flag.png&#x27;</span>,<span class="string">&#x27;wb+&#x27;</span>).write(b64decode(<span class="built_in">open</span>(<span class="string">&#x27;flag_inv_b64.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>).read())[::-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<p>跑完就得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210306164902.jpg" alt="avater"></p>
+<p>可以发现还是翻转了，由于手机前置摄像头拍照是镜像的，所以俺直接拿出手机对着屏幕拍得到了</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210306164906.jpg" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>hgame{tenchi_souzou_dezain_bu}</p>
+</blockquote>
+<h2 id="week3"><a href="#week3" class="headerlink" title="week3"></a>week3</h2><p>太难了呜呜呜，直接搬官方wp吧</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210309084400.jpg" alt="avater"></p>
+<h3 id="A-R-K"><a href="#A-R-K" class="headerlink" title="A R K"></a>A R K</h3><ul>
+<li><p>考点：FTP流量分析、TLS流量分析、json、base64转二进制、zip头修补、脚本画图</p>
+</li>
+<li><p>出题人：Akira</p>
+</li>
+<li><p>分值：250</p>
+<p>wireshark 打开，发现前面是一堆 TLS 流量，后面有 FTP 流量，从 FTP 流量入手</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309084750.png" alt="avater"></p>
+</li>
+</ul>
+<p>选中某段ssl.log的FTP-DATA，右键-&gt;追踪流-&gt;TCP流</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309084939.png" alt="avater"></p>
+<p>另存为即可得到ssl.log，导入后即可解密TLS流量</p>
+<p>右键-&gt;导出对象-&gt;HTTP:</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309085119.png" alt="avater"></p>
+<blockquote>
+<p>明日方舟是一款塔防游戏，可以将可部署单位放置在场地中。并且具有自律功能，可以记录部署的操作。</p>
+</blockquote>
+<p>getBatleReplay 在 battleStart 之前，结合其翻译不难得知这个就是自律的数据，且第二个才是服务端返回给客户端的数据，根据 Content-type 将其导出为 json打开发现有一串 base64，将其解码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json5</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> b64decode</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">json2bin</span>(<span class="params">src: <span class="built_in">str</span>, o: <span class="built_in">str</span></span>):</span></span><br><span class="line">    data = json5.loads(<span class="built_in">open</span>(src).read())</span><br><span class="line">    <span class="built_in">open</span>(o, <span class="string">&#x27;wb&#x27;</span>).write(b64decode(data[<span class="string">&#x27;battleReplay&#x27;</span>]))</span><br><span class="line">json2bin(<span class="string">&#x27;getBattleReplay.json&#x27;</span>, <span class="string">&#x27;res.bin&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309085410.png" alt="avater"></p>
+<p>50 4B 开头，应该是 zip 但是文件头被改了，改为 50 4B 03 04 ，打开，得default_entry ，打开，看出是 json：</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309085539.png" alt="avater"></p>
+<blockquote>
+<p>星藏点雪 月隐晦明 以夕为墨 泼雪作屏<br>写个脚本以白色为背景</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json5</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">json2img</span>(<span class="params">src: <span class="built_in">str</span>, o: <span class="built_in">str</span></span>):</span></span><br><span class="line">   flagJson = json5.loads(<span class="built_in">open</span>(src, <span class="string">&#x27;r&#x27;</span>).read())</span><br><span class="line">   resImg = Image.new(<span class="string">&#x27;RGB&#x27;</span>, (<span class="number">100</span>,<span class="number">100</span>), (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line">   resArr = np.array(resImg)</span><br><span class="line">   <span class="keyword">for</span> dusk <span class="keyword">in</span> flagJson[<span class="string">&#x27;journal&#x27;</span>][<span class="string">&#x27;logs&#x27;</span>]:</span><br><span class="line">  resArr[dusk[<span class="string">&#x27;pos&#x27;</span>][<span class="string">&#x27;row&#x27;</span>]][dusk[<span class="string">&#x27;pos&#x27;</span>][<span class="string">&#x27;col&#x27;</span>]] = (<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">  resImg = Image.fromarray(resArr).convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">  resImg.save(o)</span><br><span class="line">json2img(<span class="string">&#x27;default_entry.json&#x27;</span>, <span class="string">&#x27;res.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>得到flag</p>
+<blockquote>
+<p>hgame{Did_y0u_ge7_Dusk?}</p>
+</blockquote>
+<h3 id="A-R-C"><a href="#A-R-C" class="headerlink" title="A R C"></a>A R C</h3><ul>
+<li><p>考点：高级信息搜集、base85、换表base58 (BV号)、视频处理、变位移ROT47 (42)、MSUStego、维吉尼亚密码</p>
+</li>
+<li><p>出题人：Akira</p>
+</li>
+<li><p>分值：350</p>
+<p>解压得 8558.png</p>
+<blockquote>
+<p>8558应该理解成85和58，BV号是所以图片里的是</p>
+</blockquote>
+<p>结合 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/381784377/answer/1099438784">https://www.zhihu.com/question/381784377/answer/1099438784</a> 可以得知，BV号是基于base58 编码的所以图中的那一串是 base85</p>
+<p>将给的字体装上后抄下</p>
+<blockquote>
+<p>BK0ICG]Qr<em>88_$gC,’-j2+KH86?Q”%928;LG@O</em>!Am0+`;E7iV2agSE&lt;c’U;6Yg^#H?!YBAQ]</p>
+</blockquote>
+</li>
+</ul>
+<p>解 base85 得：</p>
+<blockquote>
+<p>h8btxsWpHnJEj1aL5G3gBuMTKNPAwcF4fZodR9XQ7DSUVm2yCkr6zqiveY<br>用tables而不是table，是因为字体是用来对照图片里字符串的内容的算一个table，而这个字体表示的东西也是一个table。注意本字体的i和j，I(0x49)和l(0x6C)有点相似</p>
+</blockquote>
+<p>得知这是换过表的 BV 号，其编码 10001540 即可得到压缩包</p>
+<blockquote>
+<p>#table=’fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF’ # 原表<br>table=’h8btxsWpHnJEj1aL5G3gBuMTKNPAwcF4fZodR9XQ7DSUVm2yCkr6zqiveY’ # 我换的表<br>tr={}<br>for i in range(58):<br>tr[table[i]]=i<br>s=[11,10,3,8,4,6]<br>xor=177451812<br>add=8728348608<br>def dec(x):<br>r=0<br>for i in range(6):<br>r+=tr[x[s[i]]]*58<strong>i<br>return (r-add)^xor<br>def enc(x):<br>x=(x^xor)+add<br>r=list(‘BV1 4 1 7 ‘)<br>for i in range(6):<br>r[s[i]]=table[x//58</strong>i%58]<br>return ‘’.join(r)<br>print(enc(10001540))</p>
+<p> BV17f411J77h</p>
+</blockquote>
+<p>解压，打开arc.mkv，看到视频里面的问题</p>
+<blockquote>
+<p>What is the answer to life,the universe and everything</p>
+</blockquote>
+<p><img src="C:\Users\Kenoe\AppData\Roaming\Typora\typora-user-images\image-20210309090421433.png" alt="avater"></p>
+<p>视频末尾有两行字符串</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309090505.png" alt="avater"></p>
+<p>没什么头绪，回头看看 fragment.txt ，一堆无意义的字符，但是带有空格</p>
+<blockquote>
+<p>用了某种ROT的范围，但是位移不一样。词频分析是个好东西，别忘了视频力的问题。</p>
+<p>字符范围是 ROT47 的，但是位移换成了 42 (实际上出题时是 52，这样再转回来就是 42)</p>
+</blockquote>
+<p>解密后只有前两行是有用的信息，先看第一行：</p>
+<blockquote>
+<p>Flag is not here, but I write it because you may need more words to analysis what encodingthe line1 is.</p>
+</blockquote>
+<p> 得知视频里第一行也是和 fragment.txt 一样</p>
+<blockquote>
+<p>#)+F7IIMEH:?Injiikffi</p>
+<p>MSUpasswordis:6557225</p>
+</blockquote>
+<p> 用所给的软件和 MSU 搜索可以找到：<a target="_blank" rel="noopener" href="https://www.compression.ru/video/stego_video/index_en.ht">https://www.compression.ru/video/stego_video/index_en.ht</a></p>
+<p>安装该软件，把插件导入plugins32文件夹，启动VirtualDub.exe,导入视频</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309090918.png" alt="avater"></p>
+<p>Video-&gt;Filters-&gt;Add-&gt;MSU StegoVideo 1.0,弹出MSU StegoVideo插件界面。选择Extract file from video，并填好密码和分离出的文件的路径：</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210309091111.png" alt="avater"></p>
+<p>OK-&gt;OK,回到主界面，进度条拉到视频开始处，file-&gt;Save Video,随便选一下输出路径，得到隐写的txt文件</p>
+<blockquote>
+<p>arc.hgame2021.cf</p>
+<p>Hikari</p>
+<p>Tairitsu</p>
+</blockquote>
+<p>打开网站，输入用户名和密码</p>
+<p>看到</p>
+<blockquote>
+<p>for line2,Liki has told you what it is ,and Akira is necessary to do it</p>
+</blockquote>
+<blockquote>
+<p>有的东西可以参考Crypto WEEK-1第一题</p>
+</blockquote>
+<p>Crtpto WEEK-1里用到liki的只有维吉尼亚密码，所以是Vigenere-Akira</p>
+<blockquote>
+<p>pwbvmpoakiscqdobil<br>pmtempestissimobyd</p>
+</blockquote>
+<blockquote>
+<p>/不是可输入的意思，是网站路径</p>
+</blockquote>
+<p>所以访问<a target="_blank" rel="noopener" href="https://arc.hgame2021.cf/pmtempestissimobyd%E5%BE%97%E5%88%B0flag">https://arc.hgame2021.cf/pmtempestissimobyd得到flag</a></p>
+<blockquote>
+<p>hgame{Y0u_Find_Pur3_Mem0ry}</p>
+</blockquote>
+<h2 id="week4"><a href="#week4" class="headerlink" title="week4"></a>week4</h2><h3 id="Akira之瞳-1"><a href="#Akira之瞳-1" class="headerlink" title="Akira之瞳-1"></a>Akira之瞳-1</h3><p>下载得到一个raw文件，考点是内存取证，这也是我第一次做内存取证，用到了volatility</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308085709.png" alt="avater"></p>
+<p>先查看系统信息，得知是Win7SP1x64,查看一下进程</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308085947.png" alt="avater"></p>
+<p>查看进程，发现有一个</p>
+<p>  <img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308090011.png" alt="avater"></p>
+<p>所以我们要提取这个东东,得到1092.dmp，然后foremost它，发现有一个压缩包</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308090235.png" alt="avater"></p>
+<p>得到1092.dmp 然后foremost它,发现一个压缩包，得到提示是用户密码的sha256</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308090602.png" alt="avater"></p>
+<p>用命令hashdump查看一下密码的hash</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308090730.png" alt="avater"></p>
+<p>把84b0d9c9f830238933e7131d60ac6436在<a target="_blank" rel="noopener" href="http://www.cmd5.com查看一下得到密码asdqwe123/">www.cmd5.com查看一下得到密码asdqwe123</a></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308090833.png" alt="avater"></p>
+<p>sha256一下得到压缩包密码，发现有</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308091055.png" alt="avater"></p>
+<p>直接盲水印得到flag，这里有一点要注意，就是python3和python2的盲水印脚本跑出来的结果是不一样的，而这里要用python3的脚本跑得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/4.png" alt="avater"></p>
+<p>，然后放到stegslove可以看到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308091424.png" alt="avater"></p>
+<p>hgame{7he_f1ame_brin9s_me_end1ess_9rief}</p>
+<h3 id="Akira之瞳-2"><a href="#Akira之瞳-2" class="headerlink" title="Akira之瞳-2"></a>Akira之瞳-2</h3><p>又是内存取证,操作了一波在桌面发现有一个dumpme.txt</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308092038.png" alt="avater"></p>
+<p>提取后发现密码和一段提示</p>
+<blockquote>
+<p>zip password is: 5trqES&amp;P43#y&amp;1TO<br>And you may need LastPass</p>
+</blockquote>
+<p>LastPass是一个插件，可以保存用户的各种密码，感觉是要我们查看用户网站的密码，解压得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308093305.png" alt="avater"></p>
+<p>这里有个坑，</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308093354.png" alt="avater"></p>
+<p>有大小却没有占用空间，把隐藏系统文件去掉</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308093557.png" alt="avater"></p>
+<p>然后通过参考资料知道有MasterKeyFile(其实是看hgame2020的wp发现这么考过，想着今年也会这么出题)</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308093728.png" alt="avater"></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2104/">参考资料</a></p>
+<p>最初是思路是通过提取出lsass.exe的内存，然后用mimikatz来从lass进程提取出Master Key然后再去解密密码<a target="_blank" rel="noopener" href="https://www.dazhuanlan.com/2020/03/25/5e7b1628278c6/">参考资料</a></p>
+<p>结果出现了这个报错</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308110227.png" alt="avater"></p>
+<p>然后思路就断了，后来看wp才发现是先用插件解密Cookies解出用户密码，自己还是忽略了lastpass这个提示，在github可以找到volatility一个<a target="_blank" rel="noopener" href="https://github.com/kevthehermit/volatility_plugins/tree/master/lastpass">lasspass</a>的插件，这里搬一下wp</p>
+<blockquote>
+<p>akira@kasumi:/tmp/$ volatility –plugins=./ -f secret_work.raw – profile=Win7SP1x64 lastpass</p>
+<p>… </p>
+<p>Found LastPass Entry for live.com,bing.com,hotmail.com,live.com,microsoft.com,msn.com,windows.com,window sazure.com,office.com,skype.com,azure.com UserName: windows login &amp; miscrosoft </p>
+<p>Pasword: vIg*q3x6GFa5aFBA</p>
+</blockquote>
+<p>然后再用<strong>mimikatz</strong>来获取MasterKey</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308113217.png" alt="avater"></p>
+<p>然后解密Cookies</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308113435.png" alt="avater"></p>
+<p>去年也考了<strong>VeraCrypt</strong>，这里用它打开container，用密码**!bWjAqM2z!iSoJsV*&amp;IRV@*AVI1VrtAb**挂载</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308113722.png" alt="avater"></p>
+<p>发现里面就一张图片<strong>ADS.jpg</strong></p>
+<p>可以知道是</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308114040.png" alt="avater"></p>
+<p>用软件查看得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210308155521.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>hgame{Which_0nly_cryin9_3yes_c4n_de5cribe}</p>
+</blockquote>
+
+        </div>
+        <!-- .entry-content -->
+        
+        <p></p>
+          
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2021/03/16/One-pieNG%E4%B8%80%E5%BC%A0%E5%9B%BE%E7%89%87%E5%8D%81%E5%85%AB%E4%B8%AAflag%E5%A4%8D%E7%8E%B0/" rel="next">
+              <div class="background">
+                
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/xbclub/imageCDN//upload/20200306164050.gif" data-src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210316090421.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" >
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                One pieNG一张图片十八个flag复现</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
+        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="" class="profile gravatar"><img src="" itemprop="image" alt="" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="" itemprop="url" rel="author"></a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+    <div class="site-info">
+        <div class="footertext">
+            <div class="img-preload">
+                <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+                <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+            </div>
+            
+            <p>本站总访问量：<a id="allcount"></a></p>
+            <p style="color: #666666;">这里是页脚信息</p>
+            
+        </div>
+        <div class="footer-device">
+            <p style="font-family: 'Ubuntu', sans-serif;">
+ <span style="">Theme <a href="https://github.com/xbclub/Hexo-theme-sakura" target="_blank"
+                         style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i
+             class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a
+             href="https://2heng.xin/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a
+             href="https://www.hojun.cn/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>&<a
+             href="https://42cloud.cn/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">42team, Powered by Hexo</a>
+        </span>
+            </p>
+        </div>
+    </div><!-- .site-info -->
+</footer>
+
+
+<!--<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.7/js/tocbot.min.js"></script>-->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/InsightSearch.js"></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/zoom.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@1.4/js/sakura-app.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/Valine.min.js'></script>
+<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+
+      
+       <script>
+  fetch('https://counts.42cloud.cn/api/counts.html')
+        .then(response => response.json())
+        .then(data => {
+              if (document.getElementById("readcount")) {
+                document.getElementById("readcount").innerHTML=data.Count;
+            }
+            if (document.getElementById("allcount")){
+                document.getElementById("allcount").innerHTML=data.Allcount;
+            }
+        })
+        .catch(err => console.error(err))
+</script>
+      
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        var Poi = {
+            "pjax": "1",
+            "movies": {"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2", "name": "Unbroken.mp4", "live": "close"},
+            "windowheight": "fixed",
+            "codelamp": "close",
+            "ajaxurl": "",
+            "order": "asc",
+            "formpostion": "bottom"
+        };
+    } else {
+        var Poi = {
+            "pjax": "1",
+            "movies": {"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2", "name": "Unbroken.mp4", "live": "open"},
+            "windowheight": "auto",
+            "codelamp": "close",
+            "ajaxurl": "",
+            "order": "asc",
+            "formpostion": "bottom"
+        };
+    }
+    /* ]]> */
+
+</script>
+<script>
+    $(document).ready(function () {
+        if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+            if ($(".pattern-center").length > 0) { //有图的情况
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.toc', // 放置目录的容器
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.entry-content', // 正文内容所在
+                    // Which headings to grab inside of the contentSelector element.
+                    scrollSmooth: true,
+                    headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+                    headingsOffset: -400,
+                    scrollSmoothOffset: -85
+                });
+            } else {
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.toc', // 放置目录的容器
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.entry-content', // 正文内容所在
+                    // Which headings to grab inside of the contentSelector element.
+                    scrollSmooth: true,
+                    headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+                    headingsOffset: -85,
+                    scrollSmoothOffset: -85
+                });
+            }
+            var offsetTop = $('.toc').offset().top - 95;
+            window.onscroll = function () {
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                if (scrollTop >= offsetTop) {
+                    $('.toc').addClass('toc-fixed');
+                } else {
+                    $('.toc').removeClass('toc-fixed');
+                }
+            }
+        }
+    });
+</script>
+
+
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/header.png">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Kenoeee</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/xbclub" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=525255289&site=qq&menu=yes" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/theme-sakura/">
+                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                  主题
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/shizuku.model.json"},"display":{"position":"left","width":180,"height":360},"mobile":{"show":true},"log":false});</script></body>
+</html>
