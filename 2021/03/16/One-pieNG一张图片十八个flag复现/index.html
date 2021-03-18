@@ -367,8 +367,14 @@
 <p>发现有一个IDAT块不正常，数据太少</p>
 <p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210316093311.png" alt="avater"></p>
 <p>发现是这段十六进制，是zlib数据，这里用脚本跑一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">IDAT=(<span class="string">&quot;789C53F674710C89CF348D4F8CAF32CC4C8A2F3049CE4EB44C5506005F0E07CB&quot;</span>).decode(<span class="string">&quot;hex&quot;</span>)</span><br><span class="line">result=binascii.hexlify(zlib.decompress(IDAT))</span><br><span class="line"><span class="built_in">print</span> result</span><br><span class="line"><span class="built_in">print</span> (result.decode(<span class="string">&#x27;hex&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">len</span>(result.decode(<span class="string">&#x27;hex&#x27;</span>)))</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> zlib
+<span class="token keyword">import</span> binascii
+IDAT<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">"789C53F674710C89CF348D4F8CAF32CC4C8A2F3049CE4EB44C5506005F0E07CB"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">"hex"</span><span class="token punctuation">)</span>
+result<span class="token operator">=</span>binascii<span class="token punctuation">.</span>hexlify<span class="token punctuation">(</span>zlib<span class="token punctuation">.</span>decompress<span class="token punctuation">(</span>IDAT<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> result
+<span class="token keyword">print</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>result<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
 <p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210316093500.png" alt="avater"></p>
 <h2 id="M4yb3-we-sh0uld-9o-d33per"><a href="#M4yb3-we-sh0uld-9o-d33per" class="headerlink" title="#M4yb3_we_sh0uld_9o_d33per#"></a>#M4yb3_we_sh0uld_9o_d33per#</h2><p>把高度改得再大一点</p>
 <p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210317123241.png" alt="avater"></p>
