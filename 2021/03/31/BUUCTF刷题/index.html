@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title>BUUCTF misc刷题 | Hexo</title>
+  <meta name="description" content="42cloud 是一个有意思的空间" />
+  <meta name="keywords" content="42team,42cloud,Linux,Python,Java,C++,漫画,Sakura" />
+  
+    <link rel="shortcut icon" href="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/favicon-16x16-next.png">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/googlefont.css" media="all">
+<!--  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">-->
+  <link rel="stylesheet" id="saukra_css-css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/font.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/insight.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "Kenoeee";
+  mashiro_option.author_name = "";
+  mashiro_option.site_url = "https://42cloud.cn";
+  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
+  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%A3%81%E7%BA%B81.jpg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop ">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a target="_blank" rel="noopener" href="https://42cloud.cn">
+          <img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/header.png">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>真実はいつもひとつ！flag也只有一个！</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://github.com/Kenoeee" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/img/social/github.png">
+                  </a>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  
+  <div id="video-container" style="display: none;">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu" >
+    </div>
+  </div>
+  
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+ 
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">Kenoeee</span>
+            <span class="shironeko"></span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    清单
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          书单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          番组
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          歌单
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          图集
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/theme-sakura/">
+                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                          主题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/sharejs.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.6/css/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img">
+        <img src="https://cdn.jsdelivr.net/gh/xbclub/imageCDN//upload/20200306164050.gif" data-src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210331004433.png" class="lazyload" onerror="imgError(this,3)" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+      </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      BUUCTF misc刷题</h1>
+      <p class="entry-census">
+        <span>
+          <a href="">
+            <img src="">
+          </a>
+        </span>
+        <span>
+          <a href=""></a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-3-31
+        
+      
+        ·<span id="readcount"></span>次阅读
+      
+      </p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"> <!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="WUSTCTF2020-spaceclub"><a href="#WUSTCTF2020-spaceclub" class="headerlink" title="[WUSTCTF2020]spaceclub"></a>[WUSTCTF2020]spaceclub</h2><p>一个txt文件，里面每一行是一个长空格或者短空格，猜测要换成1和0，在技术本里面ctrl+h，全部转换</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210323093211.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210323093253.png" alt="avater"></p>
+<p>然后转字符串得</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210323093548.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>wctf2020{h3re_1s_y0ur_fl@g_s1x_s1x_s1x}</p>
+</blockquote>
+<h2 id="ACTF新生赛2020-music"><a href="#ACTF新生赛2020-music" class="headerlink" title="[ACTF新生赛2020]music"></a>[ACTF新生赛2020]music</h2><p>m4a文件，发现文件头都和A1进行了异或</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210323094716.png" alt="avater"></p>
+<p>在010里面可以进行异或</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210323094751.png" alt="avater"></p>
+<p>然后修复后打开听得到flag</p>
+<blockquote>
+<p>flag{abcdfghijk}  </p>
+</blockquote>
+<pre><code>f=open(&#39;vip.m4a&#39;,&#39;rb&#39;).read()
+newf=open(&#39;flag.m4a&#39;,&#39;wb&#39;)
+for i in range
+</code></pre>
+<h2 id="hashcat"><a href="#hashcat" class="headerlink" title="hashcat"></a>hashcat</h2><p>开局一个xml文件，把后缀改成ppt发现有密码，用<a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=attachment&aid=NjI5MjR8YWNjNzIxZDB8MTYxNjg2Mzc0NnwwfDgyNTY5"><strong>Accent OFFICE Password Recovery</strong> </a></p>
+<p>破解一波密码<img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328005449.png" alt="avater"></p>
+<p>得到密码</p>
+<blockquote>
+<p>9901</p>
+</blockquote>
+<p>然后发现一张图</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328005655.png" alt="avater"></p>
+<p>发现后面还有很多空白页。直接改背景为黑色看看，果然</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328005909.png" alt="avater"></p>
+<blockquote>
+<p>flag{okYOUWIN}</p>
+</blockquote>
+<h2 id="CTF2019-otaku"><a href="#CTF2019-otaku" class="headerlink" title="[*CTF2019]otaku"></a>[*CTF2019]otaku</h2><p>这道题有点意思，解压得到一个doc，这里有个小坑，如果开了隐藏文字会看不到被隐藏的文字，这波是反向隐藏，把隐藏文字勾掉可以看到内容，</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328013252.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328013309.png" alt="avater"></p>
+<p>发现这段文字</p>
+<blockquote>
+<p>Hello everyone, I am Gilbert. Everyone thought that I was killed, but actually I survived. Now that I have no cash with me and I’m trapped in another country. I can’t contact Violet now. She must be desperate to see me and I don’t want her to cry for me. I need to pay 300 for the train, and 88 for the meal. Cash or battlenet point are both accepted. I don’t play the Hearthstone, and I don’t even know what is Rastakhan’s Rumble.</p>
+</blockquote>
+<p>然后没发现压缩包密码，把它放进<strong>Ziperello</strong>发现是伪加密，解压得到flag.zip，先看注释发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328013724.png" alt="avater"></p>
+<p>看来是要拿刚刚那段文字做明文攻击，这里发现放到txt里面是433字节，大小不一样,上脚本改一下</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#encoding=GBK</span>
+f <span class="token operator">=</span> open<span class="token punctuation">(</span><span class="token string">"d:\\test.txt"</span><span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
+s<span class="token operator">=</span><span class="token string">"Hello everyone, I am Gilbert. Everyone thought that I was killed, but actually I survived. Now that I have no cash with me and I’m trapped in another country. I can't contact Violet now. She must be desperate to see me and I don't want her to cry for me. I need to pay 300 for the train, and 88 for the meal. Cash or battlenet point are both accepted. I don't play the Hearthstone, and I don't even know what is Rastakhan's Rumble."</span>
+f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<p>然后明文攻击得到png，再zsteg一把梭得到</p>
+<blockquote>
+<p>*ctf{vI0l3t_Ev3rg@RdeN}</p>
+</blockquote>
+<h2 id="UTCTF2020-zero"><a href="#UTCTF2020-zero" class="headerlink" title="[UTCTF2020]zero"></a>[UTCTF2020]zero</h2><p>空字符隐写</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328112541.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>utflag{whyNOT@sc11_4927aajbqk14}</p>
+</blockquote>
+<h2 id="voip"><a href="#voip" class="headerlink" title="voip"></a>voip</h2><p>直接wireshark 电话&gt;voip就可以听到flag</p>
+<blockquote>
+<p>flag{9001IVR}</p>
+</blockquote>
+<h2 id="湖南省赛2019-Findme"><a href="#湖南省赛2019-Findme" class="headerlink" title="[湖南省赛2019]Findme"></a>[湖南省赛2019]Findme</h2><p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210328172117.png" alt="avater"></p>
+<p>五张图，第一张图片发现高度不对，上一下别人的脚本</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> zlib
+<span class="token keyword">import</span> struct
+file <span class="token operator">=</span> <span class="token string">'1.png'</span>
+fr <span class="token operator">=</span> open<span class="token punctuation">(</span>file<span class="token punctuation">,</span><span class="token string">'rb'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+data <span class="token operator">=</span> bytearray<span class="token punctuation">(</span>fr<span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">:</span><span class="token number">29</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#crc32key = eval(str(fr[29:33]).replace('\\x','').replace("b'",'0x').replace("'",'')) </span>
+crc32key <span class="token operator">=</span> <span class="token number">0xC4ED3</span> 
+<span class="token comment" spellcheck="true">#data = bytearray(b'\x49\x48\x44\x52\x00\x00\x01\xF4\x00\x00\x01\xF1\x08\x06\x00\x00\x00') </span>
+n <span class="token operator">=</span> <span class="token number">4095</span> 
+<span class="token keyword">for</span> w <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    width <span class="token operator">=</span> bytearray<span class="token punctuation">(</span>struct<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token string">'>i'</span><span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> h <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+        height <span class="token operator">=</span> bytearray<span class="token punctuation">(</span>struct<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token string">'>i'</span><span class="token punctuation">,</span> h<span class="token punctuation">)</span><span class="token punctuation">)</span> 
+        <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
+            data<span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> width<span class="token punctuation">[</span>x<span class="token punctuation">]</span> 
+            data<span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">=</span> height<span class="token punctuation">[</span>x<span class="token punctuation">]</span> 
+            <span class="token comment" spellcheck="true">#print(data) </span>
+        crc32result <span class="token operator">=</span> zlib<span class="token punctuation">.</span>crc32<span class="token punctuation">(</span>data<span class="token punctuation">)</span> 
+        <span class="token keyword">if</span> crc32result <span class="token operator">==</span> crc32key<span class="token punctuation">:</span> 
+            <span class="token keyword">print</span><span class="token punctuation">(</span>width<span class="token punctuation">,</span>height<span class="token punctuation">)</span> 
+            <span class="token keyword">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> 
+            newpic <span class="token operator">=</span> bytearray<span class="token punctuation">(</span>fr<span class="token punctuation">)</span> 
+            <span class="token keyword">for</span> x <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
+                newpic<span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">16</span><span class="token punctuation">]</span> <span class="token operator">=</span> width<span class="token punctuation">[</span>x<span class="token punctuation">]</span>
+                newpic<span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">20</span><span class="token punctuation">]</span> <span class="token operator">=</span> height<span class="token punctuation">[</span>x<span class="token punctuation">]</span> 
+            fw <span class="token operator">=</span> open<span class="token punctuation">(</span>file<span class="token operator">+</span><span class="token string">'.png'</span><span class="token punctuation">,</span><span class="token string">'wb'</span><span class="token punctuation">)</span> 
+            fw<span class="token punctuation">.</span>write<span class="token punctuation">(</span>newpic<span class="token punctuation">)</span> 
+            fw<span class="token punctuation">.</span>close 
+</code></pre>
+<p>修改后用010打开发现有两个块确实IDAT标记，修改后得到和其他几张图片相似的图片，然后在stegslove里面</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161055.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161247.png" alt="avater"></p>
+<p>得到第一段</p>
+<blockquote>
+<p>ZmxhZ3s0X3</p>
+</blockquote>
+<p>第二张png发现有7z文件头，但是解压不了，这里有个坑，这里后面跟的是0304</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161427.png" alt="avater"></p>
+<p>改成504B就可以解压了。发现很多txt文件，其中有一个大小不一样，得到</p>
+<blockquote>
+<p>1RVcmVfc</p>
+</blockquote>
+<p>第三个png提示crc出错，依旧爆破宽高无果，发现crc值都是十六进制数</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161730.png" alt="avater"></p>
+<p>转码得到</p>
+<blockquote>
+<p>3RlZ30=</p>
+</blockquote>
+<p>第四个png直接在文件尾发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161842.png" alt="avater"></p>
+<p>得到</p>
+<blockquote>
+<p>cExlX1BsY</p>
+</blockquote>
+<p>第五张同理</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330161940.png" alt="avater"></p>
+<p>得到</p>
+<blockquote>
+<p>Yzcllfc0lN</p>
+</blockquote>
+<p>这里把五段按照不同顺序拼接一下得到flag</p>
+<blockquote>
+<p>ZmxhZ3s0X3Yzcllfc0lNcExlX1BsY1RVcmVfc3RlZ30=</p>
+</blockquote>
+<blockquote>
+<p>flag{4_v3rY_sIMpLe_PlcTUre_steg}</p>
+</blockquote>
+<h2 id="QCTF2018-X-man-A-face"><a href="#QCTF2018-X-man-A-face" class="headerlink" title="[QCTF2018]X-man-A face"></a><strong>[QCTF2018]X-man-A face</strong></h2><p>得到一个残缺的二维码</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/Xman-Aface-61df10385eaccbb3627ca3926c6ae174.png" alt="avater"></p>
+<p>简单ps一下还是扫不出来</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330162455.png" alt="avater"></p>
+<p>然后发现用微信扫就扫出来了。。。还是微信牛逼</p>
+<blockquote>
+<p>KFBVIRT3KBZGK5DUPFPVG2LTORSXEX2XNBXV6QTVPFZV6TLFL5GG6YTTORSXE7I=</p>
+</blockquote>
+<p>base32得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330162749.png" alt="avater"></p>
+<blockquote>
+<p>QCTF{Pretty_Sister_Who_Buys_Me_Lobster}</p>
+</blockquote>
+<h2 id="ACTF新生赛2020-剑龙"><a href="#ACTF新生赛2020-剑龙" class="headerlink" title="[ACTF新生赛2020]剑龙"></a>[ACTF新生赛2020]剑龙</h2><p>这道题很有意思,解压后得到三个文件</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330174207.png" alt="avater"></p>
+<p>打开pwd.txt发现是颜文字加密，解密得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330163526.png" alt="avater"></p>
+<p>然后在hh.png注释里面发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330174311.png" alt="avater"></p>
+<p>那么应该是某种有密钥的jpg加密方式，尝试了一波发现不是这个密钥，要用welcom3!</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330175322.png" alt="avater"></p>
+<p>得到</p>
+<blockquote>
+<p>想要flag吗？解出我的密文吧~<br>U2FsdGVkX1/7KeHVl5984OsGUVSanPfPednHpK9lKvp0kdrxO4Tj/Q==</p>
+</blockquote>
+<p>看到U2Fsd知道是AES或者DES加密，密钥就是注释里面那段</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330175858.png" alt="avater"></p>
+<p>打开O_O，先file一下</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330221010.png" alt="avater"></p>
+<p>010打开发现</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330221057.png" alt="avater"></p>
+<p>猜测是pyc文件，反编译一下得到</p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#!/usr/bin/env python</span>
+<span class="token comment" spellcheck="true"># visit http://tool.lu/pyc/ for more information</span>
+<span class="token keyword">from</span> PIL <span class="token keyword">import</span> Image
+
+
+<span class="token keyword">def</span> <span class="token function">dtob</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    temp <span class="token operator">=</span> bin<span class="token punctuation">(</span>num<span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"0b"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span>
+    length <span class="token operator">=</span> len<span class="token punctuation">(</span>temp<span class="token punctuation">)</span>
+    over <span class="token operator">=</span> length <span class="token operator">//</span> <span class="token number">8</span>
+    temp <span class="token operator">=</span> temp<span class="token punctuation">.</span>zfill<span class="token punctuation">(</span><span class="token punctuation">(</span>over <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> temp
+
+
+<span class="token keyword">def</span> <span class="token function">getSecret</span><span class="token punctuation">(</span>mpath<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    secret <span class="token operator">=</span> <span class="token string">""</span>
+    file <span class="token operator">=</span> open<span class="token punctuation">(</span>mpath<span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span>
+    content <span class="token operator">=</span> file<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    length <span class="token operator">=</span> len<span class="token punctuation">(</span>content<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>length<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tmp <span class="token operator">=</span> content<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        tmp <span class="token operator">=</span> dtob<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+        secret <span class="token operator">+=</span> tmp
+    <span class="token keyword">return</span> secret
+
+
+<span class="token keyword">def</span> <span class="token function">start</span><span class="token punctuation">(</span>ppath<span class="token punctuation">,</span> mpath<span class="token punctuation">,</span> rpath<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    im <span class="token operator">=</span> Image<span class="token punctuation">.</span>open<span class="token punctuation">(</span>ppath<span class="token punctuation">)</span>
+    px <span class="token operator">=</span> im<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    message <span class="token operator">=</span> im<span class="token punctuation">.</span>size
+    width <span class="token operator">=</span> message<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    height <span class="token operator">=</span> message<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>width<span class="token punctuation">,</span> height<span class="token punctuation">)</span>
+    secret <span class="token operator">=</span> getSecret<span class="token punctuation">(</span>mpath<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>secret<span class="token punctuation">)</span>
+    s_len <span class="token operator">=</span> len<span class="token punctuation">(</span>secret<span class="token punctuation">)</span>
+    count <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>height<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>width<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> s_len<span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            pix <span class="token operator">=</span> px<span class="token punctuation">[</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">)</span><span class="token punctuation">]</span>
+            r <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            g <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+            b <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+            r <span class="token operator">=</span> <span class="token punctuation">(</span>r <span class="token operator">-</span> r <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> int<span class="token punctuation">(</span>secret<span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> s_len<span class="token punctuation">:</span>
+                im<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>r<span class="token punctuation">,</span> g<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            g <span class="token operator">=</span> <span class="token punctuation">(</span>g <span class="token operator">-</span> g <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> int<span class="token punctuation">(</span>secret<span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> s_len<span class="token punctuation">:</span>
+                im<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>r<span class="token punctuation">,</span> g<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            b <span class="token operator">=</span> <span class="token punctuation">(</span>b <span class="token operator">-</span> b <span class="token operator">%</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> int<span class="token punctuation">(</span>secret<span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> s_len<span class="token punctuation">:</span>
+                im<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>r<span class="token punctuation">,</span> g<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            <span class="token keyword">if</span> count <span class="token operator">%</span> <span class="token number">3</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                im<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>r<span class="token punctuation">,</span> g<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    im<span class="token punctuation">.</span>save<span class="token punctuation">(</span>rpath<span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">extrat</span><span class="token punctuation">(</span>mpath<span class="token punctuation">,</span> rpath<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> <span class="token string">""</span>
+    im <span class="token operator">=</span> Image<span class="token punctuation">.</span>open<span class="token punctuation">(</span>mpath<span class="token punctuation">)</span>
+    size <span class="token operator">=</span> im<span class="token punctuation">.</span>size
+    px <span class="token operator">=</span> im<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    w <span class="token operator">=</span> size<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    h <span class="token operator">=</span> size<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+    length <span class="token operator">=</span> <span class="token number">80</span>
+    count <span class="token operator">=</span> <span class="token number">0</span>
+    flag <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> j <span class="token keyword">in</span> range<span class="token punctuation">(</span>w<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            pix <span class="token operator">=</span> px<span class="token punctuation">[</span><span class="token punctuation">(</span>j<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">]</span>
+            r <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            g <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+            b <span class="token operator">=</span> pix<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+            r1 <span class="token operator">=</span> r <span class="token operator">%</span> <span class="token number">2</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> length<span class="token punctuation">:</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>r1<span class="token punctuation">)</span>
+                flag <span class="token operator">=</span> <span class="token number">1</span>
+                <span class="token keyword">break</span>
+            g1 <span class="token operator">=</span> g <span class="token operator">%</span> <span class="token number">2</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> length<span class="token punctuation">:</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>r1<span class="token punctuation">)</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>g1<span class="token punctuation">)</span>
+                flag <span class="token operator">=</span> <span class="token number">1</span>
+                <span class="token keyword">break</span>
+            b1 <span class="token operator">=</span> b <span class="token operator">%</span> <span class="token number">2</span>
+            count <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> count <span class="token operator">==</span> length<span class="token punctuation">:</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>r1<span class="token punctuation">)</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>g1<span class="token punctuation">)</span>
+                result <span class="token operator">+=</span> str<span class="token punctuation">(</span>b1<span class="token punctuation">)</span>
+                flag <span class="token operator">=</span> <span class="token number">1</span>
+                <span class="token keyword">break</span>
+            result <span class="token operator">+=</span> str<span class="token punctuation">(</span>r1<span class="token punctuation">)</span>
+            result <span class="token operator">+=</span> str<span class="token punctuation">(</span>g1<span class="token punctuation">)</span>
+            result <span class="token operator">+=</span> str<span class="token punctuation">(</span>b1<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> flag <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+    aa <span class="token operator">=</span> open<span class="token punctuation">(</span>rpath<span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">)</span>
+    <span class="token keyword">while</span> result<span class="token punctuation">:</span>
+        tmp <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">8</span><span class="token punctuation">]</span>
+        result <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+        tmp <span class="token operator">=</span> int<span class="token punctuation">(</span>tmp<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        re <span class="token operator">=</span> chr<span class="token punctuation">(</span>tmp<span class="token punctuation">)</span>
+        aa<span class="token punctuation">.</span>write<span class="token punctuation">(</span>re<span class="token punctuation">)</span>
+
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"wowowo!"</span><span class="token punctuation">)</span>
+start<span class="token punctuation">(</span><span class="token string">"1.png"</span><span class="token punctuation">,</span> <span class="token string">"1.txt"</span><span class="token punctuation">,</span> <span class="token string">"tets.png"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>但是调了半天没发现，又根据那个提示，应该是python字节隐写</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330222011.png" alt="avater"></p>
+<blockquote>
+<p> flag{3teg0Sauru3_!1}</p>
+</blockquote>
+<h2 id="Business-Planning-Group"><a href="#Business-Planning-Group" class="headerlink" title="Business Planning Group"></a>Business Planning Group</h2><p>010打开发现块很多，然后发现最后面有点可疑</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330234032.png" alt="avater"></p>
+<p>BPG开头，百度一下,在<a target="_blank" rel="noopener" href="https://bellard.org/bpg/">官网</a>下载工具进行转换</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330234704.png" alt="avater"></p>
+<p>得到</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/out.png" alt="avater"></p>
+<blockquote>
+<p>flag{BPG_i5_b3tt3r_7h4n_JPG}</p>
+</blockquote>
+<h2 id="MRCTF2020-pyFlag"><a href="#MRCTF2020-pyFlag" class="headerlink" title="[MRCTF2020]pyFlag"></a>[MRCTF2020]pyFlag</h2><p>三张图片文件尾部都发现有东西，复制出来拼接得到zip文件，爆破得到密码1234</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210330235511.png" alt="avater"></p>
+<p>得到flag</p>
+<blockquote>
+<p>G&amp;eOhGcq(ZG(t2*H8M3dG&amp;wXiGcq(ZG&amp;wXyG(j<del>tG&amp;eOdGcq+aG(t5oG(j</del>qG&amp;eIeGcq+aG)6Q&lt;G(j<del>rG&amp;eOdH9&lt;5qG&amp;eLvG(j</del>sG&amp;nRdH9&lt;8rG%++qG%__eG&amp;eIeGc+|cG(t5oG(j<del>sG&amp;eOlH9&lt;8rH8C_qH9&lt;8oG&amp;eOhGc+<em>bG&amp;eLvH9&lt;8sG&amp;eLgGcz?cG&amp;3|sH8M3cG&amp;eOtG%</em>?aG(t5oG(j</del>tG&amp;wXxGcq+aH8V6sH9&lt;8rG&amp;eOhH9&lt;5qG(&lt;E-H8M3eG&amp;wXiGcq(ZG)6Q&lt;G(j<del>tG&amp;eOtG%+&lt;aG&amp;wagG%__cG&amp;eIeGcq+aG&amp;M9uH8V6cG&amp;eOlH9&lt;8rG(&lt;HrG(j</del>qG&amp;eLcH9&lt;8sG&amp;wUwGek2)</p>
+</blockquote>
+<p>hint</p>
+<blockquote>
+<p>我用各种baseXX编码把flag套娃加密了，你应该也有看出来。<br>但我只用了一些常用的base编码哦，毕竟我的智力水平你也知道…像什么base36base58听都没听过<br>提示：0x10,0x20,0x30,0x55</p>
+</blockquote>
+<p>四个数字分别转十进制是16、32、48、85</p>
+<p>因此反向进行base85 解密，这里不知道为什么网页的一直用不了，直接用python</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> base64
+<span class="token keyword">print</span><span class="token punctuation">(</span>base64<span class="token punctuation">.</span>b85decode<span class="token punctuation">(</span><span class="token string">'G&amp;eOhGcq(ZG(t2*H8M3dG&amp;wXiGcq(ZG&amp;wXyG(j~tG&amp;eOdGcq+aG(t5oG(j~qG&amp;eIeGcq+aG)6Q&lt;G(j~rG&amp;eOdH9&lt;5qG&amp;eLvG(j~sG&amp;nRdH9&lt;8rG%++qG%__eG&amp;eIeGc+|cG(t5oG(j~sG&amp;eOlH9&lt;8rH8C_qH9&lt;8oG&amp;eOhGc+_bG&amp;eLvH9&lt;8sG&amp;eLgGcz?cG&amp;3|sH8M3cG&amp;eOtG%_?aG(t5oG(j~tG&amp;wXxGcq+aH8V6sH9&lt;8rG&amp;eOhH9&lt;5qG(&lt;E-H8M3eG&amp;wXiGcq(ZG)6Q&lt;G(j~tG&amp;eOtG%+&lt;aG&amp;wagG%__cG&amp;eIeGcq+aG&amp;M9uH8V6cG&amp;eOlH9&lt;8rG(&lt;HrG(j~qG&amp;eLcH9&lt;8sG&amp;wUwGek2)'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>得到</p>
+<blockquote>
+<p>b’475532444B4E525549453244494E4A57475132544B514A54473432544F4E4A5547515A44474D4A5648415A54414E4257473434544B514A5647595A<br>54514D5A5147553444474D5A5547453355434E5254475A42444B514A57494D3254534D5A5447555A444D4E5256494532444F4E4A57475A4154495242<br>5547343254454E534447595A544D524A5447415A55493D3D3D’</p>
+</blockquote>
+<p>全大写而且最大是F，base16解码一下</p>
+<blockquote>
+<p>GU2DKNRUIE2DINJWGQ2TKQJTG42TONJUGQZDGMJVHAZTANBWG44TKQJVGYZTQMZQGU4DGMZUGE3UCNRTGZBDKQJWIM2TSMZTGUZDMNRVIE2DONJWGZATIRBUG42TENSDGYZTMRJTGAZUI===</p>
+</blockquote>
+<p>三个=号，base32一下</p>
+<blockquote>
+<p>54564A4456455A3757544231583046795A5638305833417A636B5A6C593352665A47566A4D47526C636E303D</p>
+</blockquote>
+<p>继续base16</p>
+<blockquote>
+<p>TVJDVEZ7WTB1X0FyZV80X3AzckZlY3RfZGVjMGRlcn0=</p>
+</blockquote>
+<p>直接base64</p>
+<blockquote>
+<p>MRCTF{Y0u_Are_4_p3rFect_dec0der}</p>
+</blockquote>
+
+        </div>
+        <!-- .entry-content -->
+        
+        <p></p>
+          
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+        
+          
+            <div class="post-nepre full next">
+          
+            <a href="/2021/03/17/hgame2021misc%E5%A4%8D%E7%8E%B0/" rel="next">
+              <div class="background">
+                
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/xbclub/imageCDN//upload/20200306164050.gif" data-src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20210317112429.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" >
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                hgame2021 misc复现</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
+        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a href="" class="profile gravatar"><img src="" itemprop="image" alt="" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="" itemprop="url" rel="author"></a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            // PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+    <div class="site-info">
+        <div class="footertext">
+            <div class="img-preload">
+                <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+                <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+            </div>
+            
+            <p>本站总访问量：<a id="allcount"></a></p>
+            <p style="color: #666666;">这里是页脚信息</p>
+            
+        </div>
+        <div class="footer-device">
+            <p style="font-family: 'Ubuntu', sans-serif;">
+ <span style="">Theme <a href="https://github.com/xbclub/Hexo-theme-sakura" target="_blank"
+                         style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i
+             class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a
+             href="https://2heng.xin/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a
+             href="https://www.hojun.cn/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>&<a
+             href="https://42cloud.cn/" target="_blank"
+             style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">42team, Powered by Hexo</a>
+        </span>
+            </p>
+        </div>
+    </div><!-- .site-info -->
+</footer>
+
+
+<!--<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.7/js/tocbot.min.js"></script>-->
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/InsightSearch.js"></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/zoom.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@1.4/js/sakura-app.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/Valine.min.js'></script>
+<script src="https://cdn.jsdelivr.net/gh/xbclub/staticCDN@0.8/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+
+      
+       <script>
+  fetch('https://counts.42cloud.cn/api/counts.html')
+        .then(response => response.json())
+        .then(data => {
+              if (document.getElementById("readcount")) {
+                document.getElementById("readcount").innerHTML=data.Count;
+            }
+            if (document.getElementById("allcount")){
+                document.getElementById("allcount").innerHTML=data.Allcount;
+            }
+        })
+        .catch(err => console.error(err))
+</script>
+      
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        var Poi = {
+            "pjax": "1",
+            "movies": {"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2", "name": "Unbroken.mp4", "live": "close"},
+            "windowheight": "fixed",
+            "codelamp": "close",
+            "ajaxurl": "",
+            "order": "asc",
+            "formpostion": "bottom"
+        };
+    } else {
+        var Poi = {
+            "pjax": "1",
+            "movies": {"url": "https://cdn.jsdelivr.net/gh/honjun/hojun@1.2", "name": "Unbroken.mp4", "live": "open"},
+            "windowheight": "auto",
+            "codelamp": "close",
+            "ajaxurl": "",
+            "order": "asc",
+            "formpostion": "bottom"
+        };
+    }
+    /* ]]> */
+
+</script>
+<script>
+    $(document).ready(function () {
+        if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+            if ($(".pattern-center").length > 0) { //有图的情况
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.toc', // 放置目录的容器
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.entry-content', // 正文内容所在
+                    // Which headings to grab inside of the contentSelector element.
+                    scrollSmooth: true,
+                    headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+                    headingsOffset: -400,
+                    scrollSmoothOffset: -85
+                });
+            } else {
+                tocbot.init({
+                    // Where to render the table of contents.
+                    tocSelector: '.toc', // 放置目录的容器
+                    // Where to grab the headings to build the table of contents.
+                    contentSelector: '.entry-content', // 正文内容所在
+                    // Which headings to grab inside of the contentSelector element.
+                    scrollSmooth: true,
+                    headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+                    headingsOffset: -85,
+                    scrollSmoothOffset: -85
+                });
+            }
+            var offsetTop = $('.toc').offset().top - 95;
+            window.onscroll = function () {
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                if (scrollTop >= offsetTop) {
+                    $('.toc').addClass('toc-fixed');
+                } else {
+                    $('.toc').removeClass('toc-fixed');
+                }
+            }
+        }
+    });
+</script>
+
+
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/header.png">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Kenoeee</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://github.com/xbclub" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=525255289&site=qq&menu=yes" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            清单
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/%E6%82%A6%E8%AF%BB/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  书单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  番组
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  歌单
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/%E5%9B%BE%E9%9B%86/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  图集
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/theme-sakura/">
+                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                  主题
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/shizuku.model.json"},"display":{"position":"left","width":180,"height":360},"mobile":{"show":true},"log":false});</script></body>
+</html>
