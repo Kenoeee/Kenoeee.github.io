@@ -720,7 +720,7 @@ audio:not([controls]) {
 a {
     background-color:transparent;
     text-decoration:none;
-    cursor:url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/ayuda.cur),auto
+    cursor:url(https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/1.cur),auto
 }
 a:active,a:hover {
     outline:0
