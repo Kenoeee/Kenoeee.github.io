@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>信息收集 | Kenoeee</title><meta name="author" content="Kenoeee"><meta name="copyright" content="Kenoeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="信息收集签到手Kenoe发现自己很久没有更新博客，于是今天写一下信息收集的思路 信息收集的意义信息收集是渗透测试的起点，一个良好的信息收集才能保证在攻击的时候找到更多的攻击面，信息收集有各种各样的思路，俺没事的时候就看大佬们挖src的文章，发现了不少骚思路 搜索引擎 Google hack语法  这个相信每个学渗透测试的最开始都会学的东西，这里就简单记录一些语法 123456789intitle:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="信息收集">
+<meta property="og:url" content="http://example.com/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="Kenoeee">
+<meta property="og:description" content="信息收集签到手Kenoe发现自己很久没有更新博客，于是今天写一下信息收集的思路 信息收集的意义信息收集是渗透测试的起点，一个良好的信息收集才能保证在攻击的时候找到更多的攻击面，信息收集有各种各样的思路，俺没事的时候就看大佬们挖src的文章，发现了不少骚思路 搜索引擎 Google hack语法  这个相信每个学渗透测试的最开始都会学的东西，这里就简单记录一些语法 123456789intitle:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg">
+<meta property="article:published_time" content="2022-01-27T17:35:57.974Z">
+<meta property="article:modified_time" content="2022-01-28T12:05:23.753Z">
+<meta property="article:author" content="Kenoeee">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '信息收集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-28 20:05:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kenoeee</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">信息收集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-27T17:35:57.974Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-28T12:05:23.753Z" title="更新于 2022-01-28 20:05:23">2022-01-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="信息收集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><p>签到手Kenoe发现自己很久没有更新博客，于是今天写一下信息收集的思路</p>
+<h2 id="信息收集的意义"><a href="#信息收集的意义" class="headerlink" title="信息收集的意义"></a>信息收集的意义</h2><p>信息收集是渗透测试的起点，一个良好的信息收集才能保证在攻击的时候找到更多的攻击面，信息收集有各种各样的思路，俺没事的时候就看大佬们挖src的文章，发现了不少骚思路</p>
+<h2 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h2><ul>
+<li>Google hack语法</li>
+</ul>
+<p>这个相信每个学渗透测试的最开始都会学的东西，这里就简单记录一些语法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">intitle:xxx  <span class="comment">//搜索标题中含有xxx关键词的网页</span></span><br><span class="line">intext:xxx  <span class="comment">//搜索正文中含有xxx内容的网页 </span></span><br><span class="line">inurl:xxx   <span class="comment">//搜索url中包含有xxx内容的网页</span></span><br><span class="line">比如挖sql注入的时候会用 inurl:php?id=</span><br><span class="line">(不过现在应该挖不到这种了吧)    </span><br><span class="line">site:xxx.com  <span class="comment">//搜索xxx.com的内容</span></span><br><span class="line">filetype:file  <span class="comment">//搜索指定类型的文件</span></span><br><span class="line"> 比如之前看师傅挖edu src的时候就喜欢用</span><br><span class="line"> filetype:xls intext:学号   </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>fofa、Zoomeye、Shodan</li>
+</ul>
+<p>这些网站的使用方法都差不多，并且比hack语法更加高效，因为这些网站每天都在爬网页，在上面搜到的网站要更多</p>
+<p><img src="C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211202110538992.png" alt="image-20211202110538992"></p>
+<p>fofa上面有提供查询语法的参考，我自己习惯用fofa</p>
+<p>有时候发现一些通杀的漏洞想找个站试试手就会用找个</p>
+<blockquote>
+<p>比如我发现了一个泛微oa的通杀</p>
+<p>我就直接app=”泛微-EOffice”</p>
+<p>搜出来就都是泛微的站了</p>
+</blockquote>
+<h2 id="企业信息"><a href="#企业信息" class="headerlink" title="企业信息"></a>企业信息</h2><p><a target="_blank" rel="noopener" href="https://www.tianyancha.com/">天眼查</a><br><a target="_blank" rel="noopener" href="http://www.beianbeian.com/">ICP备案查询网</a><br><a target="_blank" rel="noopener" href="http://www.gsxt.gov.cn/index.html">国家企业信用信息公示系统</a></p>
+<h2 id="whois"><a href="#whois" class="headerlink" title="whois"></a>whois</h2><p>可以查询域名的ip以及注册者的一些信息，可以用这个来进行社工</p>
+<p><a target="_blank" rel="noopener" href="https://whois.chinaz.com/">站长之家</a></p>
+<p><a target="_blank" rel="noopener" href="https://whois.aizhan.com/">爱站</a></p>
+<p><a target="_blank" rel="noopener" href="https://who.is/">国外的</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a></p>
+<p><a target="_blank" rel="noopener" href="http://seo.chinaz.com/">http://seo.chinaz.com/</a></p>
+<p>这个可以多换几个站试试 可能会出现不一样的结果</p>
+<h2 id="子域名收集"><a href="#子域名收集" class="headerlink" title="子域名收集"></a>子域名收集</h2><p>有的时候主站打不进去 可以试试挑软柿子捏 有的时候发现旁站是什么cms 说不定有通杀呢（笑</p>
+<p>在线工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://phpinfo.me/domain/">https://phpinfo.me/domain/</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.virustotal.com/#/home/search">https://www.virustotal.com/#/home/search</a></li>
+<li><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a></li>
+</ul>
+<p>工具：</p>
+<ul>
+<li>layer子域名挖掘机 图形化界面非常简单</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/lijiejie/subDomainsBrute">subDomainBrute</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">OneForAll</a>这个超级好用 功能很全</li>
+</ul>
+<h2 id="获取真实ip"><a href="#获取真实ip" class="headerlink" title="获取真实ip"></a>获取真实ip</h2><p>有的网站开启了cdn加速，所以为了不打空，要获取真实ip</p>
+<ul>
+<li>多地ping</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://ping.chinaz.com/">https://ping.chinaz.com/</a></p>
+<ul>
+<li>只ping域名</li>
+</ul>
+<p>有的网站只给<a target="_blank" rel="noopener" href="http://www.xxx.com上cdn/">www.xxx.com上cdn</a> 所以pingxxx.com可能可以</p>
+<ul>
+<li>让服务器给你发邮件 查看邮箱头源ip</li>
+</ul>
+<h2 id="namp-端口扫描"><a href="#namp-端口扫描" class="headerlink" title="namp-端口扫描"></a>namp-端口扫描</h2><p>得到真实ip就开扫 扫描所存在的端口 查看有没有一些端口可能存在漏洞</p>
+<blockquote>
+<p>常见端口漏洞：<br>端口 服务 说明<br>21 FTP 主要看是否支持匿名，也可跑弱口令<br>22 SSH 弱口令爆破<br>23 telnet 弱口令爆破<br>80-90 WEB 常见WEB漏洞以及一些为管理后台<br>161 snmp public弱口令<br>389 ldap 是否为匿名访问<br>443 openssl 心脏出血以及一些WEB漏洞测试<br>445 smb 跑弱口令，检测是否有ms_08067等溢出<br>873 rsync 是否为匿名访问，也可以跑弱口令<br>1025 RPC NFS匿名访问<br>1099 java rmi 远程命令执行漏洞<br>1433 mssql 弱口令爆破<br>1521 oracle 弱口令爆破<br>2082/2083 cpanel主机管理系统登陆 弱口令爆破<br>2222 DA虚拟主机管理系统登陆 弱口令爆破<br>2601,2604 zebra路由器 默认密码zebra<br>3128 squid代理默认端口 如果没设置口令很可能 就直接漫游内网<br>3306 mysql 弱口令爆破<br>3312/3311 kangle主机管理系统登陆 说明<br>3389 RDP 弱口令爆破，SHIFT后门，放大镜，输入法漏洞<br>4440 rundeck web<br>4848 GlassFish web中间件 弱口令admin/adminadmin<br>5432 postgres 弱口令爆破<br>5560,7778 iSqlPlus<br>5900,5901,5902 vnc 弱口令爆破<br>5984 CouchDB <a target="_blank" rel="noopener" href="http://xxx:5984/_utils/">http://xxx:5984/_utils/</a><br>6082 varnish<br>6379 redis 一般无验证，直接访问<br>7001,7002 weblogic 弱口令爆破<br>7778 Kloxo主机控制面板登录<br>8080 tomcat\jboss 弱口令爆破，jboss后台可能不验证<br>8649 ganglia<br>8080-8090 常见WEB端口<br>8083 Vestacp主机管理系统 （国外用较多）<br>8649 ganglia<br>8888 amh/LuManager 主机管理系统默认端口 说明<br>9000 fcgi fcgi php命令执行漏洞<br>9200 elasticsearch 代码执行<br>9043 websphere 弱口令爆破<br>10000 Virtualmin/Webmin 服务器虚拟主机管理系统<br>11211 memcache 内存泄露<br>27017,28017 mongodb 未授权访问<br>50000 Upnp SAP命令执行<br>50060,50030 hadoop WEB 未授权访问</p>
+</blockquote>
+<p><img src="C:\Users\DELL\Desktop\nmap渗透测试指南.png" alt="nmap渗透测试指南"></p>
+<h2 id="网站指纹识别"><a href="#网站指纹识别" class="headerlink" title="网站指纹识别"></a>网站指纹识别</h2><p>在线工具:</p>
+<p><a target="_blank" rel="noopener" href="http://finger.tidesec.net/">潮汐指纹</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yunsee.cn/">云悉指纹</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.whatweb.net/">whatweb</a>当然这玩意kali自带</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/EnableSecurity/wafw00f">wafw00f</a>识别waf （我保证能识别watchbird）</p>
+<h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><ul>
+<li>御剑</li>
+</ul>
+<p>好用 自己多整点字典就好了</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/lz520520/railgun">gorailgun</a></li>
+</ul>
+<p>这玩意挺方便 有时候扫端口比namp快</p>
+<p><img src="C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211202165554198.png" alt="image-20211202165554198"></p>
+<p>功能也全</p>
+<ul>
+<li>AWVS </li>
+</ul>
+<h2 id="敏感文件泄露"><a href="#敏感文件泄露" class="headerlink" title="敏感文件泄露"></a>敏感文件泄露</h2><h3 id="git文件"><a href="#git文件" class="headerlink" title="git文件"></a>git文件</h3><p><a target="_blank" rel="noopener" href="https://github.com/lijiejie/GitHack">Githack</a></p>
+<p>用这个脚本去重现代码</p>
+<h3 id="SVN源码泄露"><a href="#SVN源码泄露" class="headerlink" title="SVN源码泄露"></a>SVN源码泄露</h3><p>SVN是一个开放源代码的版本控制系统。在使用SVN管理本地代码过程中，会自动生成一个名为.svn的隐藏文件夹，其中包含重要的源代码信息。网站管理员在发布代码时，没有使用‘导出’功能，而是直接复制代码文件夹到WEB服务器上，这就使.svn隐藏文件夹被暴露于外网环境，可以利用.svn/entries文件，获取到服务器源码。</p>
+<p>这里可以用这个</p>
+<p><img src="C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20211202171208737.png" alt="image-20211202171208737"></p>
+<h3 id="CVS泄露"><a href="#CVS泄露" class="headerlink" title="CVS泄露"></a>CVS泄露</h3><p>CVS是一个C/S系统，多个开发人员通过一个中心版本控制系统来记录文件版本，从而达到保证文件同步的目的。主要是针对 CVS/Root以及CVS/Entries目录，直接就可以看到泄露的信息。</p>
+<p>可以用<a target="_blank" rel="noopener" href="https://github.com/kost/dvcs-ripper.git">dvcs-ripper</a></p>
+<blockquote>
+<p>rip-cvs.pl -v -u <a target="_blank" rel="noopener" href="http://www.xxx.com/cvs/">www.xxx.com/cvs/</a></p>
+</blockquote>
+<h3 id="Bazaar-bzr泄露"><a href="#Bazaar-bzr泄露" class="headerlink" title="Bazaar/bzr泄露"></a>Bazaar/bzr泄露</h3><p>bzr也是个版本控制工具, 虽然不是很热门, 但它也是多平台支持, 并且有不错的图形界面</p>
+<blockquote>
+<p>rip-cvs.pl -v -u <a target="_blank" rel="noopener" href="http://www.xxx.com/.bzr/">www.xxx.com/.bzr/</a></p>
+</blockquote>
+<h3 id="robot-txt"><a href="#robot-txt" class="headerlink" title="robot.txt"></a>robot.txt</h3><p>robots协议，在robots.txt中将搜索引擎抓取网站内容的范围做了约定,包括网站是否希望被搜索引擎抓取,哪些内容不允许被抓取,而网络爬虫可以据此自动抓取或者不抓取该网页内容</p>
+<h3 id="www-zip"><a href="#www-zip" class="headerlink" title="www.zip"></a><a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a></h3><p>比较常见的备份方式 在url后面加上这个可以下载源码</p>
+<h3 id="swp"><a href="#swp" class="headerlink" title=".swp"></a>.swp</h3><p>在vim编辑文本时会创建一个临时文件，如果程序正常退出，临时文件自动删除，如果意外退出就会保留，当vim异常退出后，因为未处理缓存文件，导致可以通过缓存文件恢复原始文件内容</p>
+<h3 id="WEB-INF-web-xml泄露"><a href="#WEB-INF-web-xml泄露" class="headerlink" title="WEB-INF/web.xml泄露"></a>WEB-INF/web.xml泄露</h3><p><code>WEB-INF</code>是Java的WEB应用的安全目录，如果想在页面中直接访问其中的文件，必须通过web.xml文件对要访问的文件进行相应映射才能访问。<br><code>WEB-INF</code> 主要包含一下文件或目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WEB-INF/web.xml : Web应用程序配置文件, 描述了servlet和其他的应用组件配置及命名规则.</span><br><span class="line">WEB-INF/database.properties : 数据库配置文件</span><br><span class="line">WEB-INF/classes/ : 一般用来存放Java类文件(.class)</span><br><span class="line">WEB-INF/lib/ : 用来存放打包好的库(.jar)</span><br><span class="line">WEB-INF/src/ : 用来放源代码(.asp和.php等)</span><br></pre></td></tr></table></figure>
+
+<p>通过找到 web.xml 文件，推断 class 文件的路径，最后直接 class 文件，再通过反编译 class 文件，得到网站源码。</p>
+<h3 id="DS-Store文件泄露"><a href="#DS-Store文件泄露" class="headerlink" title="DS_Store文件泄露"></a>DS_Store文件泄露</h3><p>.DS_Store是Mac下Finder用来保存如何展示 文件/文件夹 的数据文件，每个文件夹下对应一个。如果将.DS_Store上传部署到服务器，可能造成文件目录结构泄漏，特别是备份文件、源代码文件。<br>这里用<a target="_blank" rel="noopener" href="https://github.com/lijiejie/ds_store_exp">ds_store_exp</a></p>
+<blockquote>
+<p>ds_store_exp.py <a target="_blank" rel="noopener" href="http://www.xxx.com/.DS_Store">www.xxx.com/.DS_Store</a></p>
+</blockquote>
+<h2 id="一些集成的工具"><a href="#一些集成的工具" class="headerlink" title="一些集成的工具"></a>一些集成的工具</h2><p><a target="_blank" rel="noopener" href="https://github.com/lz520520/railgun">gorailgun</a></p>
+<p><a target="_blank" rel="noopener" href="https://cn.gobies.org/">goby</a></p>
+<p>AWVS</p>
+<p>xrays</p>
+<p>nessus</p>
+<p><a target="_blank" rel="noopener" href="http://k8gege.org/">k8</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/yaklang/yakit">yakit</a></p>
+<p>acunetix</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Kenoeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">http://example.com/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kenoeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"><img class="next-cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">任意文件包含</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kenoeee</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集的意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="toc-number">1.2.</span> <span class="toc-text">搜索引擎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%81%E4%B8%9A%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.</span> <span class="toc-text">企业信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whois"><span class="toc-number">1.4.</span> <span class="toc-text">whois</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D%E6%94%B6%E9%9B%86"><span class="toc-number">1.5.</span> <span class="toc-text">子域名收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%9C%9F%E5%AE%9Eip"><span class="toc-number">1.6.</span> <span class="toc-text">获取真实ip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#namp-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.7.</span> <span class="toc-text">namp-端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB"><span class="toc-number">1.8.</span> <span class="toc-text">网站指纹识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.9.</span> <span class="toc-text">目录扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.</span> <span class="toc-text">敏感文件泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#git%E6%96%87%E4%BB%B6"><span class="toc-number">1.10.1.</span> <span class="toc-text">git文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVN%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.2.</span> <span class="toc-text">SVN源码泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CVS%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.3.</span> <span class="toc-text">CVS泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bazaar-bzr%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.4.</span> <span class="toc-text">Bazaar&#x2F;bzr泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#robot-txt"><span class="toc-number">1.10.5.</span> <span class="toc-text">robot.txt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#www-zip"><span class="toc-number">1.10.6.</span> <span class="toc-text">www.zip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swp"><span class="toc-number">1.10.7.</span> <span class="toc-text">.swp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WEB-INF-web-xml%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.8.</span> <span class="toc-text">WEB-INF&#x2F;web.xml泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DS-Store%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2"><span class="toc-number">1.10.9.</span> <span class="toc-text">DS_Store文件泄露</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E9%9B%86%E6%88%90%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">1.11.</span> <span class="toc-text">一些集成的工具</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息收集"/></a><div class="content"><a class="title" href="/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集">信息收集</a><time datetime="2022-01-27T17:35:57.974Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="任意文件包含"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="任意文件包含"/></a><div class="content"><a class="title" href="/2022/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="任意文件包含">任意文件包含</a><time datetime="2022-01-27T17:35:57.971Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" title="命令执行漏洞"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="命令执行漏洞"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" title="命令执行漏洞">命令执行漏洞</a><time datetime="2022-01-27T17:35:57.967Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化字符逃逸"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸">php反序列化字符逃逸</a><time datetime="2022-01-27T17:35:57.960Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="反序列化漏洞"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞">反序列化漏洞</a><time datetime="2022-01-27T17:35:57.956Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Kenoeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

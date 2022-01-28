@@ -1,0 +1,3014 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>misc基本工具和思路总结 | Kenoeee</title><meta name="keywords" content="-misc"><meta name="author" content="Kenoeee"><meta name="copyright" content="Kenoeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="图片PNG文件格式详解png图片是misc里经常出现的文件格式，熟悉它的结构是很有必要的。 首先，PNG由文件头和数据块组成，这个文件头做久了就熟悉了  89 50 4E 47 0D 0A 1A 0A  数据块分为两种，一种是关键数据块，就是必须含有的块，另外一种是辅助数据块，不一定会出现，这里先列出所有种类的块    数据块符号 数据块名称 多数据块 可选否 位置限制    IHDR 文件头数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="misc基本工具和思路总结">
+<meta property="og:url" content="http://example.com/2022/01/28/misc%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Kenoeee">
+<meta property="og:description" content="图片PNG文件格式详解png图片是misc里经常出现的文件格式，熟悉它的结构是很有必要的。 首先，PNG由文件头和数据块组成，这个文件头做久了就熟悉了  89 50 4E 47 0D 0A 1A 0A  数据块分为两种，一种是关键数据块，就是必须含有的块，另外一种是辅助数据块，不一定会出现，这里先列出所有种类的块    数据块符号 数据块名称 多数据块 可选否 位置限制    IHDR 文件头数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg">
+<meta property="article:published_time" content="2022-01-27T17:35:57.948Z">
+<meta property="article:modified_time" content="2022-01-28T12:08:38.325Z">
+<meta property="article:author" content="Kenoeee">
+<meta property="article:tag" content="-misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/01/28/misc%E5%85%A5%E9%97%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'misc基本工具和思路总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-28 20:08:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kenoeee</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">misc基本工具和思路总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-27T17:35:57.948Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-28T12:08:38.325Z" title="更新于 2022-01-28 20:08:38">2022-01-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="misc基本工具和思路总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><h3 id="PNG"><a href="#PNG" class="headerlink" title="PNG"></a>PNG</h3><h4 id="文件格式详解"><a href="#文件格式详解" class="headerlink" title="文件格式详解"></a>文件格式详解</h4><p>png图片是misc里经常出现的文件格式，熟悉它的结构是很有必要的。</p>
+<p>首先，PNG由文件头和数据块组成，这个文件头做久了就熟悉了</p>
+<blockquote>
+<p>89 50 4E 47 0D 0A 1A 0A</p>
+</blockquote>
+<p>数据块分为两种，一种是关键数据块，就是必须含有的块，另外一种是辅助数据块，不一定会出现，这里先列出所有种类的块</p>
+<table>
+<thead>
+<tr>
+<th>数据块符号</th>
+<th>数据块名称</th>
+<th>多数据块</th>
+<th>可选否</th>
+<th>位置限制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IHDR</strong></td>
+<td>文件头数据块</td>
+<td>否</td>
+<td>否</td>
+<td>第一块</td>
+</tr>
+<tr>
+<td>cHRM</td>
+<td>基色和白色点数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE和IDAT之前</td>
+</tr>
+<tr>
+<td>gAMA</td>
+<td>图像γ数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE和IDAT之前</td>
+</tr>
+<tr>
+<td>sBIT</td>
+<td>样本有效位数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE和IDAT之前</td>
+</tr>
+<tr>
+<td>PLTE</td>
+<td>调色板数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在IDAT之前</td>
+</tr>
+<tr>
+<td>bKGD</td>
+<td>背景颜色数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE之后IDAT之前</td>
+</tr>
+<tr>
+<td>hIST</td>
+<td>图像直方图数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE之后IDAT之前</td>
+</tr>
+<tr>
+<td>tRNS</td>
+<td>图像透明数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在PLTE之后IDAT之前</td>
+</tr>
+<tr>
+<td>oFFs</td>
+<td>(专用公共数据块)</td>
+<td>否</td>
+<td>是</td>
+<td>在IDAT之前</td>
+</tr>
+<tr>
+<td>pHYs</td>
+<td>物理像素尺寸数据块</td>
+<td>否</td>
+<td>是</td>
+<td>在IDAT之前</td>
+</tr>
+<tr>
+<td>sCAL</td>
+<td>(专用公共数据块)</td>
+<td>否</td>
+<td>是</td>
+<td>在IDAT之前</td>
+</tr>
+<tr>
+<td><strong>IDAT</strong></td>
+<td>图像数据块</td>
+<td>是</td>
+<td>否</td>
+<td>与其他IDAT连续</td>
+</tr>
+<tr>
+<td>tIME</td>
+<td>图像最后修改时间数据块</td>
+<td>否</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td><strong>tEXt</strong></td>
+<td>文本信息数据块</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>zTXt</td>
+<td>压缩文本数据块</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>fRAc</td>
+<td>(专用公共数据块)</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>gIFg</td>
+<td>(专用公共数据块)</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>gIFt</td>
+<td>(专用公共数据块)</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td>gIFx</td>
+<td>(专用公共数据块)</td>
+<td>是</td>
+<td>是</td>
+<td>无限制</td>
+</tr>
+<tr>
+<td><strong>IEND</strong></td>
+<td>图像结束数据</td>
+<td>否</td>
+<td>否</td>
+<td>最后一个数据块</td>
+</tr>
+</tbody></table>
+<p>其中每个数据块都由下表的4个域组成</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字节数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Length(长度)</td>
+<td>4字节</td>
+<td>指定数据块中数据域的长度，其长度不超过(231−1)(231−1)字节</td>
+</tr>
+<tr>
+<td><strong>Chunk Type Code</strong>(数据块类型码)</td>
+<td>4字节</td>
+<td>数据块类型码由ASCII字母(A-Z和a-z)组成</td>
+</tr>
+<tr>
+<td>Chunk Data(数据块实际内容</td>
+<td>可变长度</td>
+<td>存储按照Chunk Type Code指定的数据</td>
+</tr>
+<tr>
+<td><strong>CRC</strong>(循环冗余检测</td>
+<td>4字节</td>
+<td>存储用来检测是否有错误的循环冗余码</td>
+</tr>
+</tbody></table>
+<p>其中CRC是非常重要的一个部分，出题人可以直接改掉每个块的CRC内容来往里面隐藏信息或者让你去爆破原来的CRC值，CRC域中的值是对Chunk Type Code域和Chunk Data域中的数据进行计算得到的，可以看做一种校验码。</p>
+<h5 id="IDHR"><a href="#IDHR" class="headerlink" title="IDHR"></a>IDHR</h5><p>它包含有PNG文件中存储的图像数据的基本信息，并要作为第一个数据块出现在PNG数据流中，而且一个PNG数据流中只能有一个文件头数据块。</p>
+<p>文件头数据块由13字节，组成结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>域的名称</th>
+<th>字节数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Width</strong></td>
+<td>4 bytes</td>
+<td>图像宽度，以像素为单位</td>
+</tr>
+<tr>
+<td><strong>Height</strong></td>
+<td>4 bytes</td>
+<td>图像高度，以像素为单位</td>
+</tr>
+<tr>
+<td>Bit depth</td>
+<td>1 byte</td>
+<td>图像深度：索引彩色图像：1，2，4或8 ;灰度图像：1，2，4，8或16 ;真彩色图像：8或16</td>
+</tr>
+<tr>
+<td>ColorType</td>
+<td>1 byte</td>
+<td>颜色类型：0：灰度图像, 1，2，4，8或16;2：真彩色图像，8或16;3：索引彩色图像，1，2，4或84：带α通道数据的灰度图像，8或16;6：带α通道数据的真彩色图像，8或16</td>
+</tr>
+<tr>
+<td>Compression method</td>
+<td>1 byte</td>
+<td>压缩方法(LZ77派生算法)</td>
+</tr>
+<tr>
+<td>Filter method</td>
+<td>1 byte</td>
+<td>滤波器方法</td>
+</tr>
+<tr>
+<td>Interlace method</td>
+<td>1 byte</td>
+<td>隔行扫描方法：0：非隔行扫描;1： Adam7(由Adam M. Costello开发的7遍隔行扫描方法)</td>
+</tr>
+</tbody></table>
+<p>这里经常会出现修改宽高的题目，可以直接在十六进制里面改数值来修改图片的高度来看有没有隐藏内容</p>
+<h5 id="IDAT"><a href="#IDAT" class="headerlink" title="IDAT"></a>IDAT</h5><p>它存储实际的数据，在数据流中可包含多个连续顺序的图像数据块，</p>
+<p>IDAT存放着图像真正的数据信息。</p>
+<p>可能出现的考点方式是，<strong>前面连续几个IDAT块是一个图片，然后后面几个连续的IDAT块是另外一张图片</strong>，也可能直接在里面塞入其它文件。</p>
+<p>所以要<strong>特别关注IDAT块的大小</strong>，一般图片的IDAT块大小除了最后一块都是一样的，如果出现几个大小<strong>明显不一样</strong>的，可以看看是不是<strong>塞了其它文件</strong></p>
+<h5 id="IEND"><a href="#IEND" class="headerlink" title="IEND"></a>IEND</h5><p>它用来标记PNG文件或者数据流已经结束，并且必须要放在文件的尾部，也需要记住这些格式</p>
+<blockquote>
+<p>00 00 00 00 49 45 4E 44 AE 42 60 82</p>
+</blockquote>
+<p>同样可能在文件尾后面隐藏文件</p>
+<h5 id="tEXT和zTxt"><a href="#tEXT和zTxt" class="headerlink" title="tEXT和zTxt"></a>tEXT和zTxt</h5><p>这两个数据块都可以写入数据，不过可以通过工具<strong>exiftools</strong>查看</p>
+<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><h5 id="Stegslove"><a href="#Stegslove" class="headerlink" title="Stegslove"></a>Stegslove</h5><p>关于这个工具<a target="_blank" rel="noopener" href="https://kenoeee.github.io/2021/03/16/One-pieNG%E4%B8%80%E5%BC%A0%E5%9B%BE%E7%89%87%E5%8D%81%E5%85%AB%E4%B8%AAflag%E5%A4%8D%E7%8E%B0/">这里</a>有使用的方法</p>
+<p>可以应对常见的图片隐写，导入图片后可以查看不同色阶，还可以以下几个功能</p>
+<p>File Format:文件格式</p>
+<p>Data Extract:数据提取</p>
+<p>Steregram Solve:立体试图 可以左右控制偏移</p>
+<p>Frame Browser:帧浏览器</p>
+<p>Image Combiner:拼图，图片拼接</p>
+<p>可以在Data Extract里面去解决lsb隐写问题，有挺多选项可以选择的，例如以下</p>
+<ul>
+<li>Extra By(额外的)：分为row（行）和column（纵）</li>
+</ul>
+<blockquote>
+<p>每个像素用R，G，B三个分量表示，那么一张图片就像一个矩阵，矩阵的每个单位就是（0<del>255,0</del>255,0~255）也就会有是纵排列和行排列了，一般事先访问行再访问列（如果相反会引起ve使用方法）</p>
+</blockquote>
+<ul>
+<li>Bit Order（位顺序）:MSB是一串数据的最高位，LSB是一串数据的最低位。</li>
+<li>Bit Plane Order（位平面的顺序)</li>
+</ul>
+<blockquote>
+<p>整个图像分解为8个位平面，从LSB(最低有效位0)到MSB（最高有效位7）随着从位平面0 到位平面7，位平面图像的特征逐渐变得复杂，细节不断增加。（一般我们的图片如果是RGB那么就是24位 3乘8嘛）</p>
+</blockquote>
+<ul>
+<li>Bit Plane Order（位平面的顺序）:一般图片是24位 也就是3个8 大家可以想像成三明治 比如BGR就是B为三明治第一层 G为第二层 R为第三层。</li>
+</ul>
+<h5 id="exiftool"><a href="#exiftool" class="headerlink" title="exiftool"></a>exiftool</h5><p>查看图片的附加信息，直接cmd</p>
+<blockquote>
+<p>.\exiftool.exe xxx.png</p>
+</blockquote>
+<h5 id="LSB隐写"><a href="#LSB隐写" class="headerlink" title="LSB隐写"></a>LSB隐写</h5><h6 id="Zsteg"><a href="#Zsteg" class="headerlink" title="Zsteg"></a>Zsteg</h6><p>kali下的神器，可以查看各种各样的lsb隐写</p>
+<p>安装</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/zed-0xff/zsteg</span><br><span class="line">cd zsteg/</span><br><span class="line">gem install zsteg</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>查看帮助</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg -h</span><br></pre></td></tr></table></figure>
+
+<p>查看LSB信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg pcat.png</span><br></pre></td></tr></table></figure>
+
+<p>检测zlib</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># -b的位数是从1开始的</span><br><span class="line">zsteg zlib.bmp -b 1 -o xy -v</span><br></pre></td></tr></table></figure>
+
+<p>显示细节</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg pcat.png -v</span><br></pre></td></tr></table></figure>
+
+<p>尝试所有已知的组合</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg pcat.png -a</span><br></pre></td></tr></table></figure>
+
+<p>导出内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg -E &quot;b1,bgr,lsb,xy&quot; pcat.png &gt; p.exe</span><br></pre></td></tr></table></figure>
+
+<h6 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h6><p>这里贴几个脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/livz/cloacked-pixel">https://github.com/livz/cloacked-pixel</a> 可加密码</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RobinDavid/LSB-Steganography">https://github.com/RobinDavid/LSB-Steganography</a> </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ragibson/Steganography">https://github.com/ragibson/Steganography</a> 对wav，png</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dhsdshdhk/stegpy">https://github.com/dhsdshdhk/stegpy</a> 对png，bmp，gif，Webp，wav</p>
+<h5 id="pngcheck"><a href="#pngcheck" class="headerlink" title="pngcheck"></a>pngcheck</h5><p><a target="_blank" rel="noopener" href="http://www.libpng.org/pub/png/apps/pngcheck.html">官网</a></p>
+<blockquote>
+<p>pngcheck.exe -v xxx.png</p>
+</blockquote>
+<p>可以检查IDAT块内容，再贴一下解压<strong>zlib</strong>(文件头是<strong>789C</strong>)的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line">IDAT = <span class="string">&quot;IDAT_data&quot;</span>.decode(<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line"></span><br><span class="line">result = binascii.hexlify(zlib.decompress(IDAT))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (result.decode(<span class="string">&#x27;hex&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> (<span class="built_in">len</span>(result.decode(<span class="string">&#x27;hex&#x27;</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="TweakPNG"><a href="#TweakPNG" class="headerlink" title="TweakPNG"></a>TweakPNG</h5><p>它允许查看和修改一些PNG图像文件的原信息存储</p>
+<p>如果文件头是正常的，但却无法打开，可以使用TweakPNG修改CRC。出现校验信息错误时，可以根据错误的CRC去十六进制中搜索，然后改成正确的CRC。（CRC上一行之后的 8个字节，前四个为宽度，后四个为高度（十六进制下的第二行前八位））</p>
+<h5 id="PngDebugger"><a href="#PngDebugger" class="headerlink" title="PngDebugger"></a>PngDebugger</h5><p><a target="_blank" rel="noopener" href="https://github.com/rvong/png-debugger">https://github.com/rvong/png-debugger</a></p>
+<p>可以自动修补坏的crc</p>
+<h5 id="PCRT"><a href="#PCRT" class="headerlink" title="PCRT"></a>PCRT</h5><p><a target="_blank" rel="noopener" href="https://github.com/sherlly/PCRT">https://github.com/sherlly/PCRT</a></p>
+<p>它可以实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">显示图片文件信息</span><br><span class="line">修复PNG文件头错误</span><br><span class="line">修复由于错误的图片长度或宽度导致的IHDR块crc校验出错</span><br><span class="line">修复由于DOS-&gt;UNIX平台自动格式转换导致的部分IDAT块数据长度出错</span><br><span class="line">修复由于自身错误导致的IDAT块crc校验出错</span><br><span class="line">修复丢失的IEND块</span><br><span class="line">提取追加在IEND块后的数据（恶意程序常使用的传播方式）</span><br><span class="line">自动显示修复后的图片</span><br><span class="line">添加payload到图片文件</span><br><span class="line">解析图片压缩数据并显示</span><br></pre></td></tr></table></figure>
+
+<h5 id="CRC修复脚本"><a href="#CRC修复脚本" class="headerlink" title="CRC修复脚本"></a>CRC修复脚本</h5><p>可以得到正确的宽高</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="comment">#读文件</span></span><br><span class="line">file = <span class="string">&#x27;1.png&#x27;</span> </span><br><span class="line">fr = <span class="built_in">open</span>(file,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">data = <span class="built_in">bytearray</span>(fr[<span class="number">12</span>:<span class="number">29</span>])</span><br><span class="line">crc32key = <span class="built_in">eval</span>(<span class="built_in">str</span>(fr[<span class="number">29</span>:<span class="number">33</span>]).replace(<span class="string">&#x27;\\x&#x27;</span>,<span class="string">&#x27;&#x27;</span>).replace(<span class="string">&quot;b&#x27;&quot;</span>,<span class="string">&#x27;0x&#x27;</span>).replace(<span class="string">&quot;&#x27;&quot;</span>,<span class="string">&#x27;&#x27;</span>))</span><br><span class="line"><span class="comment">#crc32key = 0xCBD6DF8A #补上0x，copy hex value</span></span><br><span class="line"><span class="comment">#data = bytearray(b&#x27;\x49\x48\x44\x52\x00\x00\x01\xF4\x00\x00\x01\xF1\x08\x06\x00\x00\x00&#x27;)  #hex下copy grep hex </span></span><br><span class="line">n = <span class="number">4095</span> <span class="comment">#理论上0xffffffff,但考虑到屏幕实际，0x0fff就差不多了</span></span><br><span class="line"><span class="keyword">for</span> w <span class="keyword">in</span> <span class="built_in">range</span>(n):<span class="comment">#高和宽一起爆破</span></span><br><span class="line">    width = <span class="built_in">bytearray</span>(struct.pack(<span class="string">&#x27;&gt;i&#x27;</span>, w))<span class="comment">#q为8字节，i为4字节，h为2字节</span></span><br><span class="line">    <span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        height = <span class="built_in">bytearray</span>(struct.pack(<span class="string">&#x27;&gt;i&#x27;</span>, h))</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">            data[x+<span class="number">4</span>] = width[x]</span><br><span class="line">            data[x+<span class="number">8</span>] = height[x]</span><br><span class="line">            <span class="comment">#print(data)</span></span><br><span class="line">        crc32result = zlib.crc32(data)</span><br><span class="line">        <span class="keyword">if</span> crc32result == crc32key:</span><br><span class="line">            <span class="built_in">print</span>(width,height)</span><br><span class="line">            <span class="comment">#写文件</span></span><br><span class="line">            newpic = <span class="built_in">bytearray</span>(fr)</span><br><span class="line">            <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">                newpic[x+<span class="number">16</span>] = width[x]</span><br><span class="line">                newpic[x+<span class="number">20</span>] = height[x]</span><br><span class="line">            fw = <span class="built_in">open</span>(file+<span class="string">&#x27;.png&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)<span class="comment">#保存副本</span></span><br><span class="line">            fw.write(newpic)</span><br><span class="line">            fw.close</span><br><span class="line">            <span class="comment"># return None</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="盲水印"><a href="#盲水印" class="headerlink" title="盲水印"></a>盲水印</h5><p>一般会出现两个看起来一样的图片，这里要用工具对比得到对应的水印(应该bmp也适用)</p>
+<p>这里一般会用到这两个脚本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chishaxie/BlindWaterMark">https://github.com/chishaxie/BlindWaterMark</a> </p>
+<p>记住python2和python3的脚本有时候得到的水印不一样！</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/linyacool/blind-watermark">https://github.com/linyacool/blind-watermark</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ww23/BlindWatermark">https://github.com/ww23/BlindWatermark</a></p>
+<p>同时有一个叫<strong>WaterMarkH</strong>的软件也可以试试</p>
+<p>这个是java的盲水印脚本，只用一张图，而且可以同时对jpg和png使用</p>
+<p>频域盲水印，直接贴脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> argparse <span class="keyword">import</span> ArgumentParser</span><br><span class="line"></span><br><span class="line">ALPHA = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">build_parser</span>():</span></span><br><span class="line">    parser = ArgumentParser()</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--original&#x27;</span>, dest=<span class="string">&#x27;ori&#x27;</span>, required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--image&#x27;</span>, dest=<span class="string">&#x27;img&#x27;</span>, required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--result&#x27;</span>, dest=<span class="string">&#x27;res&#x27;</span>, required=<span class="literal">True</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;--alpha&#x27;</span>, dest=<span class="string">&#x27;alpha&#x27;</span>, default=ALPHA)</span><br><span class="line">    <span class="keyword">return</span> parser</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    parser = build_parser()</span><br><span class="line">    options = parser.parse_args()</span><br><span class="line">    ori = options.ori</span><br><span class="line">    img = options.img</span><br><span class="line">    res = options.res</span><br><span class="line">    alpha = options.alpha</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isfile(ori):</span><br><span class="line">        parser.error(<span class="string">&quot;original image %s does not exist.&quot;</span> % ori)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isfile(img):</span><br><span class="line">        parser.error(<span class="string">&quot;image %s does not exist.&quot;</span> % img)</span><br><span class="line">    decode(ori, img, res, alpha)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">ori_path, img_path, res_path, alpha</span>):</span></span><br><span class="line">    ori = cv2.imread(ori_path)</span><br><span class="line">    img = cv2.imread(img_path)</span><br><span class="line">    ori_f = np.fft.fft2(ori)</span><br><span class="line">    img_f = np.fft.fft2(img)</span><br><span class="line">    height, width = ori.shape[<span class="number">0</span>], ori.shape[<span class="number">1</span>]</span><br><span class="line">    watermark = (ori_f - img_f) / alpha</span><br><span class="line">    watermark = np.real(watermark)</span><br><span class="line">    res = np.zeros(watermark.shape)</span><br><span class="line">    random.seed(height + width)</span><br><span class="line">    x = <span class="built_in">range</span>(height / <span class="number">2</span>)</span><br><span class="line">    y = <span class="built_in">range</span>(width)</span><br><span class="line">    random.shuffle(x)</span><br><span class="line">    random.shuffle(y)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(height / <span class="number">2</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(width):</span><br><span class="line">            res[x[i]][y[j]] = watermark[i][j]</span><br><span class="line">    cv2.imwrite(res_path, res, [<span class="built_in">int</span>(cv2.IMWRITE_JPEG_QUALITY), <span class="number">100</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<blockquote>
+<p>python pinyubwm.py –original 1.png –image 2.png –result out.png</p>
+</blockquote>
+<h5 id="WebP"><a href="#WebP" class="headerlink" title="WebP"></a>WebP</h5><p>安装(kali)</p>
+<blockquote>
+<p>apt install webp</p>
+</blockquote>
+<p>使用</p>
+<blockquote>
+<ul>
+<li><p>cwebp-编码器工具：可以把png转为webp</p>
+<p>cwebp 1.png -o 2.webp</p>
+</li>
+<li><p>dwebp-解码器工具：把webp转为png</p>
+<p> dwebp 1.webp -o 2.png</p>
+</li>
+<li><p>vwebp-查看器工具：可以直接查看webp格式图片</p>
+<p>vwebp 1.webp</p>
+</li>
+<li><p>webpinfo-格式查看工具：可以打印出webp文件的块级结构以及基本完整性检查</p>
+<p>webpinfo 1.webp</p>
+</li>
+</ul>
+</blockquote>
+<p>也可以用在线网站转换webp为png</p>
+<h5 id="Steghide"><a href="#Steghide" class="headerlink" title="Steghide"></a>Steghide</h5><ul>
+<li>安装（kali中）</li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install steghide</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>使用（加密）</li>
+</ul>
+<blockquote>
+<p>将 flag.txt 文件隐藏到 out.jpg 中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide embed -cf out.jpg -ef flag.txt [-p <span class="number">123456</span>] <span class="comment"># -p后接密码，可无</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>使用（解密）</li>
+</ul>
+<blockquote>
+<p>查看图片中嵌入的文件信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide info out.jpg</span><br></pre></td></tr></table></figure>
+
+<p>提取<strong>含有密码</strong>的隐藏内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide extract -sf out.jpg -p <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
+<p>提取<strong>不含有密码</strong>的隐藏内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide extract -sf out.jpg</span><br></pre></td></tr></table></figure>
+
+<p>直接按回车即可</p>
+</blockquote>
+<ul>
+<li>steghide爆破密码</li>
+</ul>
+<blockquote>
+<p>有些题目用steghide加密文件但是不给密码，此时就需要爆破，steghide本身并不支持爆破，需要一些其他的方法：<a target="_blank" rel="noopener" href="https://github.com/Va5c0/Steghide-Brute-Force-Tool">https://github.com/Va5c0/Steghide-Brute-Force-Tool</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python steg_brute.py -b -d [字典] -f [jpg_file]</span><br></pre></td></tr></table></figure>
+
+<p>需要安装的库：<strong>progressbar</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install progressbar2</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="快速傅里叶变换（FFT-脚本"><a href="#快速傅里叶变换（FFT-脚本" class="headerlink" title="快速傅里叶变换（FFT)脚本"></a>快速傅里叶变换（FFT)脚本</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">img = cv.imread(<span class="string">&#x27;FFT.png&#x27;</span>, <span class="number">0</span>) <span class="comment">#读为灰度图像</span></span><br><span class="line">f = np.fft.fft2(img)            <span class="comment">#做频率变换</span></span><br><span class="line">fshift = np.fft.fftshift(f)     <span class="comment">#转移像素做幅度谱</span></span><br><span class="line">s1 = np.log(np.<span class="built_in">abs</span>(fshift))<span class="comment">#取绝对值：将复数变化成实数取对数的目的为了将数据变化到0-255</span></span><br><span class="line">plt.subplot(<span class="number">121</span>)</span><br><span class="line">plt.imshow(img, <span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;original&#x27;</span>)</span><br><span class="line">plt.subplot(<span class="number">122</span>)</span><br><span class="line">plt.imshow(s1,<span class="string">&#x27;gray&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>也可以用<strong>ImageJ</strong>试试</p>
+<p>补充一道红帽杯2021misc的题目<strong>PicPic</strong></p>
+<p>题目给了1.mkv 2.mkv create.py 和一个rar</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mapping</span>(<span class="params">data, down=<span class="number">0</span>, up=<span class="number">255</span>, tp=np.uint8</span>):</span></span><br><span class="line">    data_max = data.<span class="built_in">max</span>()</span><br><span class="line">    data_min = data.<span class="built_in">min</span>()</span><br><span class="line">    interval = data_max - data_min</span><br><span class="line">    new_interval = up - down</span><br><span class="line">    new_data = (data - data_min) * new_interval / interval + down</span><br><span class="line">    new_data = new_data.astype(tp)</span><br><span class="line">    <span class="keyword">return</span> new_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fft</span>(<span class="params">img</span>):</span></span><br><span class="line">    fft = np.fft.fft2(img)</span><br><span class="line">    fft = np.fft.fftshift(fft)</span><br><span class="line">    m = np.log(np.<span class="built_in">abs</span>(fft))</span><br><span class="line">    p = np.angle(fft)</span><br><span class="line">    <span class="keyword">return</span> m, p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    os.mkdir(<span class="string">&#x27;m&#x27;</span>)</span><br><span class="line">    os.mkdir(<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">    os.mkdir(<span class="string">&#x27;frame&#x27;</span>)</span><br><span class="line">    os.system(<span class="string">&#x27;ffmpeg -i secret.mp4 frame/%03d.png&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    files = os.listdir(<span class="string">&#x27;frame&#x27;</span>)</span><br><span class="line">    r_file = <span class="built_in">open</span>(<span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        img = cv2.imread(<span class="string">f&#x27;frame/<span class="subst">&#123;file&#125;</span>&#x27;</span>, cv2.IMREAD_GRAYSCALE)</span><br><span class="line"></span><br><span class="line">        m, p = fft(img)</span><br><span class="line">        r_file.write(struct.pack(<span class="string">&#x27;!ff&#x27;</span>, m.<span class="built_in">min</span>(), m.<span class="built_in">max</span>()))</span><br><span class="line"></span><br><span class="line">        new_img1 = mapping(m)</span><br><span class="line">        new_img2 = mapping(p)</span><br><span class="line"></span><br><span class="line">        cv2.imwrite(<span class="string">f&#x27;m/<span class="subst">&#123;file&#125;</span>&#x27;</span>, new_img1)</span><br><span class="line">        cv2.imwrite(<span class="string">f&#x27;p/<span class="subst">&#123;file&#125;</span>&#x27;</span>, new_img2)</span><br><span class="line"></span><br><span class="line">    r_file.close()</span><br><span class="line">    os.system(<span class="string">&#x27;ffmpeg -i m/%03d.png -r 25 -vcodec png 1.mkv&#x27;</span>)</span><br><span class="line">    os.system(<span class="string">&#x27;ffmpeg -i p/%03d.png -r 25 -vcodec png 2.mkv&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 这里可以看出是把一个mp4按帧分解，一个频域一个相位，这里贴一下snowywar大佬的脚本</p>
+<p>写脚本进行fft变换，由于fft进行多次变换的时候信号方向只会发生旋转，所以理论上原帧直接进行fft也不是不行，所以把题目给的脚本拿过来再fft一次就可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mapping</span>(<span class="params">data, down=<span class="number">0</span>, up=<span class="number">255</span>, tp=np.uint8</span>):</span></span><br><span class="line">    data_max = data.<span class="built_in">max</span>()</span><br><span class="line">    data_min = data.<span class="built_in">min</span>()</span><br><span class="line">    interval = data_max - data_min</span><br><span class="line">    new_interval = up - down</span><br><span class="line">    new_data = (data - data_min) * new_interval / interval + down</span><br><span class="line">    new_data = new_data.astype(tp)</span><br><span class="line">    <span class="keyword">return</span> new_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fft</span>(<span class="params">img</span>):</span></span><br><span class="line">    fft = np.fft.fft2(img)</span><br><span class="line">    fft = np.fft.fftshift(fft)</span><br><span class="line">    m = np.log(np.<span class="built_in">abs</span>(fft))</span><br><span class="line">    p = np.angle(fft)</span><br><span class="line">    <span class="keyword">return</span> m, p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    os.mkdir(<span class="string">&#x27;m&#x27;</span>)</span><br><span class="line">    os.mkdir(<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">    <span class="comment"># os.mkdir(&#x27;frame&#x27;)</span></span><br><span class="line">    <span class="comment"># os.system(&#x27;ffmpeg -i secret.mp4 frame/%03d.png&#x27;)</span></span><br><span class="line">    <span class="comment"># </span></span><br><span class="line">    files = os.listdir(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line">    r_file = <span class="built_in">open</span>(<span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        img = cv2.imread(<span class="string">f&#x27;test1/<span class="subst">&#123;file&#125;</span>&#x27;</span>, cv2.IMREAD_GRAYSCALE)</span><br><span class="line"></span><br><span class="line">        m, p = fft(img)</span><br><span class="line">        r_file.write(struct.pack(<span class="string">&#x27;!ff&#x27;</span>, m.<span class="built_in">min</span>(), m.<span class="built_in">max</span>()))</span><br><span class="line"></span><br><span class="line">        new_img1 = mapping(m)</span><br><span class="line">        new_img2 = mapping(p)</span><br><span class="line"></span><br><span class="line">        cv2.imwrite(<span class="string">f&#x27;m/<span class="subst">&#123;file&#125;</span>&#x27;</span>, new_img1)</span><br><span class="line">        cv2.imwrite(<span class="string">f&#x27;p/<span class="subst">&#123;file&#125;</span>&#x27;</span>, new_img2)</span><br><span class="line"></span><br><span class="line">    r_file.close()</span><br><span class="line">    <span class="comment"># os.system(&#x27;ffmpeg -i m/%03d.png -r 25 -vcodec png 1.mkv&#x27;)</span></span><br><span class="line">    <span class="comment"># os.system(&#x27;ffmpeg -i p/%03d.png -r 25 -vcodec png 2.mkv&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Jpg"><a href="#Jpg" class="headerlink" title="Jpg"></a>Jpg</h3><p>JFIF格式的JPEG文件(*.jpg)的一般顺序为：</p>
+<p>SOI(0x<strong>FFD8</strong>)文件头</p>
+<p>APP0(0xFFE0)</p>
+<p>[APPn(0xFFEn)]可选</p>
+<p>DQT(0xFFDB)</p>
+<p>SOF0(0xFFC0)</p>
+<p>DHT(0xFFC4)</p>
+<p>SOS(0xFFDA)</p>
+<p>压缩数据</p>
+<p>EOI(0x<strong>FFD9</strong>)文件尾</p>
+<p>记得查看jpg的属性，看看有没有什么信息，也可以用exiftool看</p>
+<h4 id="隐写工具"><a href="#隐写工具" class="headerlink" title="隐写工具"></a>隐写工具</h4><h5 id="Stegdetect"><a href="#Stegdetect" class="headerlink" title="Stegdetect"></a>Stegdetect</h5><p>stegdetect 就是用来检测jpg类型的图片是否隐藏着其他文件或内容和隐写工具</p>
+<blockquote>
+<p>q – 仅显示可能包含隐藏内容的图像</p>
+<p>n – 启用检查JPEG文件头功能，以降低误报率。如果启用，所有带有批注区域的文件将被视为没有被嵌入信息。如果JPEG文件的JFIF标识符中的版本号不是1.1，则禁用OutGuess检测。</p>
+<p>s – 修改检测算法的敏感度，该值的默认值为1。检测结果的匹配度与检测算法的敏感度成正比，算法敏感度的值越大，检测出的可疑文件包含敏感信息的可能性越大。</p>
+<p>d – 打印带行号的调试信息。</p>
+<p>t – 设置要检测哪些隐写工具（默认检测jopi），可设置的选项如下：</p>
+<p>j – 检测图像中的信息是否是用jsteg嵌入的。</p>
+<p>o – 检测图像中的信息是否是用outguess嵌入的。</p>
+<p>p – 检测图像中的信息是否是用jphide嵌入的。</p>
+<p>i – 检测图像中的信息是否是用invisible secrets嵌入的。</p>
+</blockquote>
+<p>使用</p>
+<blockquote>
+<p>.\stegdetect.exe -tjopi -s 10.0 .\xxx.jpg</p>
+</blockquote>
+<h5 id="f5-steganography-（F5隐写，需要passwd）"><a href="#f5-steganography-（F5隐写，需要passwd）" class="headerlink" title="f5-steganography （F5隐写，需要passwd）"></a>f5-steganography （F5隐写，需要passwd）</h5><ul>
+<li>安装</li>
+</ul>
+<blockquote>
+<p>kali中安装： <strong>git clone <a target="_blank" rel="noopener" href="https://github.com/matthewgao/F5-steganography">https://github.com/matthewgao/F5-steganography</a></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; git clone https://github.com/matthewgao/F5-steganography</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>使用（解密）</li>
+</ul>
+<blockquote>
+<p>进入 <strong>F5-steganography 文件夹</strong> 打开终端</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; java Extract <span class="number">1.j</span>pg -p <span class="number">123456</span></span><br><span class="line"><span class="comment"># -p后接f5的key</span></span><br></pre></td></tr></table></figure>
+
+<p>打开 <strong>output.txt</strong> 文件即可</p>
+</blockquote>
+<ul>
+<li>使用（加密）</li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; java Embed 原图.jpg 生成图.jpg -e 隐藏的文件.txt -p 密码</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="outguess-（可需要passwd）"><a href="#outguess-（可需要passwd）" class="headerlink" title="outguess （可需要passwd）"></a>outguess （可需要passwd）</h5><ul>
+<li>安装</li>
+</ul>
+<blockquote>
+<p>打开终端输入： <strong>git clone <a target="_blank" rel="noopener" href="https://github.com/crorvick/outguess">https://github.com/crorvick/outguess</a></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; git clone https://github.com/crorvick/outguess</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>下载成功后进入outguess文件夹，在文件夹中打开终端输入：**./configure &amp;&amp; make &amp;&amp; make install**</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; ./configure &amp;&amp; make &amp;&amp; make install</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p>成功后即可使用</p>
+</blockquote>
+<ul>
+<li>使用（加密）</li>
+</ul>
+<blockquote>
+<p>右键打开终端</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; outguess -k <span class="number">12345</span> -d hidden.txt <span class="number">1.j</span>pg <span class="number">2.j</span>pg</span><br><span class="line">......</span><br><span class="line"><span class="comment"># -k后接密码</span></span><br><span class="line"><span class="comment"># -d后接要隐藏的内容</span></span><br><span class="line"><span class="comment"># 加密后1.jpg会覆盖2.jpg</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>使用（解密）</li>
+</ul>
+<blockquote>
+<p>右键打开终端（接上述）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; outguess -k <span class="number">12345</span> -r <span class="number">2.j</span>pg out.txt</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<p><strong>out.txt</strong> 中内容即为想要隐藏的 <strong>hidden.txt</strong> 中内容</p>
+<p>也可不需要密码，即</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; outguess -r <span class="number">2.j</span>pg out.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="JPHS"><a href="#JPHS" class="headerlink" title="JPHS"></a>JPHS</h5><p>图形化界面，没啥好说的</p>
+<h3 id="BMP"><a href="#BMP" class="headerlink" title="BMP"></a>BMP</h3><blockquote>
+<p>BMP文件格式，又称为Bitmap（位图）或是DIB(Device-Independent Device，设备无关位图)，是Windows系统中广泛使用的图像文件格式。由于它可以不作任何变换地保存图像像素域的数据，因此成为我们取得RAW数据的重要来源。Windows的图形用户界面（graphical user interfaces）也在它的内建图像子系统GDI中对BMP格式提供了支持。</p>
+</blockquote>
+<p>BMP文件的数据按照从文件头开始的先后顺序分为四个部分：</p>
+<ul>
+<li><p>bmp文件头(bmp file header)：提供文件的格式、大小等信息</p>
+</li>
+<li><p>位图信息头(bitmap information)：提供图像数据的尺寸、位平面数、压缩方式、颜色索引等信息</p>
+</li>
+<li><p>调色板(color palette)：可选，如使用索引来表示图像，调色板就是索引与其对应的颜色的映射表</p>
+</li>
+<li><p>位图数据(bitmap data)</p>
+</li>
+</ul>
+<h4 id="bmp文件格式"><a href="#bmp文件格式" class="headerlink" title="bmp文件格式"></a>bmp文件格式</h4><p>00-01 为424D ascii为BM 这个是文件头固定格式</p>
+<p>02-05为文件的大小</p>
+<p>06-09保留为0</p>
+<p>0A-0D 记录图像数据区的起始位置。各字节的信息含义依次为：文件头信息块大小，图像描述信息块的大小，图像颜色表的大小，保留（为01）</p>
+<p>000E-0011：图像描述信息块的大小，常为28H。</p>
+<p>0012-0015：图像宽度。</p>
+<p>0016-0019：图像高度。</p>
+<p>001A-001B：图像的plane总数（恒为1）。</p>
+<p>001C-001D：记录像素的位数，很重要的数值，图像的颜色数由该值决定。(18就是24位)</p>
+<p>001E-0021：数据压缩方式（数值位0：不压缩；1：8位压缩；2：4位压缩）。</p>
+<p>0022-0025：图像区数据的大小。</p>
+<p>0026-0029：水平每米有多少像素，在设备无关位图（.DIB）中，每字节以00H填写。</p>
+<p>002A-002D：垂直每米有多少像素，在设备无关位图（.DIB）中，每字节以00H填写。</p>
+<p>002E-0031：此图像所用的颜色数，如值为0，表示所有颜色一样重要。</p>
+<p><img src="1.png"></p>
+<h4 id="BMP特点"><a href="#BMP特点" class="headerlink" title="BMP特点"></a>BMP特点</h4><p>若是24位bmp</p>
+<blockquote>
+<p>宽x高x3=大小</p>
+</blockquote>
+<p>若是32位bmp</p>
+<blockquote>
+<p>图像分辨率 x 颜色深度/8 = 图像所占的字节数</p>
+<p>分辨率(width x height) x (颜色深度/8)+ bmp文件头(共14Bytes) + 位图信息头(共40Bytes) + 文件尾(共2bytes: 00 00) = 图像文件大小</p>
+</blockquote>
+<h3 id="GIF"><a href="#GIF" class="headerlink" title="GIF"></a>GIF</h3><p>可以使用<strong>Stegsolve</strong>一帧一帧查看图片，这里推荐看<a target="_blank" rel="noopener" href="http://www.ga1axy.top/index.php/archives/4/">ga1axy</a>大佬的博客，这里直接贴一下</p>
+<ul>
+<li>空间轴：</li>
+</ul>
+<blockquote>
+<p>由于gif的动态特性，由一帧一帧的图片构成，所以每一帧的图片，多帧图片间的结合，都成了隐藏信息的一种载体，对于空间轴隐写，我们可以将gif文件每一帧的图片分离开来，可以在kali中使用<strong>convert命令</strong>来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert <span class="number">1.</span>gif out.png</span><br></pre></td></tr></table></figure>
+
+<p>在 1.gif 所在文件夹就会出现一系列 out.png 图片</p>
+</blockquote>
+<ul>
+<li>时间轴：</li>
+</ul>
+<blockquote>
+<p>gif文件的每一帧之间的时间间隔也可以作为信息隐藏的载体，可以用<strong>identify命令</strong>打印出gif每一帧的时间间隔：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -<span class="built_in">format</span> <span class="string">&#x27;%s %T \n&#x27;</span> <span class="number">1.</span>gif</span><br></pre></td></tr></table></figure>
+
+<p>一般此种题在打印出时间间隔后，时间间隔会有明显的规律，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> <span class="number">10</span> </span><br><span class="line"><span class="number">1</span> <span class="number">20</span> </span><br><span class="line"><span class="number">2</span> <span class="number">20</span> </span><br><span class="line"><span class="number">3</span> <span class="number">20</span> </span><br><span class="line"><span class="number">4</span> <span class="number">10</span> </span><br><span class="line"><span class="number">5</span> <span class="number">10</span> </span><br><span class="line"><span class="number">6</span> <span class="number">10</span> </span><br><span class="line"><span class="number">7</span> <span class="number">10</span> </span><br><span class="line"><span class="number">8</span> <span class="number">10</span> </span><br><span class="line"><span class="number">9</span> <span class="number">20</span> </span><br><span class="line"><span class="number">10</span> <span class="number">20</span> </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>此种情况即可把时间间隔 <code>20 &amp; 10</code> 转化为 <code>0 &amp; 1</code> 字符串（或 <code>1 &amp; 0</code>）然后转化成 <strong>ASCII码</strong> 即可，此时建议使用以下命令，更为方便：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">identify -<span class="built_in">format</span> <span class="string">&#x27;%T&#x27;</span> <span class="number">1.</span>gif</span><br><span class="line"></span><br><span class="line"><span class="number">10202020101010101020201010101020102020201010201010202020102010101010202010202020101020202010201010102020102020101010202010101020101020201020102010102020102020101010202010102010</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>以上两个命令基于 <strong>ImageMagick</strong> ，安装方法如下：</li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install imagemagick</span><br></pre></td></tr></table></figure>
+
+<p>测试是否安装成功：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert -version</span><br></pre></td></tr></table></figure>
+
+<p>如果出现下面的信息，则表示安装成功：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Version: ImageMagick <span class="number">6.9</span><span class="number">.10</span>-<span class="number">23</span> Q16 x86_64 <span class="number">20190101</span> https://imagemagick.org</span><br><span class="line">Copyright: © <span class="number">1999</span>-<span class="number">2019</span> ImageMagick Studio LLC</span><br><span class="line">License: https://imagemagick.org/script/license.php</span><br><span class="line">Features: Cipher DPC Modules OpenMP</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h2><h3 id="ZIP"><a href="#ZIP" class="headerlink" title="ZIP"></a>ZIP</h3><h4 id="文件格式详解-1"><a href="#文件格式详解-1" class="headerlink" title="文件格式详解"></a>文件格式详解</h4><p>ZIP文件一般分为数据区与目录区。数据区的开头标识为504B0304，而目录区开始的标识为504B0102</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210411014825.png" alt="avater"></p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210411014849.png" alt="avater"></p>
+<p>给个例子参考一下</p>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210411014915.png" alt="avater"></p>
+<ul>
+<li>在misc中经常会遇到使用winhex或者010editor来查看文件来知道是什么类型的文件，像zip文件标识头为504B0304，有些题目会将文件标识头去掉或者写错，可以用工具修改后就可以正常打开，</li>
+</ul>
+<h5 id="伪加密"><a href="#伪加密" class="headerlink" title="伪加密"></a>伪加密</h5><p> 一个比较重要的就是可以查看该zip文件是否加密，zip文件格式中存在两个加密标志位，前面的加密标志位为数据区的加密标志位，后面的加密标志位为目录区的加密标志位</p>
+<blockquote>
+<p>这里涉及了三种情况，</p>
+<p>1.数据区的加密标志位前两位为基数，目录区的加密标志位前两位也为基数，这样子是真加密。</p>
+<p>2.数据区的加密标志位前两位为偶数，目录区的加密标志位前两位也为偶数，这样子没有加密，可以直接打开</p>
+<p>3.数据区的加密标志位前两位为偶数，目录区的加密标志位前两位也为基数，这样子是伪加密，打开时提醒要密码，只需要修改为偶数就可以打开了</p>
+</blockquote>
+<p>也可以用工具<strong>ZipCenOp</strong></p>
+<blockquote>
+<p>java -jar ZipCenop.jar r xxx.zip</p>
+</blockquote>
+<h5 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h5><p>详分有暴力,掩码,字典</p>
+<ul>
+<li>暴力:选择密码范围,长度等,由软件组合生成密码进行爆破</li>
+<li>掩码:知道密码中的一部分,只需按规则构造其余部分</li>
+<li>字典:通常是多数用户常用的一些密码集合,导入字典文件用其中的密码进行爆破</li>
+<li>明文攻击： 如果得到了加密压缩包中的某个文件，那么就可以通过明文攻击来获取压缩密码</li>
+</ul>
+<blockquote>
+<p>大致原理是当你不知道一个zip的密码，但是你有zip中的一个已知文件（文件大小要大于12Byte）时，因为同一个zip压缩包里的所有文件都是使用同一个加密密钥来加密的，所以可以用已知文件来找加密密钥，利用密钥来解锁其他加密文件</p>
+<ul>
+<li>具体操作：假如你有一个flag.zip，里面的文件是1.txt和2.txt,然后你有1.txt，你需要得到2.txt的内容，这个时候你需要用和flag.zip一样的压缩软件而且必须是一样的压缩方式把1.txt压缩，这里可以查看压缩包里面文件的CRC32值知道是否用同一种压缩方式（hgame2021出过类似的题目）</li>
+</ul>
+</blockquote>
+<p>这里建议用<strong>advanced zip password recovery</strong>进行爆破，或者<strong>Ziperello</strong></p>
+<h5 id="CRC32碰撞"><a href="#CRC32碰撞" class="headerlink" title="CRC32碰撞"></a>CRC32碰撞</h5><p>CRC校验实用程序库 在数据存储和数据通讯领域，为了保证数据的正确，就不得不采用检错的手段。在诸多检错手段中，CRC是最著名的一种。CRC的全称是循环冗余校验。总之每个文件都有唯一的CRC32值，即便数据中一个bit发生变化，也会导致CRC32值不同。若是知道一段数据的长度和CRC32值，便可穷举数据，与其CRC32对照，以此达到暴力猜解的目的。但通常只适用于较小文本文件。比如这里有一个加密的rar，直接双击就可以看见其中信息，便可写脚本爆破，<strong>一般用于压缩包里面是一个大小小于6个字节的txt文件</strong></p>
+<p>直接上<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32">脚本</a></p>
+<p>使用</p>
+<blockquote>
+<p>python crc32.py reverse 你的crc32密文</p>
+</blockquote>
+<p>这里再贴一个在csdn发现的一个不错的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Author：spaceman</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> string </span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_number</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="built_in">float</span>(s)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">import</span> unicodedata</span><br><span class="line">        unicodedata.numeric(s)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">except</span> (TypeError, ValueError):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进度条</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">progress</span>(<span class="params">percent=<span class="number">0</span>, width=<span class="number">40</span></span>):</span></span><br><span class="line">    left = width * percent // <span class="number">95</span></span><br><span class="line">    right = width - left</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&#x27;\r[&#x27;</span>, <span class="string">&#x27;#&#x27;</span> * left, <span class="string">&#x27; &#x27;</span> * right, <span class="string">&#x27;]&#x27;</span>,<span class="string">f&#x27; <span class="subst">&#123;percent:<span class="number">.0</span>f&#125;</span>%&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>, end=<span class="string">&#x27;&#x27;</span>, flush=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一位字节</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crc1</span>(<span class="params">strs,dic</span>):</span></span><br><span class="line">    strs = <span class="built_in">hex</span>(<span class="built_in">int</span>(strs,<span class="number">16</span>))</span><br><span class="line">    rs = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        s = i</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">hex</span>(binascii.crc32(s.encode())) == strs:</span><br><span class="line">            rs += s</span><br><span class="line">            <span class="built_in">print</span> (strs+<span class="string">&#x27;  ： &#x27;</span>+s)</span><br><span class="line">    <span class="keyword">return</span> rs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 两位字节</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crc2</span>(<span class="params">strs,dic</span>):</span></span><br><span class="line">    strs = <span class="built_in">hex</span>(<span class="built_in">int</span>(strs,<span class="number">16</span>))</span><br><span class="line">    rs = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            s = i + j</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">hex</span>(binascii.crc32(s.encode())) == strs:</span><br><span class="line">                rs += s</span><br><span class="line">                <span class="built_in">print</span> (strs+<span class="string">&#x27;  ： &#x27;</span>+s)</span><br><span class="line">    <span class="keyword">return</span> rs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 三位字节</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crc3</span>(<span class="params">strs,dic</span>):</span></span><br><span class="line">    strs = <span class="built_in">hex</span>(<span class="built_in">int</span>(strs,<span class="number">16</span>))</span><br><span class="line">    rs = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> dic:</span><br><span class="line">                s = i+j+k</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">hex</span>(binascii.crc32(s.encode())) == strs:</span><br><span class="line">                    rs += s</span><br><span class="line">                    <span class="built_in">print</span> (strs+<span class="string">&#x27;  ： &#x27;</span>+s)</span><br><span class="line">    <span class="keyword">return</span> rs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 四位字节</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crc4</span>(<span class="params">strs,dic</span>):</span></span><br><span class="line">    strs = <span class="built_in">hex</span>(<span class="built_in">int</span>(strs,<span class="number">16</span>))</span><br><span class="line">    rs = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    it = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> dic:</span><br><span class="line">                <span class="keyword">for</span> m <span class="keyword">in</span> dic:</span><br><span class="line">                    s = i+j+k+m</span><br><span class="line">                    <span class="keyword">if</span> <span class="built_in">hex</span>(binascii.crc32(s.encode())) == strs:</span><br><span class="line">                        rs += s</span><br><span class="line">                        <span class="built_in">print</span> ()</span><br><span class="line">                        <span class="built_in">print</span> (strs+<span class="string">&#x27;  ： &#x27;</span>+s)</span><br><span class="line">                        <span class="built_in">print</span> (<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        progress(it)</span><br><span class="line">        sleep(<span class="number">0.1</span>)</span><br><span class="line">        it += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> rs</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment"># 五位字节</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crc5</span>(<span class="params">strs,dic</span>):</span></span><br><span class="line">    strs = <span class="built_in">hex</span>(<span class="built_in">int</span>(strs,<span class="number">16</span>))</span><br><span class="line">    rs = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    it = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        progress(it)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> dic:</span><br><span class="line">                <span class="keyword">for</span> m <span class="keyword">in</span> dic:</span><br><span class="line">                    <span class="keyword">for</span> n <span class="keyword">in</span> dic:</span><br><span class="line">                        s = i+j+k+m+n</span><br><span class="line">                        <span class="keyword">if</span> <span class="built_in">hex</span>(binascii.crc32(s.encode())) == strs:</span><br><span class="line">                            rs += s</span><br><span class="line">                            <span class="built_in">print</span> ()</span><br><span class="line">                            <span class="built_in">print</span> (strs+<span class="string">&#x27;  ： &#x27;</span>+s)</span><br><span class="line">                            <span class="built_in">print</span> (<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        sleep(<span class="number">0.1</span>)</span><br><span class="line">        it += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> rs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算碰撞 crc </span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">CrackCrc</span>(<span class="params">crclist,length</span>):</span></span><br><span class="line">    <span class="built_in">print</span> ()</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&quot;正在计算...&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span> ()</span><br><span class="line">    dic = <span class="string">&#x27;&#x27;&#x27; !&quot;#$%&amp;&#x27;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz&#123;|&#125;~&#x27;&#x27;&#x27;</span> <span class="comment"># 碰撞需要的字符字典</span></span><br><span class="line">    dic = dic[::-<span class="number">1</span>]</span><br><span class="line">    text = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> crclist:</span><br><span class="line">        <span class="keyword">if</span> length == <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            text += crc1(i,dic)</span><br><span class="line">        <span class="keyword">if</span> length == <span class="string">&#x27;2&#x27;</span>:</span><br><span class="line">            text += crc2(i,dic)</span><br><span class="line">        <span class="keyword">if</span> length == <span class="string">&#x27;3&#x27;</span>:</span><br><span class="line">            text += crc3(i,dic)</span><br><span class="line">        <span class="keyword">if</span> length == <span class="string">&#x27;4&#x27;</span>:</span><br><span class="line">            text += crc4(i,dic)</span><br><span class="line">        <span class="keyword">if</span> length == <span class="string">&#x27;5&#x27;</span>:</span><br><span class="line">            text += crc5(i,dic)</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> text == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;碰撞失败,无结果&quot;</span>)</span><br><span class="line">        exit()</span><br><span class="line">    <span class="built_in">print</span> (<span class="string">&quot;字符顺序组合：&quot;</span>,end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> ()</span><br><span class="line">    <span class="built_in">print</span> (text)</span><br><span class="line">    <span class="built_in">print</span> ()</span><br><span class="line">    <span class="built_in">input</span>(<span class="string">&quot;回车确认结束程序...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主函数</span></span><br><span class="line"><span class="built_in">print</span> (<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">###### Author：spaceman ######</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### Thank you for your use ###</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">##############################</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line">listcrc = [] <span class="comment"># 用于存储crc值</span></span><br><span class="line">length = (<span class="built_in">input</span>(<span class="string">&quot;请输入文本字节大小(1-5)：&quot;</span>)) <span class="comment"># 即文本内容大小，如文本内容为flag，大小即为4</span></span><br><span class="line"><span class="keyword">if</span> is_number(length) == <span class="literal">False</span> <span class="keyword">or</span> length <span class="keyword">not</span> <span class="keyword">in</span> (<span class="string">&quot;1,2,3,4,5&quot;</span>):</span><br><span class="line">    exit(<span class="string">&quot;非指定数字，退出&quot;</span>)</span><br><span class="line"><span class="built_in">print</span> ()</span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    crc = <span class="built_in">input</span>(<span class="string">&#x27;请输入crc值(例如:d1f4eb9a,输入n完成输入):&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> crc == <span class="string">&#x27;n&#x27;</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    crc = <span class="string">&#x27;0x&#x27;</span>+crc</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(crc) != <span class="number">10</span>:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;rcr长度不对,请重新输入&quot;</span>)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    listcrc.append(crc)</span><br><span class="line"></span><br><span class="line">CrackCrc(listcrc,length)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="RAR"><a href="#RAR" class="headerlink" title="RAR"></a>RAR</h3><h4 id="文件格式详解-2"><a href="#文件格式详解-2" class="headerlink" title="文件格式详解"></a>文件格式详解</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Claming_D/article/details/105899397?utm_term=rar%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%A7%A3%E6%9E%90&utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~sobaiduweb~default-0-105899397&spm=3001.4430">参考</a></p>
+<blockquote>
+<p>下面的文件格式分析是基于RAR4.x，并不是RAR5.0<br>RAR 5.0签名和RAR4.x的签名不一样<br>RAR 5.0签名由8个字节组成:<br><strong>0x52 0x61 0x72 0x21 0x1A 0x07 0x01 0x00</strong><br>比较一下<br>RAR 4.x 签名由7字节组成:<br><strong>0x52 0x61 0x72 0x21 0x1A 0x07 0x00</strong></p>
+</blockquote>
+<p>一个RAR4.x压缩文件由若干可变长度的块组成<br>常见块类型如下：</p>
+<blockquote>
+<p> 标记块：HEAD_TYPE=0x72<br>压缩文件头：HEAD_TYPE=0x73<br>文件头：HEAD_TYPE=0x74<br>旧风格的注释头：HEAD_TYPE=0x75<br>旧风格的用户身份信息：HEAD_TYPE=0x76<br>旧风格的子块：HEAD_TYPE=0x77<br>旧风格的恢复记录：HEAD_TYPE=0X78<br>旧风格的用户身份信息：HEAD_TYPE=0X79<br>子块：HEAD_TYPE=0x7A<br>最后的结束块：HEAD_TYPE=0x7B</p>
+</blockquote>
+<p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210411022124.png" alt="avater"></p>
+<blockquote>
+<p>头类型是<code>0x73</code>表示压缩文件头块<br>位标记为<code>0x0000</code> 没有位被置为1 ，如果块头被加密，则位标记应该为：0x8000<br>文件头大小为<code>0x0D00</code>，由上图可以看出这个压缩文件头块占13个字节</p>
+</blockquote>
+<p>结尾块</p>
+<blockquote>
+<p>C4 3D 7B 00 40 07 00</p>
+</blockquote>
+<h4 id="伪加密-1"><a href="#伪加密-1" class="headerlink" title="伪加密"></a>伪加密</h4><p>看第24个十六进制数后面是0还是4，是4就是伪加密</p>
+<h2 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h2><p>这里还是看hgame<a target="_blank" rel="noopener" href="https://kenoeee.github.io/2021/03/17/hgame2021misc%E5%A4%8D%E7%8E%B0/#A-R-C">一道题</a></p>
+<h2 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h2><h4 id="Audacity"><a href="#Audacity" class="headerlink" title="Audacity"></a>Audacity</h4><p>一般的都音频都可以丢进去分析，可以查看音频的波形，频谱，</p>
+<p>有的时候会隐藏莫斯密码</p>
+<h4 id="Deepsound"><a href="#Deepsound" class="headerlink" title="Deepsound"></a>Deepsound</h4><p>需要密码的一种加密方法</p>
+<p>这里贴一下破解密码的<a target="_blank" rel="noopener" href="https://github.com/openwall/john/blob/bleeding-jumbo/run/deepsound2john.py">脚本</a></p>
+<h4 id="SSTV"><a href="#SSTV" class="headerlink" title="SSTV"></a>SSTV</h4><blockquote>
+<p>百科</p>
+<p><strong>慢扫描电视</strong>（<strong>Slow-scan television</strong>）是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E4%B8%9A%E4%BD%99%E6%97%A0%E7%BA%BF%E7%94%B5">业余无线电</a>爱好者的一种主要图片传输方法，慢扫描电视通过<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%97%A0%E7%BA%BF%E7%94%B5">无线电</a>传输和接收单色或彩色静态图片。</p>
+</blockquote>
+<p>得到的音频听起来有点像莫斯电码那种滴滴滴滴的，可以用工具解码得到图片</p>
+<p>kali下面安装</p>
+<blockquote>
+<p>apt-get install qsstv</p>
+</blockquote>
+<p>使用</p>
+<blockquote>
+<p>Options-&gt;Configuration-&gt;Sound勾选From file</p>
+<p>然后点击播放得到图片</p>
+</blockquote>
+<h4 id="Morse2ascii（莫斯密码转换）"><a href="#Morse2ascii（莫斯密码转换）" class="headerlink" title="Morse2ascii（莫斯密码转换）"></a>Morse2ascii（莫斯密码转换）</h4><p>安装（kali）</p>
+<blockquote>
+<p>apt-get install morse2ascii</p>
+</blockquote>
+<p>使用</p>
+<blockquote>
+<p>morse2ascii xxx.wav</p>
+</blockquote>
+<h4 id="dtmf2num"><a href="#dtmf2num" class="headerlink" title="dtmf2num"></a>dtmf2num</h4><p>可以识别电话音</p>
+<p><a target="_blank" rel="noopener" href="https://lanzous.com/id4e4hc">下载地址</a></p>
+<p>使用</p>
+<blockquote>
+<p>dtmf2num xxx.wav</p>
+</blockquote>
+<h4 id="MP3stego"><a href="#MP3stego" class="headerlink" title="MP3stego"></a>MP3stego</h4><p>直接</p>
+<blockquote>
+<p>.\Decode.exe -X -p [password] [stego_mp3]</p>
+</blockquote>
+<h4 id="steghide"><a href="#steghide" class="headerlink" title="steghide"></a>steghide</h4><p>使用方法同前文图片隐写</p>
+<h4 id="Silenteye"><a href="#Silenteye" class="headerlink" title="Silenteye"></a>Silenteye</h4><p>图形化界面，隐写方式类似lsb，可以改变密码</p>
+<h2 id="密码-amp-加密方法-amp-骚操作"><a href="#密码-amp-加密方法-amp-骚操作" class="headerlink" title="密码&amp;加密方法&amp;骚操作"></a>密码&amp;加密方法&amp;骚操作</h2><h3 id="工具-1"><a href="#工具-1" class="headerlink" title="工具"></a>工具</h3><p><a target="_blank" rel="noopener" href="http://www.atoolbox.net/Category.php?Id=27&Page=1">在线网站</a>有完整的base系列</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43504939/article/details/93247677">参考奇奇怪怪的编码和密码学</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/guyoung/CaptfEncoder">CaptfEncoder</a>很好用的编解码软件</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gchq/CyberChef">CyberChef</a>yyds，很多题目都是在这里编码的flag，很推荐使用这个</p>
+<p><a target="_blank" rel="noopener" href="https://www.qqxiuzi.cn/daohang.htm">千千秀字</a>有一些国产的奇奇怪怪的编码</p>
+<p><a target="_blank" rel="noopener" href="https://www.dcode.fr/tools-list#symbols">国外奇怪的编码</a>这个网站可以说非常全了</p>
+<h3 id="base系列"><a href="#base系列" class="headerlink" title="base系列"></a>base系列</h3><blockquote>
+<p><strong>Base64</strong>：A-Z 、a-z、+、/ (由于特性末尾可能会有一个或者两个=) <strong>Base58</strong>：相比Base64，不使用数字0，字母大写OI和小写l以及符号+/ <strong>Base32</strong>:A-Z、2-7、可以出现两个以上的= </p>
+<p><strong>Base16</strong>：0-9、A-F（和十六进制不是一样吗）</p>
+<p><strong>base100</strong>：Emoji表情符号编码/解码，可将文本内容编码为Emoji表情符号；同时也可以将编码后的Emoji表情符号内容解码为文本。</p>
+<p><strong>base91</strong>：顾名思义，Base91需要91个字符来表示ASCII编码的二进制数据。</p>
+<p>Base91编码是从94个可打印ASCII字符（0x21-0x7E）中，以下三个字符被省略以构建Base91编码表：</p>
+<p>　　　　-（破折号，0x2D）</p>
+<p>　　　　\（反斜杠，0x5C）</p>
+<p>　　　   ‘（撇号，0x27）Base91是将二进制数据编码为ASCII字符的高级方法。 它类似于UUencode或base64，但效率更高。 Base91产生的开销取决于输入数据。 它的数量最多为23％（而base64为33％），范围可以降低到14％，通常发生在0字节块上。</p>
+<p><strong>base85</strong>：Base85是一种类似于Base64的二进制文本编码形式，通过使用五个ASCII字符来表示四个字节的二进制数据。例如，它用于将图像嵌入到Adobe PDF文件中。</p>
+<p>Base85也称为Ascii85，是Paul E. Rutter为btoa实用程序开发的一种二进制文本编码形式。通过使用五个ASCII字符来表示四个字节的二进制数据（使编码量1 / 4比原来大，假设每ASCII字符8个比特），它比更有效UUENCODE或Base64的，它使用四个字符来表示三个字节的数据（1 / 3的增加，假设每ASCII字符8个比特）。</p>
+<p>用途是Adobe的PostScript和Portable Document Format文件格式，以及Git使用的二进制文件的补丁编码。</p>
+<p>与Base64一样，Base85编码的目标是对二进制数据可打印的ASCII字符进行编码。但是它使用了更大的字符集，因此效率更高一些。具体来说，它可以用5个字符编码4个字节（32位）。</p>
+<p><strong>base62</strong>：Base62使用了62个字符编码，包括0-9，a-z，A-Z。</p>
+<p>现在各个社交网站的短URL，基本都是用Base62来编码的。</p>
+<p>Base64和Base62的目的在都在于将需要传输的内容进行编码，尤其是一些特殊字符（如不可见字符、传输时与协议头冲突的字符）。 在安全领域，base62的编码使用较多。</p>
+</blockquote>
+<h3 id="词频分析"><a href="#词频分析" class="headerlink" title="词频分析"></a>词频分析</h3><p><a target="_blank" rel="noopener" href="https://quipqiup.com/">在线网站</a><a target="_blank" rel="noopener" href="http://www.aihanyu.org/cncorpus/CpsTongji.aspx">在线网络国产</a></p>
+<p>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">f=<span class="built_in">open</span>(<span class="string">&#x27;hidden.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">f_read=f.read()</span><br><span class="line"><span class="built_in">print</span> Counter(f_read)</span><br></pre></td></tr></table></figure>
+
+<h3 id="0宽字符隐写"><a href="#0宽字符隐写" class="headerlink" title="0宽字符隐写"></a>0宽字符隐写</h3><p><a target="_blank" rel="noopener" href="http://330k.github.io/misc_tools/unicode_steganography.html">在线网站</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder">unicode隐写</a></p>
+<p>零宽度字符是一种字节宽度为0的不可打印的Unicode字符, 在浏览器等环境不可见, 但是真是存在, 获取字符串长度时也会占位置, 表示某一种控制功能的字符,<a target="_blank" rel="noopener" href="http://www.ga1axy.top/index.php/archives/20/">参考资料</a></p>
+<blockquote>
+<ul>
+<li>零宽度空格符 (zero-width space) <code>U+200B</code> : 用于较长单词的换行分隔</li>
+<li>零宽度非断空格符 (zero width no-break space) <code>U+FEFF</code> : 用于阻止特定位置的换行分隔</li>
+<li>零宽度连字符 (zero-width joiner) <code>U+200D</code> : 用于阿拉伯文与印度语系等文字中，使不会发生连字的字符间产生连字效果</li>
+<li>零宽度断字符 (zero-width non-joiner) <code>U+200C</code> : 用于阿拉伯文，德文，印度语系等文字中，阻止会发生连字的字符间的连字效果</li>
+<li>左至右符 (left-to-right mark) <code>U+200E</code> : 用于在混合文字方向的多种语言文本中（例：混合左至右书写的英语与右至左书写的希伯来语），规定排版文字书写方向为左至右</li>
+<li>右至左符 (right-to-left mark) <code>U+200F</code> : 用于在混合文字方向的多种语言文本中，规定排版文字书写方向为右至左</li>
+</ul>
+</blockquote>
+<p>一般情况下，用vim打开就可以发现这些原本看不到的文字，然后在前面的在线网站勾选对应的选项就可以解码了</p>
+<h3 id="emoji加密"><a href="#emoji加密" class="headerlink" title="emoji加密"></a>emoji加密</h3><p><a target="_blank" rel="noopener" href="https://emojipedia.org/">https://emojipedia.org/</a></p>
+<h3 id="办公软件的隐写"><a href="#办公软件的隐写" class="headerlink" title="办公软件的隐写"></a>办公软件的隐写</h3><p>word文档或者Excel表格等等办公软件形成的文件，大多都是一个压缩包。可以修改后缀为zip然后解压来查看隐藏的信息。</p>
+<h5 id="隐藏文字"><a href="#隐藏文字" class="headerlink" title="隐藏文字"></a>隐藏文字</h5><p><img src="https://kenoeblog.oss-cn-guangzhou.aliyuncs.com/image/20210411114559.png" alt="avater"></p>
+<ul>
+<li>一般勾选图中的选项可以看到隐藏的文字，不过有一次遇到一道题目是，你不勾选这个隐藏文字才能看到隐藏的内容。</li>
+<li>还有一种是本来就看不到文字，可能藏在图片下面，可以把图片拖走或者移动一下图片看看有没有文字，一般的操作是直接Ctrl+A全选然后黏贴到记事本看看，(不过上次遇到一个pdf在wps里面打开复制出来的flag是乱码，用chrome把pdf打开就复制到想要的内容了，有的时候得到乱码<strong>可以换几个软件试试看</strong>)</li>
+<li>有的时候这些文件可能还有密码，可能会用到<strong>Accent OFFICE Password Recovery</strong>或者<strong>Advanced PDF Password Recovery</strong></li>
+<li>有的时候可能隐藏的文字和背景颜色一样，这里可以通过修改背景颜色得到flag</li>
+</ul>
+<h5 id="wbstego"><a href="#wbstego" class="headerlink" title="wbstego"></a>wbstego</h5><p>pdf文件的加密工具</p>
+<h3 id="NTFS数据流"><a href="#NTFS数据流" class="headerlink" title="NTFS数据流"></a>NTFS数据流</h3><blockquote>
+<p>NTFS交换数据流是NTFS磁盘格式的一个特性，在NTFS文件系统中，每个文件都可以包含多个数据流。除了主文件以外，还可以有几个非主文件流寄存在主文件流中，其使用自有派生来维持与文件相关的信息。虽然我们无法直接看到数据流文件，但是他确实存在系统当中。</p>
+</blockquote>
+<p>反正用人话说就是隐藏了看不见的文件，这里码几个工具</p>
+<ul>
+<li><p><strong>ntfsstreamseditor</strong></p>
+</li>
+<li><p><strong>alternatestreamview</strong></p>
+</li>
+<li><p>命令 <strong>notepad xxx.txt:flag.txt</strong></p>
+</li>
+</ul>
+<h3 id="异或修补文件"><a href="#异或修补文件" class="headerlink" title="异或修补文件"></a>异或修补文件</h3><p>有的时候得到一个打不开的文件，查看十六进制发现有一些重复的十六进制数，这里可以尝试去异或它来修复文件</p>
+<p>(真是让人异或呢)</p>
+<h3 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h3><p>kali下用这个命令可以直接查看文件的字符串，推荐用法</p>
+<blockquote>
+<p>strings xxx | grep ‘flag’</p>
+</blockquote>
+<h3 id="pyc文件隐写"><a href="#pyc文件隐写" class="headerlink" title="pyc文件隐写"></a>pyc文件隐写</h3><p>直接上<a target="_blank" rel="noopener" href="https://github.com/AngelKitty/stegosaurus">脚本</a></p>
+<p>建议使用python3.6</p>
+<h3 id="snow隐写"><a href="#snow隐写" class="headerlink" title="snow隐写"></a>snow隐写</h3><p>snow隐写一般是对于txt文件或者html文件的隐写，贴一下<a target="_blank" rel="noopener" href="http://fog.misty.com/perry/ccs/snow/snow/snow.html">在线网站</a></p>
+<p>推荐使用离线软件</p>
+<h3 id="xortool"><a href="#xortool" class="headerlink" title="xortool"></a>xortool</h3><p><a target="_blank" rel="noopener" href="https://github.com/raddyfiy/xortool-for-Windows">https://github.com/raddyfiy/xortool-for-Windows</a></p>
+<p>一个多字节异或加密破解工具</p>
+<p>分析文件</p>
+<blockquote>
+<p>python xortool.py binary_xored_cmd</p>
+</blockquote>
+<p>假如概率最大是2</p>
+<p>解密</p>
+<blockquote>
+<p>python xortool.py binary_xored_cmd -l 2</p>
+</blockquote>
+<h3 id="拼图工具gaps"><a href="#拼图工具gaps" class="headerlink" title="拼图工具gaps"></a>拼图工具gaps</h3><p><a target="_blank" rel="noopener" href="https://github.com/nemanja-m/gaps">https://github.com/nemanja-m/gaps</a></p>
+<blockquote>
+<p>gaps –image=out.jpg –generations=50 –population=120 –size=50</p>
+<p>–image            指向拼图的路径</p>
+<p>–size            拼图块的像素尺寸</p>
+<p>–generations    遗传算法的代的数量</p>
+<p>–population    个体数量</p>
+<p>–verbose        每一代训练结束后展示最佳结果</p>
+<p>–save            将拼图还原为图像</p>
+</blockquote>
+<h3 id="根据坐标画图工具-gnuplot"><a href="#根据坐标画图工具-gnuplot" class="headerlink" title="根据坐标画图工具 gnuplot"></a>根据坐标画图工具 gnuplot</h3><p>如果你得到类似的数字</p>
+<blockquote>
+<p>3 3</p>
+<p>3 4</p>
+<p>3 5</p>
+<p>3 6</p>
+</blockquote>
+<p>你可以使用gnuplot去打印它</p>
+<h3 id="奇奇怪怪的文件格式"><a href="#奇奇怪怪的文件格式" class="headerlink" title="奇奇怪怪的文件格式"></a>奇奇怪怪的文件格式</h3><h4 id="BPG"><a href="#BPG" class="headerlink" title="BPG"></a>BPG</h4><p>一种图片的格式，直接去<a target="_blank" rel="noopener" href="https://bellard.org/bpg/">官网</a>在线转换或者下载离线工具就可以</p>
+<h4 id="SWF"><a href="#SWF" class="headerlink" title="SWF"></a>SWF</h4><blockquote>
+<p>swf后缀格式的文件是Flash的专用格式,被广泛应用于网页设计、动画制作等领域,因此可以使用Flash打开</p>
+</blockquote>
+<p>可以用<a target="_blank" rel="noopener" href="https://github.com/jindrapetrik/jpexs-decompiler">jpexs-decompiler</a>进行反编译</p>
+<h4 id="FAT"><a href="#FAT" class="headerlink" title="FAT"></a>FAT</h4><blockquote>
+<p>FAT是文件配置表（英语：File Allocation Table，首字母缩略字：FAT），是一种由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BE%AE%E8%BD%AF/124767">微软</a>发明并拥有部分专利的文件系统，供MS-DOS使用，也是所有非NT核心的微软窗口使用的文件系统。</p>
+</blockquote>
+<p>里面码一个神器<strong>VeraCrypt</strong>,可以用它打开fat后缀文件，有的时候可能需要密码</p>
+<h4 id="apng"><a href="#apng" class="headerlink" title="apng"></a>apng</h4><blockquote>
+<p>wiki</p>
+<p><strong>APNG</strong>（<strong>Animated Portable Network Graphics</strong>）<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/">格式</a>是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/PNG">PNG</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/">位图</a>动画扩展，但未获PNG组织官方认可。其扩展方法类似<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GIF">GIF</a> 89a，仍对原版PNG保持向下兼容。APNG第1帧为标准PNG图像，剩余的动画和帧速等数据放在PNG扩展数据块，因此只支持原版PNG的软件会正确显示第1帧。APNG与<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Mozilla">Mozilla</a>社区关系密切，格式标准文档设在Mozilla网站。</p>
+</blockquote>
+<p>可以直接拖进chrome里面</p>
+<h4 id="错误的文件头"><a href="#错误的文件头" class="headerlink" title="错误的文件头"></a>错误的文件头</h4><p>码一下常见文件头，这里<a target="_blank" rel="noopener" href="https://blog.mythsman.com/post/5d301940976abc05b345469f/">参考</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">扩展名</th>
+<th align="center">文件头标识（HEX）</th>
+<th align="center">文件描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">123</td>
+<td align="center">00 00 1A 00 05 10 04</td>
+<td align="center">Lotus 1-2-3 spreadsheet (v9) file</td>
+</tr>
+<tr>
+<td align="center">3gg; 3gp; 3g2</td>
+<td align="center">00 00 00 nn 66 74 79 70 33 67 70</td>
+<td align="center">3rd Generation Partnership Project 3GPP (nn=0x14)  and 3GPP2 (nn=0x20) multimedia files</td>
+</tr>
+<tr>
+<td align="center">7z</td>
+<td align="center">37 7A BC AF 27 1C</td>
+<td align="center">7-ZIP compressed file</td>
+</tr>
+<tr>
+<td align="center">aba</td>
+<td align="center">00 01 42 41</td>
+<td align="center">Palm Address Book Archive file</td>
+</tr>
+<tr>
+<td align="center">abi</td>
+<td align="center">41 4F 4C 49 4E 44 45 58</td>
+<td align="center">AOL address book index file</td>
+</tr>
+<tr>
+<td align="center">aby; idx</td>
+<td align="center">41 4F 4C 44 42</td>
+<td align="center">AOL database files: address book (ABY) and user  configuration data (MAIN.IDX)</td>
+</tr>
+<tr>
+<td align="center">accdb</td>
+<td align="center">00 01 00 00 53 74 61 6E 64 61 72 64 20 41 43 45 20  44 42</td>
+<td align="center">Microsoft Access 2007 file</td>
+</tr>
+<tr>
+<td align="center">ACM</td>
+<td align="center">4D 5A</td>
+<td align="center">MS audio compression manager driver</td>
+</tr>
+<tr>
+<td align="center">ADF</td>
+<td align="center">44 4F 53</td>
+<td align="center">Amiga disk file</td>
+</tr>
+<tr>
+<td align="center">adx</td>
+<td align="center">03 00 00 00 41 50 50 52</td>
+<td align="center">Lotus Approach ADX file</td>
+</tr>
+<tr>
+<td align="center">AIFF</td>
+<td align="center">46 4F 52 4D 00</td>
+<td align="center">Audio Interchange File</td>
+</tr>
+<tr>
+<td align="center">ain</td>
+<td align="center">21 12</td>
+<td align="center">AIN Compressed Archive File</td>
+</tr>
+<tr>
+<td align="center">ami</td>
+<td align="center">5B 76 65 72 5D</td>
+<td align="center">Lotus Ami Pro</td>
+</tr>
+<tr>
+<td align="center">amr</td>
+<td align="center">23 21 41 4D 52</td>
+<td align="center">Adaptive Multi-Rate ACELP (Algebraic Code Excited  Linear Prediction) Codec, commonly audio format with GSM cell phones</td>
+</tr>
+<tr>
+<td align="center">ANI</td>
+<td align="center">52 49 46 46</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">API</td>
+<td align="center">4D 5A 90 00 03 00 00 00</td>
+<td align="center">Acrobat plug-in</td>
+</tr>
+<tr>
+<td align="center">arc</td>
+<td align="center">1A 0x</td>
+<td align="center">LH archive file, old version(where x = 0x2, 0x3,  0x4, 0x8 or 0x9 for types 1-5, respectively)</td>
+</tr>
+<tr>
+<td align="center">arc</td>
+<td align="center">41 72 43 01</td>
+<td align="center">FreeArc compressed file</td>
+</tr>
+<tr>
+<td align="center">arj</td>
+<td align="center">60 EA</td>
+<td align="center">ARJ Compressed Archive</td>
+</tr>
+<tr>
+<td align="center">ARJ</td>
+<td align="center">60 EA 27</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ART</td>
+<td align="center">4A 47 03 0E 00 00 00</td>
+<td align="center">AOL ART file</td>
+</tr>
+<tr>
+<td align="center">ART</td>
+<td align="center">4A 47 04 0E 00 00 00</td>
+<td align="center">AOL ART file</td>
+</tr>
+<tr>
+<td align="center">asf</td>
+<td align="center">30 26 B2 75 8E 66 CF 11</td>
+<td align="center">Windows Media</td>
+</tr>
+<tr>
+<td align="center">asf; wma; wmv</td>
+<td align="center">30 26 B2 75 8E 66 CF 11 A6 D9 00 AA 00 62 CE 6C</td>
+<td align="center">Microsoft Windows Media Audio/Video File(Advanced  Streaming Format)</td>
+</tr>
+<tr>
+<td align="center">asx</td>
+<td align="center">3C</td>
+<td align="center">Advanced Stream redirector file</td>
+</tr>
+<tr>
+<td align="center">au</td>
+<td align="center">2E 73 6E 64</td>
+<td align="center">SoundMachine Audio File NeXT/Sun Microsystems μ-Law audio file</td>
+</tr>
+<tr>
+<td align="center">avi</td>
+<td align="center">41 56 49 20</td>
+<td align="center">Audio Video Interleave (AVI)</td>
+</tr>
+<tr>
+<td align="center">AX</td>
+<td align="center">4D 5A</td>
+<td align="center">Library cache file</td>
+</tr>
+<tr>
+<td align="center">AX</td>
+<td align="center">4D 5A 90 00 03 00 00 00</td>
+<td align="center">DirectShow filter</td>
+</tr>
+<tr>
+<td align="center">bag</td>
+<td align="center">41 4F 4C 20 46 65 65 64 62 61 67</td>
+<td align="center">AOL and AIM buddy list file</td>
+</tr>
+<tr>
+<td align="center">BAS</td>
+<td align="center">20 20 20</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">bin</td>
+<td align="center">42 4C 49 32 32 33 51</td>
+<td align="center">Thomson Speedtouch series WLAN router firmware</td>
+</tr>
+<tr>
+<td align="center">bmp</td>
+<td align="center">42 4D</td>
+<td align="center">Windows Bitmap</td>
+</tr>
+<tr>
+<td align="center">BMP</td>
+<td align="center">42 4D 3E</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">bz; bz2</td>
+<td align="center">42 5A 68</td>
+<td align="center">BZIP Archive</td>
+</tr>
+<tr>
+<td align="center">BZ2; TAR.BZ2; TBZ2; TB2</td>
+<td align="center">42 5A 68</td>
+<td align="center">bzip2 compressed archive</td>
+</tr>
+<tr>
+<td align="center">CAB</td>
+<td align="center">49 53 63</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">CAB; HDR</td>
+<td align="center">49 53 63 28</td>
+<td align="center">Install Shield v5.x or 6.x compressed file</td>
+</tr>
+<tr>
+<td align="center">CAB</td>
+<td align="center">4D 53 43 46</td>
+<td align="center">Microsoft CAB File Format</td>
+</tr>
+<tr>
+<td align="center">cat</td>
+<td align="center">30</td>
+<td align="center">Microsoft security catalog file</td>
+</tr>
+<tr>
+<td align="center">CBD</td>
+<td align="center">43 42 46 49 4C 45</td>
+<td align="center">WordPerfect dictionary file (unconfirmed)</td>
+</tr>
+<tr>
+<td align="center">CCD</td>
+<td align="center">5B 43 6C</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">cdr</td>
+<td align="center">CDR</td>
+<td align="center">Corel Draw</td>
+</tr>
+<tr>
+<td align="center">CDR</td>
+<td align="center">45 4C 49 54 45 20 43 6F 6D 6D 61 6E 64 65 72 20</td>
+<td align="center">Elite Plus Commander saved game file</td>
+</tr>
+<tr>
+<td align="center">CDR, DVF</td>
+<td align="center">4D 53 5F 56 4F 49 43 45</td>
+<td align="center">Sony Compressed Voice File</td>
+</tr>
+<tr>
+<td align="center">CHI; CHM</td>
+<td align="center">49 54 53 46</td>
+<td align="center">Microsoft Compiled HTML Help File</td>
+</tr>
+<tr>
+<td align="center">CHM</td>
+<td align="center">49 54 53</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">CLB</td>
+<td align="center">43 4D 58 31</td>
+<td align="center">Corel Binary metafile</td>
+</tr>
+<tr>
+<td align="center">CLB</td>
+<td align="center">43 4F 4D 2B</td>
+<td align="center">COM+ Catalog file</td>
+</tr>
+<tr>
+<td align="center">cnt</td>
+<td align="center">3A 42 61 73 65</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">COM, DLL, DRV, EXE, PIF, QTS, QTX, SYS</td>
+<td align="center">4D 5A</td>
+<td align="center">Windows/DOS executable file</td>
+</tr>
+<tr>
+<td align="center">COM</td>
+<td align="center">4D 5A EE</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">COM</td>
+<td align="center">E9 3B 03</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">CPE</td>
+<td align="center">46 41 58 43 4F 56 45 52 2D 56 45 52</td>
+<td align="center">Microsoft Fax Cover Sheet</td>
+</tr>
+<tr>
+<td align="center">CPL</td>
+<td align="center">4D 5A</td>
+<td align="center">Control panel application</td>
+</tr>
+<tr>
+<td align="center">CPT</td>
+<td align="center">43 50 54 37 46 49 4C 45</td>
+<td align="center">Corel Photopaint file</td>
+</tr>
+<tr>
+<td align="center">CPT</td>
+<td align="center">43 50 54 46 49 4C 45</td>
+<td align="center">Corel Photopaint file</td>
+</tr>
+<tr>
+<td align="center">CPX</td>
+<td align="center">5B 57 69</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">cru; crush</td>
+<td align="center">43 52 55 53 48</td>
+<td align="center">CRUSH Archive File</td>
+</tr>
+<tr>
+<td align="center">CRU</td>
+<td align="center">43 52 55 53 48 20 76</td>
+<td align="center">Crush compressed archive</td>
+</tr>
+<tr>
+<td align="center">CRW</td>
+<td align="center">49 49 1A 00 00 00 48 45 41 50 43 43 44 52 02 00</td>
+<td align="center">Canon digital camera RAW file</td>
+</tr>
+<tr>
+<td align="center">CTF</td>
+<td align="center">43 61 74 61 6C 6F 67 20 33 2E 30 30 00</td>
+<td align="center">WhereIsIt Catalog file</td>
+</tr>
+<tr>
+<td align="center">CUR</td>
+<td align="center">00 00 02 00 01 00 20 20</td>
+<td align="center">Windows cursor file</td>
+</tr>
+<tr>
+<td align="center">dat</td>
+<td align="center">03</td>
+<td align="center">MapInfo Native Data Format</td>
+</tr>
+<tr>
+<td align="center">dat</td>
+<td align="center">1A 52 54 53 20 43 4F 4D 50 52 45 53 53 45 44 20 49  4D 41 47 45 20 56 31 2E 30 1A</td>
+<td align="center">Runtime Software disk image</td>
+</tr>
+<tr>
+<td align="center">dat</td>
+<td align="center">41 56 47 36 5F 49 6E 74 65 67 72 69 74 79 5F 44 61  74 61 62 61 73 65</td>
+<td align="center">AVG6 Integrity database file</td>
+</tr>
+<tr>
+<td align="center">DAT</td>
+<td align="center">43 52 45 47</td>
+<td align="center">Windows 9x registry hive</td>
+</tr>
+<tr>
+<td align="center">DAT</td>
+<td align="center">43 6C 69 65 6E 74 20 55 72 6C 43 61 63 68 65 20 4D  4D 46 20 56 65 72 20</td>
+<td align="center">IE History DAT file</td>
+</tr>
+<tr>
+<td align="center">DAT</td>
+<td align="center">45 52 46 53 53 41 56 45 44 41 54 41 46 49 4C 45</td>
+<td align="center">Kroll EasyRecovery Saved Recovery State file</td>
+</tr>
+<tr>
+<td align="center">DAT</td>
+<td align="center">49 6E 6E 6F 20 53 65 74 75 70 20 55 6E 69 6E 73 74  61 6C 6C 20 4C 6F 67 20 28 62 29</td>
+<td align="center">Inno Setup Uninstall Log file</td>
+</tr>
+<tr>
+<td align="center">db</td>
+<td align="center">00 06 15 61 00 00 00 02 00 00 04 D2 00 00 10 00</td>
+<td align="center">Netscape Navigator (v4) database file</td>
+</tr>
+<tr>
+<td align="center">DB</td>
+<td align="center">44 42 46 48</td>
+<td align="center">Palm Zire photo database</td>
+</tr>
+<tr>
+<td align="center">db</td>
+<td align="center">08</td>
+<td align="center">dBASE IV or dBFast configuration file</td>
+</tr>
+<tr>
+<td align="center">db3</td>
+<td align="center">03</td>
+<td align="center">dBASE III file</td>
+</tr>
+<tr>
+<td align="center">db4</td>
+<td align="center">04</td>
+<td align="center">dBASE IV data file</td>
+</tr>
+<tr>
+<td align="center">dba</td>
+<td align="center">00 01 42 44</td>
+<td align="center">Palm DateBook Archive file</td>
+</tr>
+<tr>
+<td align="center">dbx</td>
+<td align="center">CF AD 12 FE</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">dbx</td>
+<td align="center">CF AD 12 FE C5 FD 74 6F</td>
+<td align="center">Outlook Express</td>
+</tr>
+<tr>
+<td align="center">dci</td>
+<td align="center">3C 21 64 6F 63 74 79 70</td>
+<td align="center">AOL HTML mail file</td>
+</tr>
+<tr>
+<td align="center">dcx</td>
+<td align="center">3A DE 68 B1</td>
+<td align="center">DCX Graphic File</td>
+</tr>
+<tr>
+<td align="center">DDB</td>
+<td align="center">00 01 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">dib</td>
+<td align="center">42 4D</td>
+<td align="center">device-independent bitmap image</td>
+</tr>
+<tr>
+<td align="center">DLL</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DMP</td>
+<td align="center">4D 44 4D 50 93 A7</td>
+<td align="center">Windows minidump file</td>
+</tr>
+<tr>
+<td align="center">DMS</td>
+<td align="center">44 4D 53 21</td>
+<td align="center">Amiga DiskMasher compressed archive</td>
+</tr>
+<tr>
+<td align="center">doc</td>
+<td align="center">0D 44 4F 43</td>
+<td align="center">DeskMate Document file</td>
+</tr>
+<tr>
+<td align="center">doc</td>
+<td align="center">12 34 56 78 90 FF</td>
+<td align="center">MS Word 6.0</td>
+</tr>
+<tr>
+<td align="center">doc</td>
+<td align="center">31 BE 00 00 00 AB 00 00</td>
+<td align="center">MS Word for DOS 6.0</td>
+</tr>
+<tr>
+<td align="center">doc</td>
+<td align="center">7F FE 34 0A</td>
+<td align="center">MS Word</td>
+</tr>
+<tr>
+<td align="center">dot; ppt; xla; ppa; pps; pot; msi; sdw; db</td>
+<td align="center">D0 CF 11 E0</td>
+<td align="center">MS Office/OLE2</td>
+</tr>
+<tr>
+<td align="center">doc; dot; xls; xlt; xla; ppt; apr ;ppa; pps; pot; msi;  sdw; db</td>
+<td align="center">D0 CF 11 E0 A1 B1 1A E1</td>
+<td align="center">MS Compound Document v1 or Lotus Approach APR file</td>
+</tr>
+<tr>
+<td align="center">DPL</td>
+<td align="center">4D 5A 50</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DRV</td>
+<td align="center">4D 5A 16</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">drw</td>
+<td align="center">07</td>
+<td align="center">A common signature and file extension for many  drawing programs.</td>
+</tr>
+<tr>
+<td align="center">drw</td>
+<td align="center">01 FF 02 04 03 02</td>
+<td align="center">Micrografx vector graphic file</td>
+</tr>
+<tr>
+<td align="center">ds4</td>
+<td align="center">4D 47 58 20 69 74 70 64</td>
+<td align="center">Micrografix Designer 4</td>
+</tr>
+<tr>
+<td align="center">DSN</td>
+<td align="center">4D 56</td>
+<td align="center">CD Stomper Pro label file</td>
+</tr>
+<tr>
+<td align="center">dsp</td>
+<td align="center">23 20 4D 69 63 72 6F 73 6F 66 74 20 44 65 76 6 56C  6F 70 65 72 20 53 74 75 64 69 6F</td>
+<td align="center">Microsoft Developer Studio project file</td>
+</tr>
+<tr>
+<td align="center">dss</td>
+<td align="center">02 64 73 73</td>
+<td align="center">Digital Speech Standard (Olympus, Grundig, &amp;  Phillips)</td>
+</tr>
+<tr>
+<td align="center">dtd</td>
+<td align="center">07 64 74 32 64 64 74 64</td>
+<td align="center">DesignTools 2D Design file</td>
+</tr>
+<tr>
+<td align="center">dtd</td>
+<td align="center">3C 21 45 4E 54 49 54 59</td>
+<td align="center">XML DTD</td>
+</tr>
+<tr>
+<td align="center">DVR</td>
+<td align="center">44 56 44</td>
+<td align="center">DVR-Studio stream file</td>
+</tr>
+<tr>
+<td align="center">dwg</td>
+<td align="center">41 43 31</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">Enn (where nn are numbers)</td>
+<td align="center">45 56 46</td>
+<td align="center">EnCase evidence file</td>
+</tr>
+<tr>
+<td align="center">ECO</td>
+<td align="center">2A 50 52</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">elf</td>
+<td align="center">7F 45 4C 46 01 01 01 00</td>
+<td align="center">ELF Executable</td>
+</tr>
+<tr>
+<td align="center">emf</td>
+<td align="center">01 00 00 00 58 00 00 00</td>
+<td align="center">Extended (Enhanced) Windows Metafile Format, printer  spool file</td>
+</tr>
+<tr>
+<td align="center">eml</td>
+<td align="center">44 65 6C 69 76 65 72 79 2D 64 61 74 65 3A</td>
+<td align="center">Email</td>
+</tr>
+<tr>
+<td align="center">EML</td>
+<td align="center">46 72 6F 6D 20 20 20</td>
+<td align="center">A commmon file extension for e-mail files.  Signatures shown here are for Netscape, Eudora, and a generic signature,  respectively. EML is also used by Outlook Express and QuickMail.</td>
+</tr>
+<tr>
+<td align="center">EML</td>
+<td align="center">46 72 6F 6D 20 3F 3F 3F</td>
+<td align="center">A commmon file extension for e-mail files.  Signatures shown here are for Netscape, Eudora, and a generic signature,  respectively. EML is also used by Outlook Express and QuickMail.</td>
+</tr>
+<tr>
+<td align="center">EML</td>
+<td align="center">46 72 6F 6D 3A 20</td>
+<td align="center">A commmon file extension for e-mail files.  Signatures shown here are for Netscape, Eudora, and a generic signature,  respectively. EML is also used by Outlook Express and QuickMail.</td>
+</tr>
+<tr>
+<td align="center">EML</td>
+<td align="center">52 65 63</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">enc</td>
+<td align="center">00 5C 41 B1 FF</td>
+<td align="center">Mujahideen Secrets 2 encrypted file</td>
+</tr>
+<tr>
+<td align="center">enl</td>
+<td align="center">[32 byte offset] 40 40 40 20 00 00 40 40 40 40</td>
+<td align="center">EndNote Library File</td>
+</tr>
+<tr>
+<td align="center">eps</td>
+<td align="center">25 21 50 53</td>
+<td align="center">Adobe EPS File</td>
+</tr>
+<tr>
+<td align="center">eps</td>
+<td align="center">25 21 50 53 2D 41 64 6F 62 65</td>
+<td align="center">Postscript</td>
+</tr>
+<tr>
+<td align="center">eps</td>
+<td align="center">25 21 50 53 2D 41 64 6F 62 65 2D 33 2E 30 20 45 50  53 46 2D 33 20 30</td>
+<td align="center">Adobe encapsulated PostScript file (If this  signature is not at the immediate beginning of the file, it will occur early in  the file, commonly at byte offset 30)</td>
+</tr>
+<tr>
+<td align="center">EPS</td>
+<td align="center">C5 D0 D3</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">eth</td>
+<td align="center">1A 35 01 00</td>
+<td align="center">GN Nettest WinPharoah capture file</td>
+</tr>
+<tr>
+<td align="center">evt</td>
+<td align="center">30 00 00 00 4C 66 4C 65</td>
+<td align="center">Windows Event Viewer file</td>
+</tr>
+<tr>
+<td align="center">evt</td>
+<td align="center">03 00 00 00 C4 66 C4 56</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">EVTX</td>
+<td align="center">45 6C 66 46 69 6C 65 00</td>
+<td align="center">Windows Vista event log file</td>
+</tr>
+<tr>
+<td align="center">exe; dll; drv; vxd; sys; ocx; vbx</td>
+<td align="center">4D 5A</td>
+<td align="center">Win32 Executable</td>
+</tr>
+<tr>
+<td align="center">exe; dll; drv; vxd; sys; ocx; vbx</td>
+<td align="center">4D 5A</td>
+<td align="center">Win16 Executable</td>
+</tr>
+<tr>
+<td align="center">exe; com; 386; ax; acm; sys; dll; drv; flt; fon; ocx;  scr; lrc; vxd; cpl; x32</td>
+<td align="center">4D 5A</td>
+<td align="center">Executable File</td>
+</tr>
+<tr>
+<td align="center">EXE, DLL, OCX, OLB, IMM, IME</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">fli</td>
+<td align="center">00 11 AF</td>
+<td align="center">FLIC Animation file</td>
+</tr>
+<tr>
+<td align="center">flt</td>
+<td align="center">00 01 01</td>
+<td align="center">OpenFlight 3D file</td>
+</tr>
+<tr>
+<td align="center">FLT</td>
+<td align="center">4D 5A 90 00 03 00 00 00</td>
+<td align="center">Audition graphic filter file (Adobe)</td>
+</tr>
+<tr>
+<td align="center">FLV</td>
+<td align="center">46 4C 56 01</td>
+<td align="center">Flash video file</td>
+</tr>
+<tr>
+<td align="center">fm</td>
+<td align="center">3C 4D 61 6B 65 72 46 69 6C 65 20</td>
+<td align="center">Adobe FrameMaker file</td>
+</tr>
+<tr>
+<td align="center">fm3</td>
+<td align="center">00 00 1A 00 07 80 01 00</td>
+<td align="center">Lotus 123 v3 FMT file</td>
+</tr>
+<tr>
+<td align="center">fmt</td>
+<td align="center">20 00 68 00 20 0</td>
+<td align="center">Lotus 123 v4 FMT file</td>
+</tr>
+<tr>
+<td align="center">FNT</td>
+<td align="center">43 48 41</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">FON</td>
+<td align="center">4D 5A</td>
+<td align="center">Font file</td>
+</tr>
+<tr>
+<td align="center">GBC</td>
+<td align="center">87 F5 3E</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">gid</td>
+<td align="center">3F 5F 03 00</td>
+<td align="center">Windows Help Index File</td>
+</tr>
+<tr>
+<td align="center">GID</td>
+<td align="center">4C 4E 02 00</td>
+<td align="center">Windows Help index file</td>
+</tr>
+<tr>
+<td align="center">GIF</td>
+<td align="center">47 49 46 38</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">gif</td>
+<td align="center">47 49 46 38 37 61</td>
+<td align="center">Graphics interchange format file (GIF 87A)</td>
+</tr>
+<tr>
+<td align="center">gif</td>
+<td align="center">47 49 46 38 39 61</td>
+<td align="center">Graphics interchange format file (GIF89A)</td>
+</tr>
+<tr>
+<td align="center">GTD</td>
+<td align="center">7B 50 72</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">GX2</td>
+<td align="center">47 58 32</td>
+<td align="center">Show Partner graphics file (not confirmed)</td>
+</tr>
+<tr>
+<td align="center">gz; tar; tgz</td>
+<td align="center">1F 8B</td>
+<td align="center">Gzip Archive File</td>
+</tr>
+<tr>
+<td align="center">gz; tgz</td>
+<td align="center">1F 8B 08</td>
+<td align="center">GZ Compressed File</td>
+</tr>
+<tr>
+<td align="center">hap</td>
+<td align="center">91 33 48 46</td>
+<td align="center">HAP Archive File</td>
+</tr>
+<tr>
+<td align="center">HDMP</td>
+<td align="center">4D 44 4D 50 93 A7</td>
+<td align="center">Windows heap dump file</td>
+</tr>
+<tr>
+<td align="center">hdr</td>
+<td align="center">23 3F 52 41 44 49 41 4E 43 45 0A</td>
+<td align="center">adiance High Dynamic Range image file</td>
+</tr>
+<tr>
+<td align="center">HLP</td>
+<td align="center">3F 5F 03</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">hlp</td>
+<td align="center">3F 5F 03 00</td>
+<td align="center">Windows Help file</td>
+</tr>
+<tr>
+<td align="center">HLP</td>
+<td align="center">4C 4E 02 00</td>
+<td align="center">Windows Help file</td>
+</tr>
+<tr>
+<td align="center">hlp</td>
+<td align="center">[7 byte offset] 00 00 FF FF FF FF</td>
+<td align="center">Windows Help file</td>
+</tr>
+<tr>
+<td align="center">hqx</td>
+<td align="center">28 54 68 69 73 20 66 69 6C 65</td>
+<td align="center">Macintosh BinHex 4 Compressed Archive</td>
+</tr>
+<tr>
+<td align="center">hqx</td>
+<td align="center">28 54 68 69 73 20 66 69 6C 65 20 6D 75 73 74 20 62  65 20 63 6F 6E 76 65 72 74 65 64 20 77 69 74 68 20 42 69 6E 48 65 78 20</td>
+<td align="center">Macintosh BinHex 4 Compressed Archive</td>
+</tr>
+<tr>
+<td align="center">HTM</td>
+<td align="center">3C 21 44</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">htm; html</td>
+<td align="center">3C 21 44 4F 43 54</td>
+<td align="center">HyperText Markup Language 3</td>
+</tr>
+<tr>
+<td align="center">htm; html</td>
+<td align="center">3C 48 54 4D 4C 3E</td>
+<td align="center">HyperText Markup Language 2</td>
+</tr>
+<tr>
+<td align="center">htm; html</td>
+<td align="center">3C 68 74 6D 6C 3E</td>
+<td align="center">HyperText Markup Language 1</td>
+</tr>
+<tr>
+<td align="center">html</td>
+<td align="center">68 74 6D 6C 3E</td>
+<td align="center">HTML</td>
+</tr>
+<tr>
+<td align="center">ico</td>
+<td align="center">00 00 01 00 00</td>
+<td align="center">Icon File</td>
+</tr>
+<tr>
+<td align="center">ico</td>
+<td align="center">00 00 01 00 01 00 20 20</td>
+<td align="center">Icon File</td>
+</tr>
+<tr>
+<td align="center">IFF</td>
+<td align="center">46 4F 52 4D</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">IFO</td>
+<td align="center">44 56 44</td>
+<td align="center">DVD info file</td>
+</tr>
+<tr>
+<td align="center">IME</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">img</td>
+<td align="center">00 01 00 08 00 01 00 01 01</td>
+<td align="center">Ventura Publisher/GEM VDI Image Format Bitmap file</td>
+</tr>
+<tr>
+<td align="center">IMG</td>
+<td align="center">00 FF FF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">IMM</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ind</td>
+<td align="center">41 4F 4C 49 44 58</td>
+<td align="center">AOL client preferences/settings file (MAIN.IND)</td>
+</tr>
+<tr>
+<td align="center">ISO</td>
+<td align="center">43 44 30 30 31</td>
+<td align="center">ISO-9660 CD Disc Image (This signature usually  occurs at byte 8001, 8801, or 9001.)</td>
+</tr>
+<tr>
+<td align="center">ivr</td>
+<td align="center">2E 52 45 43</td>
+<td align="center">RealPlayer video file (V11 and later)</td>
+</tr>
+<tr>
+<td align="center">JAR</td>
+<td align="center">4A 41 52 43 53 00</td>
+<td align="center">JARCS compressed archive</td>
+</tr>
+<tr>
+<td align="center">jar</td>
+<td align="center">5F 27 A8 89</td>
+<td align="center">JAR Archive File</td>
+</tr>
+<tr>
+<td align="center">jpg; jpeg</td>
+<td align="center">FF D8 FF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">jpg; jpe; jpeg</td>
+<td align="center">FF D8 FF E0 00</td>
+<td align="center">JPG Graphic File</td>
+</tr>
+<tr>
+<td align="center">jpg; jpe; jpeg</td>
+<td align="center">FF D8 FF FE 00</td>
+<td align="center">JPG Graphic File</td>
+</tr>
+<tr>
+<td align="center">KGB</td>
+<td align="center">4B 47 42 5F 61 72 63 68 20 2D</td>
+<td align="center">KGB archive</td>
+</tr>
+<tr>
+<td align="center">KOZ</td>
+<td align="center">49 44 33 03 00 00 00</td>
+<td align="center">Sprint Music Store audio file (for mobile devices)</td>
+</tr>
+<tr>
+<td align="center">LDB</td>
+<td align="center">42 49 4C</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">lha</td>
+<td align="center">2D 6C 68 35 2D</td>
+<td align="center">LHA Compressed</td>
+</tr>
+<tr>
+<td align="center">lha; lzh</td>
+<td align="center">[2 byte offset] 2D 6C 68</td>
+<td align="center">Compressed archive file</td>
+</tr>
+<tr>
+<td align="center">LHP</td>
+<td align="center">3F 5F 03</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">lhp</td>
+<td align="center">3F 5F 03 00</td>
+<td align="center">Windows Help File</td>
+</tr>
+<tr>
+<td align="center">lib</td>
+<td align="center">21 3C 61 72 63 68 3E 0A</td>
+<td align="center">Unix archiver (ar) files and Microsoft Program  Library Common Object File Format (COFF)</td>
+</tr>
+<tr>
+<td align="center">LIB</td>
+<td align="center">2A 24 20</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">LIT</td>
+<td align="center">49 54 4F 4C 49 54 4C 53</td>
+<td align="center">Microsoft Reader eBook file</td>
+</tr>
+<tr>
+<td align="center">LNK</td>
+<td align="center">4C 00 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">lnk</td>
+<td align="center">4C 00 00 00</td>
+<td align="center">Windows Shortcut (Link File)</td>
+</tr>
+<tr>
+<td align="center">lnk</td>
+<td align="center">4C 00 00 00 01 14 02</td>
+<td align="center">Windows Link File</td>
+</tr>
+<tr>
+<td align="center">LNK</td>
+<td align="center">4C 00 00 00 01 14 02 00</td>
+<td align="center">Windows shortcut file</td>
+</tr>
+<tr>
+<td align="center">log</td>
+<td align="center">2A 2A 2A 20 20 49 6E 73 74 61 6C 6C 61 74 69 6F 6E  20 53 74 61 72 74 65 64 20</td>
+<td align="center">Symantec Wise Installer log file</td>
+</tr>
+<tr>
+<td align="center">lzh</td>
+<td align="center">lh</td>
+<td align="center">Lz compression file</td>
+</tr>
+<tr>
+<td align="center">lwp</td>
+<td align="center">57 6F 72 64 50 72 6F</td>
+<td align="center">Lotus WordPro v9</td>
+</tr>
+<tr>
+<td align="center">m3u</td>
+<td align="center">23 45 58</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">m4a</td>
+<td align="center">00 00 00 20 66 74 79 70 4D 34 41 20 00 00 00 00</td>
+<td align="center">Apple Lossless Audio Codec file</td>
+</tr>
+<tr>
+<td align="center">m4a; m4v</td>
+<td align="center">00 00 00 20 66 74 79 70 4D 34 41 20 00 00 00 00</td>
+<td align="center">QuickTime M4A/M4V file</td>
+</tr>
+<tr>
+<td align="center">manifest</td>
+<td align="center">3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D</td>
+<td align="center">Windows Visual Stylesheet XML file</td>
+</tr>
+<tr>
+<td align="center">MAR</td>
+<td align="center">4D 41 52 31 00</td>
+<td align="center">Mozilla archive</td>
+</tr>
+<tr>
+<td align="center">MAR</td>
+<td align="center">4D 41 52 43</td>
+<td align="center">Microsoft/MSN MARC archive</td>
+</tr>
+<tr>
+<td align="center">MAR</td>
+<td align="center">4D 41 72 30 00</td>
+<td align="center">MAr compressed archive</td>
+</tr>
+<tr>
+<td align="center">max</td>
+<td align="center">D0 CF 11</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mdb</td>
+<td align="center">00 01 00 00 53 74 61 6E 64 61 72 64 20 4A 65 74 20  44 42</td>
+<td align="center">Microsoft Access file</td>
+</tr>
+<tr>
+<td align="center">mdb; mda; mde; mdt</td>
+<td align="center">53 74 61 6E 64 61 72 64 20 4A</td>
+<td align="center">MS Access</td>
+</tr>
+<tr>
+<td align="center">MDF</td>
+<td align="center">00 FF FF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mdf</td>
+<td align="center">00 FF FF FF FF FF FF FF FF FF FF 00 00 02 00 01</td>
+<td align="center">Alcohol 120% CD image</td>
+</tr>
+<tr>
+<td align="center">mdf</td>
+<td align="center">01 0F 00 00</td>
+<td align="center">Microsoft SQL Server 2000 database</td>
+</tr>
+<tr>
+<td align="center">MDI</td>
+<td align="center">45 50</td>
+<td align="center">Microsoft Document Imaging file</td>
+</tr>
+<tr>
+<td align="center">MDS</td>
+<td align="center">4D 45 44</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">MID; MIDI</td>
+<td align="center">4D 54 68 64</td>
+<td align="center">Musical Instrument Digital Interface (MIDI) sound  file</td>
+</tr>
+<tr>
+<td align="center">mkv</td>
+<td align="center">1A 45 DF A3 93 42 82 88 6D 61 74 72 6F 73 6B 61</td>
+<td align="center">Matroska stream file</td>
+</tr>
+<tr>
+<td align="center">MLS</td>
+<td align="center">4D 49 4C 45 53</td>
+<td align="center">Milestones v1.0 project management and scheduling  software (Also see “MV2C” and “MV214” signatures)</td>
+</tr>
+<tr>
+<td align="center">MLS</td>
+<td align="center">4D 4C 53 57</td>
+<td align="center">Skype localization data file</td>
+</tr>
+<tr>
+<td align="center">MLS</td>
+<td align="center">4D 56 32 31 34</td>
+<td align="center">Milestones v2.1b project management and scheduling  software (Also see “MILES” and “MV2C” signatures)</td>
+</tr>
+<tr>
+<td align="center">MLS</td>
+<td align="center">4D 56 32 43</td>
+<td align="center">Milestones v2.1a project management and scheduling  software (Also see “MILES” and “MV214” signatures)</td>
+</tr>
+<tr>
+<td align="center">MMF</td>
+<td align="center">4D 4D 4D 44 00 00</td>
+<td align="center">Yamaha Corp. Synthetic music Mobile Application  Format (SMAF) for multimedia files that can be played on hand-held devices.</td>
+</tr>
+<tr>
+<td align="center">mny</td>
+<td align="center">00 01 00 00 4D 53 49 53 41 4D 20 44 61 74 61 62 61  73 65</td>
+<td align="center">Microsoft Money file</td>
+</tr>
+<tr>
+<td align="center">MOV</td>
+<td align="center">00 00 0F</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">MOV</td>
+<td align="center">00 00 77</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mov</td>
+<td align="center">6D 6F 6F 76</td>
+<td align="center">Quicktime</td>
+</tr>
+<tr>
+<td align="center">mov</td>
+<td align="center">6D 64 61 74</td>
+<td align="center">QuickTime Movie</td>
+</tr>
+<tr>
+<td align="center">mp</td>
+<td align="center">0C ED</td>
+<td align="center">Monochrome Picture TIFF bitmap file (unconfirmed)</td>
+</tr>
+<tr>
+<td align="center">MP3</td>
+<td align="center">49 44 33</td>
+<td align="center">MPEG-1 Audio Layer 3 (MP3) audio file</td>
+</tr>
+<tr>
+<td align="center">MP3</td>
+<td align="center">FF FB 50</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mp4</td>
+<td align="center">00 00 00 18 66 74 79 70 33 67 70 35</td>
+<td align="center">MPEG-4 video files</td>
+</tr>
+<tr>
+<td align="center">MPA</td>
+<td align="center">00 00 01</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">mpg; mpeg</td>
+<td align="center">00 00 01 B3</td>
+<td align="center">MPEG Movie</td>
+</tr>
+<tr>
+<td align="center">mpg</td>
+<td align="center">00 00 01 BA</td>
+<td align="center">MPEG</td>
+</tr>
+<tr>
+<td align="center">MSC</td>
+<td align="center">3C 3F 78</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">msc</td>
+<td align="center">3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D 22 31 2E  30 22 3F 3E 0D 0A 3C 4D 4D 43 5F 43 6F 6E 73 6F 6C 65 46 69 6C 65 20 43 6F 6E  73 6F 6C 65 56 65 72 73 69 6F 6E 3D 22</td>
+<td align="center">Microsoft Management Console Snap-in Control file</td>
+</tr>
+<tr>
+<td align="center">msi</td>
+<td align="center">23 20</td>
+<td align="center">Cerius2 file</td>
+</tr>
+<tr>
+<td align="center">MSV</td>
+<td align="center">4D 53 5F 56 4F 49 43 45</td>
+<td align="center">Sony Memory Stick Compressed Voice file</td>
+</tr>
+<tr>
+<td align="center">NES</td>
+<td align="center">4E 45 53</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">NLS</td>
+<td align="center">C2 20 20</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">nri</td>
+<td align="center">0E 4E 65 72 6F 49 53 4F</td>
+<td align="center">Nero CD Compilation</td>
+</tr>
+<tr>
+<td align="center">ntf</td>
+<td align="center">1A 00 00</td>
+<td align="center">Lotus Notes database template</td>
+</tr>
+<tr>
+<td align="center">nsf; ntf</td>
+<td align="center">1A 00 00 03 00 00</td>
+<td align="center">Lotus Notes Database/Template</td>
+</tr>
+<tr>
+<td align="center">nsf</td>
+<td align="center">1A 00 00 03 00 00 11 00</td>
+<td align="center">Notes Database</td>
+</tr>
+<tr>
+<td align="center">nsf</td>
+<td align="center">1A 00 00 04 00 00</td>
+<td align="center">Lotus Notes database</td>
+</tr>
+<tr>
+<td align="center">ntf</td>
+<td align="center">30 31 4F 52 44 4E 41 4E 43 45 20 53 55 52 56 45 59  20 20 20 20 20 20 20</td>
+<td align="center">National Transfer Format Map File</td>
+</tr>
+<tr>
+<td align="center">obj</td>
+<td align="center">4C 01</td>
+<td align="center">Microsoft Common Object File Format (COFF)  relocatable object code file for an Intel 386 or later/compatible processors</td>
+</tr>
+<tr>
+<td align="center">OCX</td>
+<td align="center">4D 5A</td>
+<td align="center">ActiveX or OLE Custom Control</td>
+</tr>
+<tr>
+<td align="center">OCX</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">OLB</td>
+<td align="center">4D 5A</td>
+<td align="center">OLE object library</td>
+</tr>
+<tr>
+<td align="center">OLB</td>
+<td align="center">4D 5A 90</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">org; pfc</td>
+<td align="center">41 4F 4C 56 4D 31 30 30</td>
+<td align="center">AOL personal file cabinet (PFC) file</td>
+</tr>
+<tr>
+<td align="center">pak</td>
+<td align="center">1A 0B</td>
+<td align="center">Compressed archive file</td>
+</tr>
+<tr>
+<td align="center">PAT</td>
+<td align="center">47 46 31 50 41 54 43 48</td>
+<td align="center">Advanced Gravis Ultrasound patch file</td>
+</tr>
+<tr>
+<td align="center">PAT</td>
+<td align="center">47 50 41 54</td>
+<td align="center">GIMP (GNU Image Manipulation Program) pattern file</td>
+</tr>
+<tr>
+<td align="center">PBK</td>
+<td align="center">5B 41 44</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PCB</td>
+<td align="center">17 A1 50</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PCS</td>
+<td align="center">0A 05 01</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">pcx</td>
+<td align="center">0A nn 01 01</td>
+<td align="center">ZSOFT Paintbrush file(where nn = 0x02, 0x03, or  0x05)</td>
+</tr>
+<tr>
+<td align="center">pcx</td>
+<td align="center">0A 05 01 08</td>
+<td align="center">PC Paintbrush(often associated with Quake Engine  games)</td>
+</tr>
+<tr>
+<td align="center">pdb</td>
+<td align="center">[11 byte offset] 00 00 00 00 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 00 00 00 00</td>
+<td align="center">Palmpilot Database/Document File</td>
+</tr>
+<tr>
+<td align="center">PDF</td>
+<td align="center">25 50 44</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">pdf; fdf</td>
+<td align="center">25 50 44 46</td>
+<td align="center">Adobe Portable Document Format and Forms Document  file</td>
+</tr>
+<tr>
+<td align="center">pdf</td>
+<td align="center">25 50 44 46 2D 31 2E</td>
+<td align="center">Adobe Acrobat</td>
+</tr>
+<tr>
+<td align="center">PDG</td>
+<td align="center">48 48 02</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">pf</td>
+<td align="center">11 00 00 00 53 43 43 41</td>
+<td align="center">Windows prefetch file</td>
+</tr>
+<tr>
+<td align="center">pic</td>
+<td align="center">01 00 00 00 01</td>
+<td align="center">Unknown type picture file</td>
+</tr>
+<tr>
+<td align="center">PJT</td>
+<td align="center">00 00 07</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PLL</td>
+<td align="center">24 53 6F</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PNG</td>
+<td align="center">89 50 4E</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PNG</td>
+<td align="center">89 50 4E 47</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">png</td>
+<td align="center">89 50 4E 47 0D 0A</td>
+<td align="center">PNG Image File</td>
+</tr>
+<tr>
+<td align="center">png</td>
+<td align="center">89 50 4E 47 0D 0A 1A 0A</td>
+<td align="center">PNG Image File</td>
+</tr>
+<tr>
+<td align="center">PPC</td>
+<td align="center">52 65 63</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">PPT</td>
+<td align="center">D0 CF 11</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ppt</td>
+<td align="center">[512 byte offset] 00 6E 1E F0</td>
+<td align="center">PowerPoint presentation subheader (MS Office)</td>
+</tr>
+<tr>
+<td align="center">ppt</td>
+<td align="center">[512 byte offset] 0F 00 E8 03</td>
+<td align="center">PowerPoint presentation subheader (MS Office)</td>
+</tr>
+<tr>
+<td align="center">PPZ</td>
+<td align="center">4D 53 43 46</td>
+<td align="center">Powerpoint Packaged Presentation</td>
+</tr>
+<tr>
+<td align="center">prc</td>
+<td align="center">42 4F 4F 4B 4D 4F 42 49</td>
+<td align="center">Palmpilot resource file</td>
+</tr>
+<tr>
+<td align="center">PRG</td>
+<td align="center">23 44 45</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ps</td>
+<td align="center">25 21 50 53 2D 41 64 6F 62 65</td>
+<td align="center">Postscript</td>
+</tr>
+<tr>
+<td align="center">PSD</td>
+<td align="center">38 42 50</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">psd</td>
+<td align="center">38 42 50 53</td>
+<td align="center">Adobe Photoshop image file</td>
+</tr>
+<tr>
+<td align="center">psp</td>
+<td align="center">7E 42 4B 00</td>
+<td align="center">PaintShop Pro Image File</td>
+</tr>
+<tr>
+<td align="center">pst</td>
+<td align="center">21 42 44 4E</td>
+<td align="center">Microsoft Outlook Personal Folder file</td>
+</tr>
+<tr>
+<td align="center">pwl</td>
+<td align="center">E3 82 85 96</td>
+<td align="center">Windows Password</td>
+</tr>
+<tr>
+<td align="center">qbb</td>
+<td align="center">45 86 00 00 06 00</td>
+<td align="center">Intuit QuickBooks Backup file</td>
+</tr>
+<tr>
+<td align="center">qdf</td>
+<td align="center">AC 9E BD 8F</td>
+<td align="center">Quicken</td>
+</tr>
+<tr>
+<td align="center">qph</td>
+<td align="center">03 00 00 00</td>
+<td align="center">Quicken price history file</td>
+</tr>
+<tr>
+<td align="center">qt</td>
+<td align="center">6D 64 61 74</td>
+<td align="center">Quicktime Movie File</td>
+</tr>
+<tr>
+<td align="center">qxd</td>
+<td align="center">00 00 4D 4D 58 50 52</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ra</td>
+<td align="center">2E 52 4D 46 00 00 00 12 00</td>
+<td align="center">Real Audio file</td>
+</tr>
+<tr>
+<td align="center">ra; ram</td>
+<td align="center">2E 72 61 FD</td>
+<td align="center">Real Audio File</td>
+</tr>
+<tr>
+<td align="center">ra</td>
+<td align="center">2E 72 61 FD 00</td>
+<td align="center">RealAudio streaming media file</td>
+</tr>
+<tr>
+<td align="center">RAR</td>
+<td align="center">52 61 72</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">rar</td>
+<td align="center">52 61 72 21</td>
+<td align="center">RAR Archive File</td>
+</tr>
+<tr>
+<td align="center">RAW</td>
+<td align="center">06 05 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">reg</td>
+<td align="center">52 45 47 45 44 49 54 34</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">rgb</td>
+<td align="center">01 DA 01 01 00 03</td>
+<td align="center">Silicon Graphics RGB Bitmap</td>
+</tr>
+<tr>
+<td align="center">RM</td>
+<td align="center">2E 52 4D</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">rm; rmvb</td>
+<td align="center">2E 52 4D 46</td>
+<td align="center">Real Media streaming media file</td>
+</tr>
+<tr>
+<td align="center">rpm</td>
+<td align="center">ED AB EE DB</td>
+<td align="center">RPM Archive File</td>
+</tr>
+<tr>
+<td align="center">RTD</td>
+<td align="center">43 23 2B 44 A4 43 4D A5 48 64 72</td>
+<td align="center">RagTime document file</td>
+</tr>
+<tr>
+<td align="center">RTF</td>
+<td align="center">7B 5C 72</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">rtf</td>
+<td align="center">7B 5C 72 74 66</td>
+<td align="center">Rich Text Format File</td>
+</tr>
+<tr>
+<td align="center">sav</td>
+<td align="center">24 46 4C 32 40 28 23 29 20 53 50 53 53 20 44 41 54  41 20 46 49 4C 45</td>
+<td align="center">SPSS Data file</td>
+</tr>
+<tr>
+<td align="center">SBV</td>
+<td align="center">46 45 44 46</td>
+<td align="center">(Unknown file type)</td>
+</tr>
+<tr>
+<td align="center">SCH</td>
+<td align="center">2A 76 65</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">scm</td>
+<td align="center">80 53 43</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SH3</td>
+<td align="center">48 48 47 42 31</td>
+<td align="center">Harvard Graphics presentation file</td>
+</tr>
+<tr>
+<td align="center">SHD</td>
+<td align="center">4B 49 00 00</td>
+<td align="center">Windows 9x printer spool file</td>
+</tr>
+<tr>
+<td align="center">sit</td>
+<td align="center">53 49 54 21</td>
+<td align="center">Stuffit v1 Archive File</td>
+</tr>
+<tr>
+<td align="center">sit</td>
+<td align="center">53 74 75 66 66 49 74</td>
+<td align="center">Stuffit v5 Archive File</td>
+</tr>
+<tr>
+<td align="center">sle</td>
+<td align="center">3A 56 45 52 53 49 4F 4E</td>
+<td align="center">Surfplan kite project file</td>
+</tr>
+<tr>
+<td align="center">sle</td>
+<td align="center">41 43 76</td>
+<td align="center">teganos Security Suite virtual secure drive</td>
+</tr>
+<tr>
+<td align="center">sly; srt; slt</td>
+<td align="center">53 52 01 00</td>
+<td align="center">Sage sly.or.srt.or.slt</td>
+</tr>
+<tr>
+<td align="center">SMD</td>
+<td align="center">00 FF FF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">snm</td>
+<td align="center">00 1E 84 90 00 00 00 00</td>
+<td align="center">Netscape Communicator (v4) mail folder</td>
+</tr>
+<tr>
+<td align="center">SNP</td>
+<td align="center">4D 53 43 46</td>
+<td align="center">Microsoft Access Snapshot Viewer file</td>
+</tr>
+<tr>
+<td align="center">sol</td>
+<td align="center">00 BF</td>
+<td align="center">Adobe Flash shared object file (e.g., Flash cookies)</td>
+</tr>
+<tr>
+<td align="center">spl</td>
+<td align="center">00 00 01 00</td>
+<td align="center">Windows NT/2000/XP printer spool file</td>
+</tr>
+<tr>
+<td align="center">SCR</td>
+<td align="center">4D 5A</td>
+<td align="center">Screen saver</td>
+</tr>
+<tr>
+<td align="center">SUB</td>
+<td align="center">FF FF FF</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SWF</td>
+<td align="center">43 57 53</td>
+<td align="center">Shockwave Flash file (v5+)</td>
+</tr>
+<tr>
+<td align="center">SWF</td>
+<td align="center">46 57 53</td>
+<td align="center">Macromedia Shockwave Flash player file</td>
+</tr>
+<tr>
+<td align="center">sxc</td>
+<td align="center">calc</td>
+<td align="center">OpenOffice Calc</td>
+</tr>
+<tr>
+<td align="center">sxd</td>
+<td align="center">draw</td>
+<td align="center">OpenOffice Draw</td>
+</tr>
+<tr>
+<td align="center">sxi</td>
+<td align="center">impress</td>
+<td align="center">OpenOffice Impress</td>
+</tr>
+<tr>
+<td align="center">sxm</td>
+<td align="center">math</td>
+<td align="center">OpenOffice Math</td>
+</tr>
+<tr>
+<td align="center">sxw</td>
+<td align="center">writer</td>
+<td align="center">OpenOffice Writer</td>
+</tr>
+<tr>
+<td align="center">syw</td>
+<td align="center">41 4D 59 4F</td>
+<td align="center">Harvard Graphics symbol graphic</td>
+</tr>
+<tr>
+<td align="center">TAG</td>
+<td align="center">00 00 02</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">tar; cpio</td>
+<td align="center">30 37 30 37 30 37</td>
+<td align="center">CPIO Archive File</td>
+</tr>
+<tr>
+<td align="center">tar.z</td>
+<td align="center">1F 9D 90</td>
+<td align="center">Compressed tape archive file</td>
+</tr>
+<tr>
+<td align="center">tga</td>
+<td align="center">00 00 10 00 00</td>
+<td align="center">RLE压缩的前5字节</td>
+</tr>
+<tr>
+<td align="center">TGA</td>
+<td align="center">00 00 02</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">tga</td>
+<td align="center">00 00 02 00 00</td>
+<td align="center">未压缩的前5字节</td>
+</tr>
+<tr>
+<td align="center">TIF; TIFF</td>
+<td align="center">49 20 49</td>
+<td align="center">Tagged Image File Format file</td>
+</tr>
+<tr>
+<td align="center">tif; tiff</td>
+<td align="center">49 49 2A</td>
+<td align="center">TIFF (Intel)</td>
+</tr>
+<tr>
+<td align="center">tif; tiff</td>
+<td align="center">49 49 2A 00</td>
+<td align="center">Tagged Image File Format file (little endian, i.e.,  LSB first in the byte; Intel)</td>
+</tr>
+<tr>
+<td align="center">TIF; TIFF</td>
+<td align="center">4D 4D 00 2A</td>
+<td align="center">Tagged Image File Format file (big endian, i.e., LSB  last in the byte; Motorola)</td>
+</tr>
+<tr>
+<td align="center">tif; tiff</td>
+<td align="center">4D 4D 2A</td>
+<td align="center">TIFF (Motorola)</td>
+</tr>
+<tr>
+<td align="center">TIF; TIFF</td>
+<td align="center">4D 4D 00 2B</td>
+<td align="center">BigTIFF files; Tagged Image File Format files &gt;4  GB</td>
+</tr>
+<tr>
+<td align="center">TLB</td>
+<td align="center">4D 53 46 54 02 00 01 00</td>
+<td align="center">OLE, SPSS, or Visual C++ type library file</td>
+</tr>
+<tr>
+<td align="center">tr1</td>
+<td align="center">01 10</td>
+<td align="center">Novell LANalyzer capture file</td>
+</tr>
+<tr>
+<td align="center">TST</td>
+<td align="center">00 01 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">TTF</td>
+<td align="center">00 01 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ufa</td>
+<td align="center">55 46 41</td>
+<td align="center">UFA Archive File</td>
+</tr>
+<tr>
+<td align="center">VBX</td>
+<td align="center">4D 5A</td>
+<td align="center">VisualBASIC application</td>
+</tr>
+<tr>
+<td align="center">VCD</td>
+<td align="center">45 4E 54 52 59 56 43 44 02 00 00 01 02 00 18 58</td>
+<td align="center">VideoVCD (GNU VCDImager) file</td>
+</tr>
+<tr>
+<td align="center">vcf</td>
+<td align="center">42 45 47 49 4E 3A 56 43 41 52 44 0D 0A</td>
+<td align="center">vCard file</td>
+</tr>
+<tr>
+<td align="center">vob</td>
+<td align="center">00 00 01 BA</td>
+<td align="center">DVD Video Movie File (video/dvd, video/mpeg)</td>
+</tr>
+<tr>
+<td align="center">VXD, 386</td>
+<td align="center">4D 5A</td>
+<td align="center">Windows virtual device drivers</td>
+</tr>
+<tr>
+<td align="center">WAV</td>
+<td align="center">52 49 46</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">wav</td>
+<td align="center">57 41 56 45</td>
+<td align="center">Wave</td>
+</tr>
+<tr>
+<td align="center">wav</td>
+<td align="center">57 41 56 45 66 6D 74</td>
+<td align="center">Wave Files</td>
+</tr>
+<tr>
+<td align="center">wb2</td>
+<td align="center">00 00 02 00</td>
+<td align="center">QuattroPro for Windows Spreadsheet file</td>
+</tr>
+<tr>
+<td align="center">wb3</td>
+<td align="center">[24 byte offset] 3E 00 03 00 FE FF 09 00 06</td>
+<td align="center">Quatro Pro for Windows 7.0 Notebook file</td>
+</tr>
+<tr>
+<td align="center">wk1; wks</td>
+<td align="center">20 00 60 40 60</td>
+<td align="center">Lotus 123 v1 Worksheet</td>
+</tr>
+<tr>
+<td align="center">wk1</td>
+<td align="center">00 00 02 00 06 04 06 00 08 00 00 00 00 00</td>
+<td align="center">Lotus 1-2-3 spreadsheet (v1) file</td>
+</tr>
+<tr>
+<td align="center">wk3</td>
+<td align="center">00 00 1A 00 00 10 04 00</td>
+<td align="center">Lotus 123 spreadsheet (v3) file</td>
+</tr>
+<tr>
+<td align="center">wk4; wk5</td>
+<td align="center">00 00 1A 00 02 10 04 00</td>
+<td align="center">Lotus 1-2-3 spreadsheet (v4, v5) file</td>
+</tr>
+<tr>
+<td align="center">wks</td>
+<td align="center">0E 57 4B 53</td>
+<td align="center">DeskMate Worksheet</td>
+</tr>
+<tr>
+<td align="center">WMA</td>
+<td align="center">30 26 B2</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">wmf</td>
+<td align="center">01 00 09 00</td>
+<td align="center">Graphics Metafile</td>
+</tr>
+<tr>
+<td align="center">wmf</td>
+<td align="center">01 00 09 00 00 03</td>
+<td align="center">Windows Metadata file (Win 3.x format)</td>
+</tr>
+<tr>
+<td align="center">wmf</td>
+<td align="center">02 00 09 00</td>
+<td align="center">Graphics Metafile</td>
+</tr>
+<tr>
+<td align="center">wmf</td>
+<td align="center">D7 CD C6 9A</td>
+<td align="center">Windows Meta File</td>
+</tr>
+<tr>
+<td align="center">WMV</td>
+<td align="center">30 26 B2</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">wp</td>
+<td align="center">FF 57 50 43</td>
+<td align="center">WordPerfect v5 or v6</td>
+</tr>
+<tr>
+<td align="center">wpd</td>
+<td align="center">FF 57 50 43</td>
+<td align="center">WordPerfect</td>
+</tr>
+<tr>
+<td align="center">wpg</td>
+<td align="center">FF 57 50 47</td>
+<td align="center">WordPerfect Graphics</td>
+</tr>
+<tr>
+<td align="center">wri</td>
+<td align="center">31 BE</td>
+<td align="center">Microsoft Write file</td>
+</tr>
+<tr>
+<td align="center">WRI</td>
+<td align="center">31 BE 00</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">wri</td>
+<td align="center">32 BE</td>
+<td align="center">Microsoft Write file</td>
+</tr>
+<tr>
+<td align="center">ws</td>
+<td align="center">1D 7D</td>
+<td align="center">WordStar Version 5.0/6.0 document</td>
+</tr>
+<tr>
+<td align="center">XBE</td>
+<td align="center">58 42 45</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">xdr</td>
+<td align="center">3C</td>
+<td align="center">BizTalk XML-Data Reduced Schema file</td>
+</tr>
+<tr>
+<td align="center">xls</td>
+<td align="center">09 02 06 00 00 00 10 00 B9 04 5C 00</td>
+<td align="center">MS Excel v2</td>
+</tr>
+<tr>
+<td align="center">xls</td>
+<td align="center">09 04 06 00 00 00 10 00 F6 05 5C 00</td>
+<td align="center">MS Excel v4</td>
+</tr>
+<tr>
+<td align="center">XLS</td>
+<td align="center">D0 CF 11</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">xls</td>
+<td align="center">D0 CF 11 E0</td>
+<td align="center">MS Excel</td>
+</tr>
+<tr>
+<td align="center">xls</td>
+<td align="center">[512 byte offset]  09 08 10 00 00 06 05 00</td>
+<td align="center">Excel spreadsheet subheader (MS Office)</td>
+</tr>
+<tr>
+<td align="center">XML</td>
+<td align="center">3C 3F 78</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">xml</td>
+<td align="center">3C 3F 78 6D 6C</td>
+<td align="center">XML Document</td>
+</tr>
+<tr>
+<td align="center">xml</td>
+<td align="center">FF FE 3C 00 52 00 4F 00 4F 00 54 00 53 00 54 00 55 00  42 00</td>
+<td align="center">XML Document (ROOTSTUB)</td>
+</tr>
+<tr>
+<td align="center">XMV</td>
+<td align="center">00 50 01</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XSL</td>
+<td align="center">FF FE 3C</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">xul</td>
+<td align="center">72 73 69 6F 6E 3D 22 31 3C 3F 78 6D 6C 20 76 65 2E  30 22 3F 3E</td>
+<td align="center">XML User Interface Language file</td>
+</tr>
+<tr>
+<td align="center">z</td>
+<td align="center">1F 9D</td>
+<td align="center">TAR Compressed Archive File</td>
+</tr>
+<tr>
+<td align="center">Z</td>
+<td align="center">1F 9D 8C</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ZIP</td>
+<td align="center">50 4B 03</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">zip; jar; zipx</td>
+<td align="center">50 4B 03 04</td>
+<td align="center">ZIP Archive</td>
+</tr>
+<tr>
+<td align="center">zip</td>
+<td align="center">50 4B 30 30</td>
+<td align="center">ZIP Archive (outdated)</td>
+</tr>
+<tr>
+<td align="center">Zip</td>
+<td align="center">50 4B 30 30 50 4B 03 04</td>
+<td align="center">WINZIP Compressed</td>
+</tr>
+<tr>
+<td align="center">zoo</td>
+<td align="center">5A 4F 4F 20</td>
+<td align="center">ZOO Archive File</td>
+</tr>
+</tbody></table>
+<h2 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h2><p>这里建议使用神器<a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility">volatility</a>kali老的版本自带，用python2跑</p>
+<p>一般会使用以下插件，其它的可以看github</p>
+<table>
+<thead>
+<tr>
+<th>插件名</th>
+<th>用处</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>imageinfo</td>
+<td>查看内存镜像的有关信息，一般用于识别系统的版本</td>
+</tr>
+<tr>
+<td>netscan</td>
+<td>扫描连接和开放端口</td>
+</tr>
+<tr>
+<td>cmdline</td>
+<td>显示进程命令行数</td>
+</tr>
+<tr>
+<td>filescan</td>
+<td>扫描文件，推荐加grep来筛选文件的格式或者位置，比如加grep ‘Desktop’ 可以扫描桌面上的文件</td>
+</tr>
+<tr>
+<td>dumpfiles</td>
+<td>提取文件</td>
+</tr>
+<tr>
+<td>procdump</td>
+<td>把进程提取到可执行文件</td>
+</tr>
+<tr>
+<td>printkey</td>
+<td>打印注册表项及其子项的对应的数值</td>
+</tr>
+<tr>
+<td>clipboard</td>
+<td>提取剪切板的内容</td>
+</tr>
+<tr>
+<td>hivedump</td>
+<td>打印内存中指定的注册表信息</td>
+</tr>
+<tr>
+<td>notepad</td>
+<td>显示记事本文本</td>
+</tr>
+<tr>
+<td>hashdump</td>
+<td>从内存中得到密码hash</td>
+</tr>
+<tr>
+<td>psscan</td>
+<td>扫描内存中的进程</td>
+</tr>
+<tr>
+<td>pslist</td>
+<td>按照EPROCESS列表列出所有正在运行的进程</td>
+</tr>
+<tr>
+<td>iehistory</td>
+<td>查看ie浏览器历史</td>
+</tr>
+<tr>
+<td>screenshot</td>
+<td>查看截图内容</td>
+</tr>
+<tr>
+<td>windows</td>
+<td>显示打开的窗口</td>
+</tr>
+<tr>
+<td>hivelist</td>
+<td>列举缓存存在内存的注册表</td>
+</tr>
+<tr>
+<td>memdump</td>
+<td>提取进程</td>
+</tr>
+</tbody></table>
+<h3 id="提取密码"><a href="#提取密码" class="headerlink" title="提取密码"></a>提取密码</h3><blockquote>
+<p>volatility -f xxx.raw –profile=[配置文件] hashdump -y [注册表system的virtual地址] -s [SAM的virtual地址]</p>
+</blockquote>
+<p>这里的操作可以参考一下hgame的<a target="_blank" rel="noopener" href="https://kenoeee.github.io/2021/03/17/hgame2021misc%E5%A4%8D%E7%8E%B0/#week4">一道题</a></p>
+<p>SAM和system的地址可以通过hivelist来查看</p>
+<h3 id="扫描文件"><a href="#扫描文件" class="headerlink" title="扫描文件"></a>扫描文件</h3><blockquote>
+<p>volatility -f xxx.raw –profile=[配置文件] filescan|grep ‘Desktop’</p>
+<p>volatility -f xxx.raw –profile=[配置文件] filescan|grep ‘png|jpg|gif|bmp’</p>
+</blockquote>
+<h3 id="提取进程"><a href="#提取进程" class="headerlink" title="提取进程"></a>提取进程</h3><blockquote>
+<p>volatility -f xxx.raw –profile=[配置文件] memdump -D [路径] -p [PID]</p>
+</blockquote>
+<h3 id="查看屏幕截图"><a href="#查看屏幕截图" class="headerlink" title="查看屏幕截图"></a>查看屏幕截图</h3><blockquote>
+<p>volatility -f xxx.raw –profile=[配置文件] screenshot –dump-dir=./</p>
+</blockquote>
+<h3 id="DiskGenius"><a href="#DiskGenius" class="headerlink" title="DiskGenius"></a>DiskGenius</h3><p>这个软件可以打开xxx.vhd文件，可以恢复文件</p>
+<h3 id="取证大师"><a href="#取证大师" class="headerlink" title="取证大师"></a>取证大师</h3><p>这个应该是最好用的，不过俺没找到破解版</p>
+<h2 id="流量题"><a href="#流量题" class="headerlink" title="流量题"></a>流量题</h2><p>推荐先看一下这个人的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1r5411h7aw">视频</a>，有个基本的了解</p>
+<p>1、直接输入协议名来过滤想要的报文</p>
+<h3 id="过滤IP"><a href="#过滤IP" class="headerlink" title="过滤IP"></a>过滤IP</h3><p>如源ip或者目标ip</p>
+<blockquote>
+<p>ip.src eq x.x.x.x or ip.dst eq x.x.x.x</p>
+<p>(src是sorce的缩写，eq可以用=代替,dst是destination的缩写)</p>
+<p>ip.addr eq x.x.x.x 直接过滤ip地址</p>
+</blockquote>
+<h3 id="过滤端口"><a href="#过滤端口" class="headerlink" title="过滤端口"></a>过滤端口</h3><blockquote>
+<p>tcp.port eq 80 or udp.port eq 80</p>
+<p>tcp.dstport == 80 只显示tcp协议的目标端口为80</p>
+<p>tcp.srcport == 80 只显示tcp协议的源端口为80</p>
+<p>tcp.port &gt;= 1 and tcp.port &lt;= 80</p>
+<p>筛选出1到80的端口</p>
+</blockquote>
+<h3 id="过滤协议"><a href="#过滤协议" class="headerlink" title="过滤协议"></a>过滤协议</h3><blockquote>
+<p>直接输入协议就行了</p>
+</blockquote>
+<h3 id="过滤mac地址"><a href="#过滤mac地址" class="headerlink" title="过滤mac地址"></a>过滤mac地址</h3><blockquote>
+<p>eth.dst == xx:xx:xx:xx:xx:xx</p>
+</blockquote>
+<h3 id="过滤包长度"><a href="#过滤包长度" class="headerlink" title="过滤包长度"></a>过滤包长度</h3><blockquote>
+<p>udp.length == 26</p>
+<p>这个长度是指udp本身长度8加上udp下面那块数据包之和</p>
+<p>tcp.len &gt;= 7 指的是ip数据包（tcp下面那块数据），不包括tcp本身</p>
+<p>ip.len == 94</p>
+<p>除了以太网头固定长度14，其它都算是ip.len,即从ip本身到最后</p>
+<p>frame.len == 119 整个数据包长度，从eth开始到最后</p>
+</blockquote>
+<h3 id="http模式过滤"><a href="#http模式过滤" class="headerlink" title="http模式过滤"></a>http模式过滤</h3><blockquote>
+<p>http.request.method == “GET”</p>
+<p>http.requset.method == “POST”</p>
+<p>https.request.uri == “/img/logo-edu.gif”</p>
+<p>http contains “GET”</p>
+<p>http contains “HTTP/1”</p>
+<p><strong>http contains “flag”</strong></p>
+<p><strong>http contains “key”</strong></p>
+<p><strong>tcp contains “flag”</strong></p>
+</blockquote>
+<h3 id="wireshark协议分析"><a href="#wireshark协议分析" class="headerlink" title="wireshark协议分析"></a>wireshark协议分析</h3><blockquote>
+<p>统计&gt;协议分级</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Kenoeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/01/28/misc%E5%85%A5%E9%97%A8/">http://example.com/2022/01/28/misc%E5%85%A5%E9%97%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kenoeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/misc/">-misc</a></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"><img class="prev-cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">反序列化漏洞</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/28/hgame2021misc%E5%A4%8D%E7%8E%B0/"><img class="next-cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">hgame2021 misc复现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/03/31/BUUCTF%E5%88%B7%E9%A2%98/" title="BUUCTF misc刷题"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-31</div><div class="title">BUUCTF misc刷题</div></div></a></div><div><a href="/2022/01/28/hgame2021misc%E5%A4%8D%E7%8E%B0/" title="hgame2021 misc复现"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-28</div><div class="title">hgame2021 misc复现</div></div></a></div><div><a href="/2021/04/06/%E7%BA%A2%E6%98%8E%E8%B0%B7ctf%E5%A4%8D%E7%8E%B0/" title="红明谷ctf复现"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-06</div><div class="title">红明谷ctf复现</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kenoeee</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">1.</span> <span class="toc-text">图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PNG"><span class="toc-number">1.1.</span> <span class="toc-text">PNG</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.1.1.</span> <span class="toc-text">文件格式详解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IDHR"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">IDHR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IDAT"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">IDAT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IEND"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">IEND</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tEXT%E5%92%8CzTxt"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">tEXT和zTxt</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.2.</span> <span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Stegslove"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">Stegslove</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#exiftool"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">exiftool</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LSB%E9%9A%90%E5%86%99"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">LSB隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Zsteg"><span class="toc-number">1.1.2.3.1.</span> <span class="toc-text">Zsteg</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC"><span class="toc-number">1.1.2.3.2.</span> <span class="toc-text">脚本</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pngcheck"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">pngcheck</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TweakPNG"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">TweakPNG</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PngDebugger"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">PngDebugger</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PCRT"><span class="toc-number">1.1.2.7.</span> <span class="toc-text">PCRT</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CRC%E4%BF%AE%E5%A4%8D%E8%84%9A%E6%9C%AC"><span class="toc-number">1.1.2.8.</span> <span class="toc-text">CRC修复脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%B2%E6%B0%B4%E5%8D%B0"><span class="toc-number">1.1.2.9.</span> <span class="toc-text">盲水印</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#WebP"><span class="toc-number">1.1.2.10.</span> <span class="toc-text">WebP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Steghide"><span class="toc-number">1.1.2.11.</span> <span class="toc-text">Steghide</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%EF%BC%88FFT-%E8%84%9A%E6%9C%AC"><span class="toc-number">1.1.2.12.</span> <span class="toc-text">快速傅里叶变换（FFT)脚本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jpg"><span class="toc-number">1.2.</span> <span class="toc-text">Jpg</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%86%99%E5%B7%A5%E5%85%B7"><span class="toc-number">1.2.1.</span> <span class="toc-text">隐写工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Stegdetect"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">Stegdetect</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#f5-steganography-%EF%BC%88F5%E9%9A%90%E5%86%99%EF%BC%8C%E9%9C%80%E8%A6%81passwd%EF%BC%89"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">f5-steganography （F5隐写，需要passwd）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#outguess-%EF%BC%88%E5%8F%AF%E9%9C%80%E8%A6%81passwd%EF%BC%89"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">outguess （可需要passwd）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JPHS"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">JPHS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BMP"><span class="toc-number">1.3.</span> <span class="toc-text">BMP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bmp%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">bmp文件格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BMP%E7%89%B9%E7%82%B9"><span class="toc-number">1.3.2.</span> <span class="toc-text">BMP特点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GIF"><span class="toc-number">1.4.</span> <span class="toc-text">GIF</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ZIP"><span class="toc-number">2.1.</span> <span class="toc-text">ZIP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3-1"><span class="toc-number">2.1.1.</span> <span class="toc-text">文件格式详解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BC%AA%E5%8A%A0%E5%AF%86"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">伪加密</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">密码爆破</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CRC32%E7%A2%B0%E6%92%9E"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">CRC32碰撞</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RAR"><span class="toc-number">2.2.</span> <span class="toc-text">RAR</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%A6%E8%A7%A3-2"><span class="toc-number">2.2.1.</span> <span class="toc-text">文件格式详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%AA%E5%8A%A0%E5%AF%86-1"><span class="toc-number">2.2.2.</span> <span class="toc-text">伪加密</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E9%A2%91"><span class="toc-number">3.</span> <span class="toc-text">视频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91"><span class="toc-number">4.</span> <span class="toc-text">音频</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Audacity"><span class="toc-number">4.0.1.</span> <span class="toc-text">Audacity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Deepsound"><span class="toc-number">4.0.2.</span> <span class="toc-text">Deepsound</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SSTV"><span class="toc-number">4.0.3.</span> <span class="toc-text">SSTV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Morse2ascii%EF%BC%88%E8%8E%AB%E6%96%AF%E5%AF%86%E7%A0%81%E8%BD%AC%E6%8D%A2%EF%BC%89"><span class="toc-number">4.0.4.</span> <span class="toc-text">Morse2ascii（莫斯密码转换）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dtmf2num"><span class="toc-number">4.0.5.</span> <span class="toc-text">dtmf2num</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MP3stego"><span class="toc-number">4.0.6.</span> <span class="toc-text">MP3stego</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#steghide"><span class="toc-number">4.0.7.</span> <span class="toc-text">steghide</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Silenteye"><span class="toc-number">4.0.8.</span> <span class="toc-text">Silenteye</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%86%E7%A0%81-amp-%E5%8A%A0%E5%AF%86%E6%96%B9%E6%B3%95-amp-%E9%AA%9A%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">密码&amp;加密方法&amp;骚操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7-1"><span class="toc-number">5.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#base%E7%B3%BB%E5%88%97"><span class="toc-number">5.2.</span> <span class="toc-text">base系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90"><span class="toc-number">5.3.</span> <span class="toc-text">词频分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0%E5%AE%BD%E5%AD%97%E7%AC%A6%E9%9A%90%E5%86%99"><span class="toc-number">5.4.</span> <span class="toc-text">0宽字符隐写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emoji%E5%8A%A0%E5%AF%86"><span class="toc-number">5.5.</span> <span class="toc-text">emoji加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9E%E5%85%AC%E8%BD%AF%E4%BB%B6%E7%9A%84%E9%9A%90%E5%86%99"><span class="toc-number">5.6.</span> <span class="toc-text">办公软件的隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9A%90%E8%97%8F%E6%96%87%E5%AD%97"><span class="toc-number">5.6.0.1.</span> <span class="toc-text">隐藏文字</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#wbstego"><span class="toc-number">5.6.0.2.</span> <span class="toc-text">wbstego</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NTFS%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">5.7.</span> <span class="toc-text">NTFS数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E6%88%96%E4%BF%AE%E8%A1%A5%E6%96%87%E4%BB%B6"><span class="toc-number">5.8.</span> <span class="toc-text">异或修补文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Strings"><span class="toc-number">5.9.</span> <span class="toc-text">Strings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pyc%E6%96%87%E4%BB%B6%E9%9A%90%E5%86%99"><span class="toc-number">5.10.</span> <span class="toc-text">pyc文件隐写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#snow%E9%9A%90%E5%86%99"><span class="toc-number">5.11.</span> <span class="toc-text">snow隐写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xortool"><span class="toc-number">5.12.</span> <span class="toc-text">xortool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E5%9B%BE%E5%B7%A5%E5%85%B7gaps"><span class="toc-number">5.13.</span> <span class="toc-text">拼图工具gaps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E5%9D%90%E6%A0%87%E7%94%BB%E5%9B%BE%E5%B7%A5%E5%85%B7-gnuplot"><span class="toc-number">5.14.</span> <span class="toc-text">根据坐标画图工具 gnuplot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9A%84%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">5.15.</span> <span class="toc-text">奇奇怪怪的文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BPG"><span class="toc-number">5.15.1.</span> <span class="toc-text">BPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SWF"><span class="toc-number">5.15.2.</span> <span class="toc-text">SWF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FAT"><span class="toc-number">5.15.3.</span> <span class="toc-text">FAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apng"><span class="toc-number">5.15.4.</span> <span class="toc-text">apng</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4"><span class="toc-number">5.15.5.</span> <span class="toc-text">错误的文件头</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-number">6.</span> <span class="toc-text">内存取证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E5%AF%86%E7%A0%81"><span class="toc-number">6.1.</span> <span class="toc-text">提取密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E6%96%87%E4%BB%B6"><span class="toc-number">6.2.</span> <span class="toc-text">扫描文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E8%BF%9B%E7%A8%8B"><span class="toc-number">6.3.</span> <span class="toc-text">提取进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE"><span class="toc-number">6.4.</span> <span class="toc-text">查看屏幕截图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DiskGenius"><span class="toc-number">6.5.</span> <span class="toc-text">DiskGenius</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E8%AF%81%E5%A4%A7%E5%B8%88"><span class="toc-number">6.6.</span> <span class="toc-text">取证大师</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">流量题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4IP"><span class="toc-number">7.1.</span> <span class="toc-text">过滤IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E7%AB%AF%E5%8F%A3"><span class="toc-number">7.2.</span> <span class="toc-text">过滤端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%8D%8F%E8%AE%AE"><span class="toc-number">7.3.</span> <span class="toc-text">过滤协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4mac%E5%9C%B0%E5%9D%80"><span class="toc-number">7.4.</span> <span class="toc-text">过滤mac地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%8C%85%E9%95%BF%E5%BA%A6"><span class="toc-number">7.5.</span> <span class="toc-text">过滤包长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E6%A8%A1%E5%BC%8F%E8%BF%87%E6%BB%A4"><span class="toc-number">7.6.</span> <span class="toc-text">http模式过滤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wireshark%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90"><span class="toc-number">7.7.</span> <span class="toc-text">wireshark协议分析</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信息收集"/></a><div class="content"><a class="title" href="/2022/01/28/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集">信息收集</a><time datetime="2022-01-27T17:35:57.974Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="任意文件包含"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="任意文件包含"/></a><div class="content"><a class="title" href="/2022/01/28/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="任意文件包含">任意文件包含</a><time datetime="2022-01-27T17:35:57.971Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" title="命令执行漏洞"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="命令执行漏洞"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" title="命令执行漏洞">命令执行漏洞</a><time datetime="2022-01-27T17:35:57.967Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化字符逃逸"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸">php反序列化字符逃逸</a><time datetime="2022-01-27T17:35:57.960Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="反序列化漏洞"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞">反序列化漏洞</a><time datetime="2022-01-27T17:35:57.956Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Kenoeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
